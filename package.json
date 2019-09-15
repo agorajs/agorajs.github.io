@@ -4,12 +4,22 @@
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.18",
+    "@types/lodash": "^4.14.138",
     "@types/node": "12.7.5",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
+    "@types/react-redux": "^7.1.2",
+    "agora-algorithm": "git+ssh://git@gite.lirmm.fr/chen/agora-algorithm.git#semver:^0.4.0",
+    "agora-gml": "git+ssh://git@gite.lirmm.fr/chen/agora-gml.git#semver:^0.1.1",
+    "agora-graph": "git+ssh://git@gite.lirmm.fr/chen/agora-graph.git#semver:^0.1.0",
+    "lodash": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
     "react-scripts": "3.1.1",
+    "redux": "^4.0.4",
+    "reselect": "^4.0.0",
+    "typesafe-actions": "^4.4.2",
     "typescript": "3.6.3"
   },
   "scripts": {
