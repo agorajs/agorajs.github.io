@@ -1,12 +1,12 @@
 import React, { useState, FormEvent, useEffect } from 'react';
-import store from './store';
 import './App.css';
-import { Provider } from 'react-redux';
 
 import toGraph, { gml } from 'agora-gml';
-import { Graph } from 'agora-graph';
+import GraphComp from './components/GraphComp';
+import directaccess from './directaccess';
+import { crop } from 'agora-graph';
 
-const App: React.FC = () => {
+/* const App: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
   const [graph, setGraph] = useState();
   const [error, setError] = useState();
@@ -41,18 +41,18 @@ const App: React.FC = () => {
   }, [graph]);
 
   return (
-    <Provider store={store}>
-      <div className="App">
-        {error ? error : null}
-        {!file ? (
-          <input type="file" name="file" id="file" onChange={onFileSet} />
-        ) : graph ? (
-          display(graph)
-        ) : null}
-      </div>
-    </Provider>
+    // <Provider store={store}>
+    <div className="App">
+      {error ? error : null}
+      {!file ? (
+        <input type="file" name="file" id="file" onChange={onFileSet} />
+      ) : graph ? (
+        <GraphComp graph={graph} />
+      ) : null}
+    </div>
+    // </Provider>
   );
-};
+}; */
 
 function promisingFileReader(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -63,8 +63,14 @@ function promisingFileReader(file: File): Promise<string> {
   });
 }
 
-function display(graph: Graph) {
-  return <div>{JSON.stringify(graph)}</div>;
-}
+const bypassApp: React.FC = function() {
+  return (
+    <GraphComp
+      graph={crop(toGraph(gml(directaccess)))}
+      width={500}
+      height={500}
+    ></GraphComp>
+  );
+};
 
-export default App;
+export default bypassApp;
