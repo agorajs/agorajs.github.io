@@ -1,8 +1,8 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 
 import toGraph, { gml } from 'agora-gml';
-import GraphComp from './components/GraphComp';
+import SVGGraph from './components/SVGGraph';
 import directaccess from './directaccess';
 import { crop } from 'agora-graph';
 
@@ -47,7 +47,7 @@ import { crop } from 'agora-graph';
       {!file ? (
         <input type="file" name="file" id="file" onChange={onFileSet} />
       ) : graph ? (
-        <GraphComp graph={graph} />
+        <SVGGraph graph={graph} />
       ) : null}
     </div>
     // </Provider>
@@ -65,11 +65,11 @@ function promisingFileReader(file: File): Promise<string> {
 
 const bypassApp: React.FC = function() {
   return (
-    <GraphComp
+    <SVGGraph
       graph={crop(toGraph(gml(directaccess)))}
       width={500}
       height={500}
-    ></GraphComp>
+    ></SVGGraph>
   );
 };
 

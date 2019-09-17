@@ -1,9 +1,9 @@
 import React from 'react';
 import { Node } from 'agora-graph';
 
-import './EdgeComp.css';
+import './SVGEdge.css';
 
-export const EdgeComp: React.FC<{ source: Node; target: Node }> = function({
+export const SVGEdge: React.FC<{ source: Node; target: Node }> = function({
   source,
   target
 }) {
@@ -18,4 +18,4 @@ export const EdgeComp: React.FC<{ source: Node; target: Node }> = function({
   );
 };
 
-export default EdgeComp;
+export default SVGEdge;

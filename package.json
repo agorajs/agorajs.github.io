@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/d3-array": "^2.0.0",
+    "@types/d3-scale": "^2.1.1",
     "@types/jest": "24.0.18",
     "@types/lodash": "^4.14.138",
     "@types/node": "12.7.5",
@@ -12,6 +14,8 @@
     "agora-algorithm": "git+ssh://git@gite.lirmm.fr/chen/agora-algorithm.git#semver:^0.4.0",
     "agora-gml": "git+ssh://git@gite.lirmm.fr/chen/agora-gml.git#semver:^0.1.1",
     "agora-graph": "git+ssh://git@gite.lirmm.fr/chen/agora-graph.git#semver:^0.1.0",
+    "d3-array": "^2.3.1",
+    "d3-scale": "^3.1.0",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
