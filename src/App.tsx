@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
 
-import toGraph, { gml } from 'agora-gml';
-import SVGGraph from './components/SVGGraph';
 import directaccess from './directaccess';
-import { crop } from 'agora-graph';
+import Result from './components/Result';
 
 /* const App: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -54,6 +52,7 @@ import { crop } from 'agora-graph';
   );
 }; */
 
+//eslint-disable-next-line
 function promisingFileReader(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const fr = new FileReader();
@@ -65,11 +64,13 @@ function promisingFileReader(file: File): Promise<string> {
 
 const bypassApp: React.FC = function() {
   return (
-    <SVGGraph
-      graph={crop(toGraph(gml(directaccess)))}
+    <Result
+      title="Initial Graph"
+      fileContent={directaccess}
       width={500}
       height={500}
-    ></SVGGraph>
+      over={true}
+    ></Result>
   );
 };
 

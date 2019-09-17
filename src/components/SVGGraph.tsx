@@ -11,8 +11,9 @@ export const SVGGraph: React.FC<
     over?: boolean;
     width: number;
     height: number;
+    svgRef: any;
   } & SVGProps<SVGSVGElement>
-> = function({ graph, over = false, width, height, ...rest }) {
+> = function({ graph, over = false, width, height, svgRef, ...rest }) {
   const box = {
     width: d3max(graph.nodes, d => d.x + d.width / 2) || 0,
     height: d3max(graph.nodes, d => d.y + d.height / 2) || 0
@@ -45,7 +46,19 @@ export const SVGGraph: React.FC<
       height={height}
       viewBox={`-5,-5,${width + 10},${height + 10}`}
       {...rest}
+      ref={svgRef}
     >
+      <style>{`
+      .edges { 
+        stroke: #878fff;
+        stroke-width: 2px;
+      }
+
+      .rect {
+        stroke: #000;
+        fill: #eee;
+      }
+      `}</style>
       {over ? (
         <>
           <NodeList nodes={nodes} />

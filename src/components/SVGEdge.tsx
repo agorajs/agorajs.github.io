@@ -1,8 +1,6 @@
 import React from 'react';
 import { Node } from 'agora-graph';
 
-import './SVGEdge.css';
-
 export const SVGEdge: React.FC<{ source: Node; target: Node }> = function({
   source,
   target

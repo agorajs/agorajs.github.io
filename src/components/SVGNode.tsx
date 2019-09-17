@@ -1,8 +1,6 @@
 import React from 'react';
 import { Node } from 'agora-graph';
 
-import './SVGNode.css';
-
 export const SVGNode: React.FC<{ node: Node }> = function({
   node: { x, y, height, width, index, label }
 }) {
