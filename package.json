@@ -1,6 +1,7 @@
 {
   "name": "agora",
   "version": "0.1.0",
+  "homepage": "http://agorajs.github.io/",
   "private": true,
   "dependencies": {
     "@types/d3-array": "^2.0.0",
