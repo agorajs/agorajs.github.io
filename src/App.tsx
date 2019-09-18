@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import './App.css';
 
+import PFS from 'agora-pfs';
+import PFSP from 'agora-pfsp';
+import FTA from 'agora-fta';
+import VPSC from 'agora-vpsc';
+import { RWordleLAlgorithm as RWordleL } from 'agora-rworldle';
+import Scaling from 'agora-scaling';
 import directaccess from './directaccess';
-import Result from './components/Result';
+import AlgorithmRepresentation, {
+  InitialRepresentation
+} from './components/Result';
+import { parseGML, toGraph } from 'agora-gml';
+import { crop, Graph } from 'agora-graph';
 
-/* const App: React.FC = () => {
+const App: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
   const [graph, setGraph] = useState();
+  const [fileContent, setFileContent] = useState();
   const [error, setError] = useState();
 
   const onFileSet = (e: FormEvent<HTMLInputElement>) => {
@@ -21,9 +32,10 @@ import Result from './components/Result';
         try {
           setError(null);
           const text: string = await promisingFileReader(file);
-          const jsonGraph = gml(text);
+          const jsonGraph = parseGML(text);
           console.log(jsonGraph);
-          setGraph(toGraph(jsonGraph));
+          setGraph(crop(toGraph(jsonGraph)));
+          setFileContent(text);
         } catch (error) {
           setError(error.message || error);
           console.log(error);
@@ -40,17 +52,27 @@ import Result from './components/Result';
 
   return (
     // <Provider store={store}>
-    <div className="App">
+    <div className="App ma1">
       {error ? error : null}
       {!file ? (
         <input type="file" name="file" id="file" onChange={onFileSet} />
       ) : graph ? (
-        <SVGGraph graph={graph} />
+        <div className="flex flex-wrap">
+          <InitialRepresentation
+            title="Initial Graph"
+            graph={graph}
+            fileContent={fileContent}
+            height={300}
+            over={true}
+            className="w-25"
+          />
+          <Algorithms initial={graph} over={true} />
+        </div>
       ) : null}
     </div>
     // </Provider>
   );
-}; */
+};
 
 //eslint-disable-next-line
 function promisingFileReader(file: File): Promise<string> {
@@ -63,15 +85,67 @@ function promisingFileReader(file: File): Promise<string> {
 }
 
 const bypassApp: React.FC = function() {
+  const graph = crop(toGraph(parseGML(directaccess)));
+
   return (
-    <Result
-      title="Initial Graph"
-      fileContent={directaccess}
-      width={500}
-      height={500}
-      over={true}
-    ></Result>
+    <div className="flex flex-wrap">
+      <InitialRepresentation
+        title="Initial Graph"
+        graph={graph}
+        fileContent={directaccess}
+        height={300}
+        over={true}
+        className="w-25"
+      />
+      <Algorithms initial={graph} over={true} />
+    </div>
   );
 };
 
-export default bypassApp;
+export const Algorithms: React.FC<{
+  initial: Graph;
+  over?: boolean;
+}> = function(props) {
+  return (
+    <>
+      <AlgorithmRepresentation
+        algorithm={Scaling}
+        {...props}
+        className="w-25"
+        height={300}
+      />
+      <AlgorithmRepresentation
+        algorithm={PFS}
+        {...props}
+        className="w-25"
+        height={300}
+      />
+      <AlgorithmRepresentation
+        algorithm={PFSP}
+        {...props}
+        className="w-25"
+        height={300}
+      />
+      <AlgorithmRepresentation
+        algorithm={FTA}
+        {...props}
+        className="w-25"
+        height={300}
+      />
+      <AlgorithmRepresentation
+        algorithm={RWordleL}
+        {...props}
+        className="w-25"
+        height={300}
+      />
+      <AlgorithmRepresentation
+        algorithm={VPSC}
+        {...props}
+        className="w-25"
+        height={300}
+      />
+    </>
+  );
+};
+
+export default App;

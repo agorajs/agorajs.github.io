@@ -1,6 +1,7 @@
 {
   "name": "agora",
   "version": "0.1.0",
+  "homepage": "http://agorajs.github.io/",
   "private": true,
   "dependencies": {
     "@types/d3-array": "^2.0.0",
@@ -11,9 +12,14 @@
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
     "@types/react-redux": "^7.1.2",
-    "agora-algorithm": "git+ssh://git@gite.lirmm.fr/chen/agora-algorithm.git#semver:^0.4.0",
-    "agora-gml": "git+ssh://git@gite.lirmm.fr/chen/agora-gml.git#semver:^0.1.1",
-    "agora-graph": "git+ssh://git@gite.lirmm.fr/chen/agora-graph.git#semver:^0.1.0",
+    "agora-fta": "https://github.com/agorajs/agora-fta.git#semver:^0.2.0",
+    "agora-gml": "https://github.com/agorajs/agora-gml.git#semver:^1.0.0",
+    "agora-graph": "https://github.com/agorajs/agora-graph.git#semver:^1.1.1",
+    "agora-pfs": "https://github.com/agorajs/agora-pfs.git#semver:^0.2.0",
+    "agora-pfsp": "https://github.com/agorajs/agora-pfsp.git#semver:^0.2.0",
+    "agora-rworldle": "https://github.com/agorajs/agora-rwordle.git#semver:^0.2.0",
+    "agora-scaling": "https://github.com/agorajs/agora-scaling.git#semver:^0.2.0",
+    "agora-vpsc": "https://github.com/agorajs/agora-vpsc.git#semver:^0.2.0",
     "d3-array": "^2.3.1",
     "d3-scale": "^3.1.0",
     "lodash": "^4.17.15",
@@ -23,6 +29,7 @@
     "react-scripts": "3.1.1",
     "redux": "^4.0.4",
     "reselect": "^4.0.0",
+    "tachyons": "^4.11.1",
     "typesafe-actions": "^4.4.2",
     "typescript": "3.6.3"
   },

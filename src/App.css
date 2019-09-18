@@ -1,4 +1,1 @@
-svg {
-  /* padding: 10px; */
-  /* border: #000 solid 1px; */
-}
+@import '~tachyons/css/tachyons.min.css';
