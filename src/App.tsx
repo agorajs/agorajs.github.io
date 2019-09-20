@@ -1,18 +1,11 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import './App.css';
 
-import PFS from 'agora-pfs';
-import PFSP from 'agora-pfsp';
-import FTA from 'agora-fta';
-import VPSC from 'agora-vpsc';
-import { RWordleLAlgorithm as RWordleL } from 'agora-rworldle';
-import Scaling from 'agora-scaling';
 import directaccess from './directaccess';
-import AlgorithmRepresentation, {
-  InitialRepresentation
-} from './components/Result';
+import InitialView from './components/InitialView';
 import { parseGML, toGraph } from 'agora-gml';
-import { crop, Graph } from 'agora-graph';
+import { crop } from 'agora-graph';
+import { AlgorithmListView } from './components/AlgorithmListView';
 
 const App: React.FC = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -58,15 +51,15 @@ const App: React.FC = () => {
         <input type="file" name="file" id="file" onChange={onFileSet} />
       ) : graph ? (
         <div className="flex flex-wrap">
-          <InitialRepresentation
+          <InitialView
             title="Initial Graph"
             graph={graph}
-            fileContent={fileContent}
+            gml={fileContent}
             height={300}
             over={true}
             className="w-25"
           />
-          <Algorithms initial={graph} over={true} />
+          <AlgorithmListView initial={graph} over={true} />
         </div>
       ) : null}
     </div>
@@ -89,62 +82,16 @@ const bypassApp: React.FC = function() {
 
   return (
     <div className="flex flex-wrap">
-      <InitialRepresentation
+      <InitialView
         title="Initial Graph"
         graph={graph}
-        fileContent={directaccess}
+        gml={directaccess}
         height={300}
         over={true}
         className="w-25"
       />
-      <Algorithms initial={graph} over={true} />
+      <AlgorithmListView initial={graph} over={true} />
     </div>
-  );
-};
-
-export const Algorithms: React.FC<{
-  initial: Graph;
-  over?: boolean;
-}> = function(props) {
-  return (
-    <>
-      <AlgorithmRepresentation
-        algorithm={Scaling}
-        {...props}
-        className="w-25"
-        height={300}
-      />
-      <AlgorithmRepresentation
-        algorithm={PFS}
-        {...props}
-        className="w-25"
-        height={300}
-      />
-      <AlgorithmRepresentation
-        algorithm={PFSP}
-        {...props}
-        className="w-25"
-        height={300}
-      />
-      <AlgorithmRepresentation
-        algorithm={FTA}
-        {...props}
-        className="w-25"
-        height={300}
-      />
-      <AlgorithmRepresentation
-        algorithm={RWordleL}
-        {...props}
-        className="w-25"
-        height={300}
-      />
-      <AlgorithmRepresentation
-        algorithm={VPSC}
-        {...props}
-        className="w-25"
-        height={300}
-      />
-    </>
   );
 };
 

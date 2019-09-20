@@ -1,25 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const DownloadLink: React.FC<{
   content: string;
   name: string;
 }> = function({ content, name, children }) {
-  function createURL(name: string, content: string) {
+  const [url, setUrl] = useState();
+
+  useEffect(() => {
     var file = new File([content], name, { type: 'plain/text' });
-    return URL.createObjectURL(file);
-  }
+    const url = URL.createObjectURL(file);
 
-  const url = createURL(name, content);
-
-  // cleanup on unmount
-  useEffect(() => () => URL.revokeObjectURL(url));
+    setUrl(url);
+    // cleanup on unmount
+    return () => URL.revokeObjectURL(url);
+  }, [name, content]);
 
   // TODO suspense update
-  return (
+  return url ? (
     <a href={url} download={name} className="bw1 ba ph1 mr1 no-underline">
       {children ? children : name}
     </a>
-  );
+  ) : null;
 };
 
 export default DownloadLink;

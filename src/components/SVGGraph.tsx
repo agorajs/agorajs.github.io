@@ -5,15 +5,22 @@ import { Graph, Node, Box } from 'agora-graph';
 import EdgeComp from './SVGEdge';
 import NodeComp from './SVGNode';
 
-export const SVGGraph: React.FC<
-  {
-    graph: Graph;
-    over?: boolean;
-    width: number;
-    height: number;
-    svgRef: any;
-  } & SVGProps<SVGSVGElement>
-> = function({ graph, over = false, width, height, svgRef, ...rest }) {
+export type SVGGraphType = {
+  graph: Graph;
+  over?: boolean;
+  width: number;
+  height: number;
+  svgRef: any;
+} & SVGProps<SVGSVGElement>;
+
+export const SVGGraph: React.FC<SVGGraphType> = function({
+  graph,
+  over = false,
+  width,
+  height,
+  svgRef,
+  ...rest
+}) {
   const box = {
     width: d3max(graph.nodes, d => d.x + d.width / 2) || 0,
     height: d3max(graph.nodes, d => d.y + d.height / 2) || 0
