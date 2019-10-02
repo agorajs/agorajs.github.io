@@ -1,98 +1,153 @@
 import React, { useState, useEffect, FormEvent } from 'react';
 import './App.css';
 
-import directaccess from './directaccess';
-import InitialView from './components/InitialView';
-import { parseGML, toGraph } from 'agora-gml';
-import { crop } from 'agora-graph';
-import { AlgorithmListView } from './components/AlgorithmListView';
+import { DragDrop } from '@uppy/react';
+import '@uppy/core/dist/style.css';
+import '@uppy/drag-drop/dist/style.css';
+import '@uppy/dashboard/dist/style.css';
+
+import useUppy from './utils/useUppy';
 
 const App: React.FC = () => {
-  const [file, setFile] = useState<File | undefined>();
-  const [graph, setGraph] = useState();
-  const [fileContent, setFileContent] = useState();
-  const [error, setError] = useState();
-
-  const onFileSet = (e: FormEvent<HTMLInputElement>) => {
-    setFile(e.currentTarget.files![0]);
-    // convert from gml to json
-  };
-
-  useEffect(() => {
-    // file effect
-    if (file !== undefined) {
-      (async () => {
-        try {
-          setError(null);
-          const text: string = await promisingFileReader(file);
-          const jsonGraph = parseGML(text);
-          console.log(jsonGraph);
-          setGraph(crop(toGraph(jsonGraph)));
-          setFileContent(text);
-        } catch (error) {
-          setError(error.message || error);
-          console.log(error);
-          setFile(undefined);
-        }
-      })();
+  const uppy = useUppy(
+    { restrictions: { allowedFileTypes: ['.gml'] } },
+    {
+      'file-added': result => {
+        console.log(result);
+      },
+      'restriction-failed': (file, error) => {
+        console.log(error);
+      }
     }
-  }, [file]);
+  );
 
-  useEffect(() => {
-    // graph effect
-    console.log(graph);
-  }, [graph]);
+  const Checkbox: React.FC<{ title: string; checked?: boolean }> = ({
+    title,
+    checked = true
+  }) => {
+    const [el, value] = useCheckbox(title, checked);
+    return el;
+  };
 
   return (
     // <Provider store={store}>
-    <div className="App ma1">
-      {error ? error : null}
-      {!file ? (
-        <input type="file" name="file" id="file" onChange={onFileSet} />
-      ) : graph ? (
-        <div className="flex flex-wrap">
-          <InitialView
-            title="Initial Graph"
-            graph={graph}
-            gml={fileContent}
-            height={300}
-            over={true}
-            className="w-25"
-          />
-          <AlgorithmListView initial={graph} over={true} />
+    <div className="mw8 center mt4 tc">
+      <h1 className="lh-title tc">
+        AGORAjs
+        {/* A<span className="f4 nes-text is-disabled">utomatic </span>G
+        <span className="f4 nes-text is-disabled">raph </span>O
+        <span className="f4 nes-text is-disabled">verlap </span>R
+        <span className="f4 nes-text is-disabled">emoval </span>A
+        <span className="f4 nes-text is-disabled">lgorithms </span>js */}
+      </h1>
+      <section className="flex items-end justify-center w-100">
+        <div className="mw7 nes-balloon from-right">
+          <p>
+            Algorithm Graph Overlap Removal Algorithms: Lorem ipsum dolor sit
+            amet consectetur, adipisicing elit.
+          </p>
         </div>
-      ) : null}
+        <i className="nes-pokeball"></i>
+      </section>
+      {
+        //@ts-ignore
+        <DragDrop uppy={uppy} height="256px" />
+      }
+      <div className="pt1 tl">
+        <ul className="nes-list is-disc overflow-x-scroll nowrap">
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+          <li className="f6 di mr4">pa_100_10.gml</li>
+        </ul>
+      </div>
+      <div className="pa3">
+        <button className="nes-btn is-primary">
+          <div className="pa3">Generate Graphs</div>
+        </button>
+      </div>
+      <div className="flex ">
+        <div className="nes-container with-title w-50 is-centered ma2">
+          <p className="title"> Algorithms</p>
+          <div className="flex flex-column items-start">
+            <Checkbox title="All" />
+            <Checkbox title="Scale" />
+            <Checkbox title="FTA" />
+            <Checkbox title="PFS" />
+            <Checkbox title="PFS'" />
+            <Checkbox title="GTREE" />
+            <Checkbox title="PRISM" />
+            <Checkbox title="DIAMOND" />
+          </div>
+        </div>
+        <div className="nes-container with-title w-50 is-centered ma2">
+          <p className="title">Criterias</p>
+          <div className="flex items-start">
+            <div className="w-50 flex flex-column items-start">
+              <Checkbox title="a" />
+              <Checkbox title="b" />
+              <Checkbox title="c" />
+              <Checkbox title="d" />
+              <Checkbox title="e" />
+              <Checkbox title="a" />
+              <Checkbox title="a" />
+              <Checkbox title="b" />
+            </div>
+            <div className="w-50 flex flex-column items-start">
+              <Checkbox title="c" />
+              <Checkbox title="d" />
+              <Checkbox title="e" />
+              <Checkbox title="a" />
+              <Checkbox title="a" />
+              <Checkbox title="b" />
+              <Checkbox title="c" />
+              <Checkbox title="d" />
+              <Checkbox title="e" />
+              <Checkbox title="a" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     // </Provider>
   );
 };
 
-//eslint-disable-next-line
-function promisingFileReader(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const fr = new FileReader();
-    fr.onload = () => resolve(fr.result as string);
-    fr.onerror = reject;
-    fr.readAsText(file);
-  });
-}
+function useCheckbox(
+  title: string,
+  checked: boolean = true
+): [JSX.Element, boolean] {
+  const [checkbox, setCheckbox] = useState(checked);
 
-const bypassApp: React.FC = function() {
-  const graph = crop(toGraph(parseGML(directaccess)));
+  const handleInputChange = (event: any) => {
+    setCheckbox(checkbox => !checkbox);
+  };
 
-  return (
-    <div className="flex flex-wrap">
-      <InitialView
-        title="Initial Graph"
-        graph={graph}
-        gml={directaccess}
-        height={300}
-        over={true}
-        className="w-25"
+  return [
+    <label>
+      <input
+        type="checkbox"
+        className="nes-checkbox"
+        checked={checkbox}
+        onChange={handleInputChange}
       />
-      <AlgorithmListView initial={graph} over={true} />
-    </div>
-  );
-};
+      <span>{title}</span>
+    </label>,
+    checkbox
+  ];
+}
 
 export default App;
