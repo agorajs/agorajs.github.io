@@ -1,4 +1,5 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useCallback, ChangeEvent } from 'react';
+import _ from 'lodash';
 import './App.css';
 
 import { DragDrop } from '@uppy/react';
@@ -7,6 +8,13 @@ import '@uppy/drag-drop/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 
 import useUppy from './utils/useUppy';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  allAlgorithms,
+  allAlgorithmsAreSelected,
+  allCriterias,
+  allCriteriasAreSelected
+} from './store/selectors';
 
 const App: React.FC = () => {
   const uppy = useUppy(
@@ -21,16 +29,7 @@ const App: React.FC = () => {
     }
   );
 
-  const Checkbox: React.FC<{ title: string; checked?: boolean }> = ({
-    title,
-    checked = true
-  }) => {
-    const [el, value] = useCheckbox(title, checked);
-    return el;
-  };
-
   return (
-    // <Provider store={store}>
     <div className="mw8 center mt4 tc">
       <h1 className="lh-title tc">
         AGORAjs
@@ -83,31 +82,17 @@ const App: React.FC = () => {
         <div className="nes-container with-title w-50 is-centered ma2">
           <p className="title"> Algorithms</p>
           <div className="flex flex-column items-start">
-            <Checkbox title="All" />
-            <Checkbox title="Scale" />
-            <Checkbox title="FTA" />
-            <Checkbox title="PFS" />
-            <Checkbox title="PFS'" />
-            <Checkbox title="GTREE" />
-            <Checkbox title="PRISM" />
-            <Checkbox title="DIAMOND" />
+            <AlgorithmChoiceList />
           </div>
         </div>
         <div className="nes-container with-title w-50 is-centered ma2">
           <p className="title">Criterias</p>
           <div className="flex items-start">
             <div className="w-50 flex flex-column items-start">
-              <Checkbox title="a" />
-              <Checkbox title="b" />
-              <Checkbox title="c" />
-              <Checkbox title="d" />
-              <Checkbox title="e" />
-              <Checkbox title="a" />
-              <Checkbox title="a" />
-              <Checkbox title="b" />
+              <CriteriaChoiceList />
             </div>
             <div className="w-50 flex flex-column items-start">
-              <Checkbox title="c" />
+              {/* <Checkbox title="c" />
               <Checkbox title="d" />
               <Checkbox title="e" />
               <Checkbox title="a" />
@@ -116,38 +101,119 @@ const App: React.FC = () => {
               <Checkbox title="c" />
               <Checkbox title="d" />
               <Checkbox title="e" />
-              <Checkbox title="a" />
+              <Checkbox title="a" /> */}
             </div>
           </div>
         </div>
       </div>
     </div>
-    // </Provider>
   );
 };
 
-function useCheckbox(
-  title: string,
-  checked: boolean = true
-): [JSX.Element, boolean] {
-  const [checkbox, setCheckbox] = useState(checked);
-
-  const handleInputChange = (event: any) => {
-    setCheckbox(checkbox => !checkbox);
-  };
-
-  return [
-    <label>
-      <input
-        type="checkbox"
-        className="nes-checkbox"
-        checked={checkbox}
-        onChange={handleInputChange}
-      />
-      <span>{title}</span>
-    </label>,
-    checkbox
-  ];
-}
-
 export default App;
+
+const CriteriaChoiceList: React.FC = function() {
+  const dispatch = useDispatch();
+
+  const selection = useSelector(allCriterias);
+  const areAllSelected = useSelector(allCriteriasAreSelected);
+
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      dispatch({
+        type: 'criteria-selection/CHECK',
+        payload: event.target.name
+      });
+    },
+    [dispatch]
+  );
+
+  const toggleAll = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked)
+        dispatch({ type: 'criteria-selection/SELECT_ALL' });
+      else dispatch({ type: 'criteria-selection/UNSELECT_ALL' });
+    },
+    [dispatch]
+  );
+
+  return (
+    <>
+      <label>
+        <input
+          name="all"
+          type="checkbox"
+          className="nes-checkbox"
+          onChange={toggleAll}
+          checked={areAllSelected}
+        />
+        <span>All</span>
+      </label>
+      {_.map(selection, (checked, name) => (
+        <label key={name}>
+          <input
+            name={name}
+            type="checkbox"
+            className="nes-checkbox"
+            onChange={handleInputChange}
+            checked={checked}
+          />
+          <span>{name}</span>
+        </label>
+      ))}
+    </>
+  );
+};
+
+const AlgorithmChoiceList: React.FC = function() {
+  const dispatch = useDispatch();
+
+  const selection = useSelector(allAlgorithms);
+  const areAllSelected = useSelector(allAlgorithmsAreSelected);
+
+  const handleInputChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      dispatch({
+        type: 'algorithm-selection/CHECK',
+        payload: event.target.name
+      });
+    },
+    [dispatch]
+  );
+
+  const toggleAll = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked)
+        dispatch({ type: 'algorithm-selection/SELECT_ALL' });
+      else dispatch({ type: 'algorithm-selection/UNSELECT_ALL' });
+    },
+    [dispatch]
+  );
+
+  return (
+    <>
+      <label>
+        <input
+          name="all"
+          type="checkbox"
+          className="nes-checkbox"
+          onChange={toggleAll}
+          checked={areAllSelected}
+        />
+        <span>All</span>
+      </label>
+      {_.map(selection, (checked, name) => (
+        <label key={name}>
+          <input
+            name={name}
+            type="checkbox"
+            className="nes-checkbox"
+            onChange={handleInputChange}
+            checked={checked}
+          />
+          <span>{name}</span>
+        </label>
+      ))}
+    </>
+  );
+};
