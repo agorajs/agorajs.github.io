@@ -15,6 +15,16 @@ import {
   allCriterias,
   allCriteriasAreSelected
 } from './store/selectors';
+import {
+  selectAllAlg,
+  unselectAllAlg,
+  toggleAlg
+} from './store/actions/algorithm-selection';
+import {
+  toggleCri,
+  selectAllCri,
+  unselectAllCri
+} from './store/actions/criteria-selection';
 
 const App: React.FC = () => {
   const uppy = useUppy(
@@ -120,19 +130,15 @@ const CriteriaChoiceList: React.FC = function() {
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      dispatch({
-        type: 'criteria-selection/CHECK',
-        payload: event.target.name
-      });
+      dispatch(toggleCri(event.target.name));
     },
     [dispatch]
   );
 
   const toggleAll = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      if (event.target.checked)
-        dispatch({ type: 'criteria-selection/SELECT_ALL' });
-      else dispatch({ type: 'criteria-selection/UNSELECT_ALL' });
+      if (event.target.checked) dispatch(selectAllCri());
+      else dispatch(unselectAllCri());
     },
     [dispatch]
   );
@@ -173,19 +179,15 @@ const AlgorithmChoiceList: React.FC = function() {
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      dispatch({
-        type: 'algorithm-selection/CHECK',
-        payload: event.target.name
-      });
+      dispatch(toggleAlg(event.target.name));
     },
     [dispatch]
   );
 
   const toggleAll = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      if (event.target.checked)
-        dispatch({ type: 'algorithm-selection/SELECT_ALL' });
-      else dispatch({ type: 'algorithm-selection/UNSELECT_ALL' });
+      if (event.target.checked) dispatch(selectAllAlg());
+      else dispatch(unselectAllAlg());
     },
     [dispatch]
   );

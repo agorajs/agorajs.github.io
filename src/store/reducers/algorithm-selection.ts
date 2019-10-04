@@ -1,59 +1,20 @@
-import { createReducer, ActionType } from 'typesafe-actions';
+import { createReducer } from 'typesafe-actions';
 import * as actions from '../actions/algorithm-selection';
 
-import _ from 'lodash';
-import { SelectionType } from '../types';
-export const algorithmSelection = createReducer<
-  SelectionType,
-  ActionType<typeof actions>
->({})
-  .handleAction(actions.check, (state, { payload }) => {
-    if (state[payload] !== undefined) {
-      state[payload] = !state[payload];
-      return { ...state };
-    }
-    return state;
-  })
-  .handleAction(actions.select, (state, { payload }) => {
-    if (state[payload] === false) {
-      state[payload] = true;
-      return { ...state };
-    }
-    return state;
-  })
-  .handleAction(actions.selectMany, (state, { payload }) => {
-    _.forEach(payload, (__, key) => {
-      if (state[key] === false) {
-        state[key] = true;
-      }
-    });
-
-    return { ...state };
-  })
-  .handleAction(actions.selectAll, state => {
-    const copy: SelectionType = {};
-
-    _.forEach(state, (__, key) => {
-      copy[key] = true;
-    });
-
-    return copy;
-  })
-  .handleAction(actions.unselect, (state, { payload }) => {
-    if (state[payload] === true) {
-      state[payload] = false;
-      return { ...state };
-    }
-    return state;
-  })
-  .handleAction(actions.unselectAll, state => {
-    const copy: SelectionType = {};
-
-    _.forEach(state, (__, key) => {
-      copy[key] = false;
-    });
-
-    return copy;
-  });
+import {
+  toggle,
+  select,
+  selectMany,
+  selectAll,
+  unselect,
+  unselectAll
+} from './selection-utils';
+export const algorithmSelection = createReducer({})
+  .handleAction(actions.toggleAlg, toggle)
+  .handleAction(actions.selectAlg, select)
+  .handleAction(actions.selectManyAlg, selectMany)
+  .handleAction(actions.selectAllAlg, selectAll)
+  .handleAction(actions.unselectAlg, unselect)
+  .handleAction(actions.unselectAllAlg, unselectAll);
 
 export default algorithmSelection;

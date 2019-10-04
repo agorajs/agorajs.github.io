@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { SelectionType } from '../types';
-import { createSelector } from 'reselect';
 
 export const selected = (state: SelectionType) => _.map(state, (__, k) => k);
 export const allSelected = (state: SelectionType) =>
