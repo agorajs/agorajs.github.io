@@ -1,4 +1,4 @@
-import React, { useCallback, ChangeEvent } from 'react';
+import React, { useCallback, ChangeEvent, useMemo, useState } from 'react';
 import _ from 'lodash';
 import './App.css';
 
@@ -15,41 +15,39 @@ import {
   allCriterias,
   allCriteriasAreSelected
 } from './store/selectors';
-import {
-  selectAllAlg,
-  unselectAllAlg,
-  toggleAlg
-} from './store/actions/algorithm-selection';
-import {
-  toggleCri,
-  selectAllCri,
-  unselectAllCri
-} from './store/actions/criteria-selection';
+import { toggleAlg, setAllAlg } from './store/actions/algorithm-selection';
+import { toggleCri, setAllCri } from './store/actions/criteria-selection';
+import { PayloadAC } from 'typesafe-actions';
+import { UppyFile } from '@uppy/core';
 
 const App: React.FC = () => {
+  const [uppyListeners] = useState<{
+    [k: string]: (result: UppyFile, ...rest: any[]) => any;
+  }>({
+    'file-added': result => {
+      console.log(result);
+    },
+    'restriction-failed': (file, error) => {
+      console.log(error);
+    }
+  });
   const uppy = useUppy(
     { restrictions: { allowedFileTypes: ['.gml'] } },
-    {
-      'file-added': result => {
-        console.log(result);
-      },
-      'restriction-failed': (file, error) => {
-        console.log(error);
-      }
-    }
+    uppyListeners
   );
+
+  const areAllCriSelected = useSelector(allCriteriasAreSelected);
+
+  const toggleAllCri = useToggleAll(setAllCri);
+
+  const areAllAlgSelected = useSelector(allAlgorithmsAreSelected);
+
+  const toggleAllAlg = useToggleAll(setAllAlg);
 
   return (
     <div className="mw8 center mt4 tc">
-      <h1 className="lh-title tc">
-        AGORAjs
-        {/* A<span className="f4 nes-text is-disabled">utomatic </span>G
-        <span className="f4 nes-text is-disabled">raph </span>O
-        <span className="f4 nes-text is-disabled">verlap </span>R
-        <span className="f4 nes-text is-disabled">emoval </span>A
-        <span className="f4 nes-text is-disabled">lgorithms </span>js */}
-      </h1>
-      <section className="flex items-end justify-center w-100">
+      <h1 className="lh-title tc">AGORAjs</h1>
+      <section className="flex flex-auto items-end justify-center w-100">
         <div className="mw7 nes-balloon from-right">
           <p>
             Algorithm Graph Overlap Removal Algorithms: Lorem ipsum dolor sit
@@ -69,18 +67,6 @@ const App: React.FC = () => {
           <li className="f6 di mr4">pa_100_10.gml</li>
           <li className="f6 di mr4">pa_100_10.gml</li>
           <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
-          <li className="f6 di mr4">pa_100_10.gml</li>
         </ul>
       </div>
       <div className="pa3">
@@ -90,30 +76,24 @@ const App: React.FC = () => {
       </div>
       <div className="flex ">
         <div className="nes-container with-title w-50 is-centered ma2">
-          <p className="title"> Algorithms</p>
-          <div className="flex flex-column items-start">
-            <AlgorithmChoiceList />
-          </div>
+          <p className="title">
+            <Checkbox
+              name="Algorithms"
+              checked={areAllAlgSelected}
+              onChange={toggleAllAlg}
+            />
+          </p>
+          <AlgorithmCheckboxList />
         </div>
         <div className="nes-container with-title w-50 is-centered ma2">
-          <p className="title">Criterias</p>
-          <div className="flex items-start">
-            <div className="w-50 flex flex-column items-start">
-              <CriteriaChoiceList />
-            </div>
-            <div className="w-50 flex flex-column items-start">
-              {/* <Checkbox title="c" />
-              <Checkbox title="d" />
-              <Checkbox title="e" />
-              <Checkbox title="a" />
-              <Checkbox title="a" />
-              <Checkbox title="b" />
-              <Checkbox title="c" />
-              <Checkbox title="d" />
-              <Checkbox title="e" />
-              <Checkbox title="a" /> */}
-            </div>
-          </div>
+          <p className="title">
+            <Checkbox
+              name="Criterias"
+              checked={areAllCriSelected}
+              onChange={toggleAllCri}
+            />
+          </p>
+          <CriteriaChoiceList />
         </div>
       </div>
     </div>
@@ -123,99 +103,102 @@ const App: React.FC = () => {
 export default App;
 
 const CriteriaChoiceList: React.FC = function() {
-  const dispatch = useDispatch();
-
   const selection = useSelector(allCriterias);
-  const areAllSelected = useSelector(allCriteriasAreSelected);
 
-  const handleInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      dispatch(toggleCri(event.target.name));
-    },
-    [dispatch]
-  );
-
-  const toggleAll = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (event.target.checked) dispatch(selectAllCri());
-      else dispatch(unselectAllCri());
-    },
-    [dispatch]
-  );
-
-  return (
-    <>
-      <label>
-        <input
-          name="all"
-          type="checkbox"
-          className="nes-checkbox"
-          onChange={toggleAll}
-          checked={areAllSelected}
-        />
-        <span>All</span>
-      </label>
-      {_.map(selection, (checked, name) => (
-        <label key={name}>
-          <input
+  const toggle = useToggleCheckBox(toggleCri);
+  const list = useMemo(
+    () =>
+      twoColumn(
+        _.map(selection, (checked, name) => (
+          <Checkbox
+            key={name}
             name={name}
-            type="checkbox"
-            className="nes-checkbox"
-            onChange={handleInputChange}
             checked={checked}
+            onChange={toggle}
           />
-          <span>{name}</span>
-        </label>
-      ))}
-    </>
+        ))
+      ),
+    [selection, toggle]
   );
+  return list;
 };
 
-const AlgorithmChoiceList: React.FC = function() {
-  const dispatch = useDispatch();
-
+const AlgorithmCheckboxList: React.FC = function() {
   const selection = useSelector(allAlgorithms);
-  const areAllSelected = useSelector(allAlgorithmsAreSelected);
 
-  const handleInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      dispatch(toggleAlg(event.target.name));
-    },
-    [dispatch]
-  );
+  const toggle = useToggleCheckBox(toggleAlg);
 
-  const toggleAll = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      if (event.target.checked) dispatch(selectAllAlg());
-      else dispatch(unselectAllAlg());
-    },
-    [dispatch]
-  );
-
-  return (
-    <>
-      <label>
-        <input
-          name="all"
-          type="checkbox"
-          className="nes-checkbox"
-          onChange={toggleAll}
-          checked={areAllSelected}
-        />
-        <span>All</span>
-      </label>
-      {_.map(selection, (checked, name) => (
-        <label key={name}>
-          <input
+  const list = useMemo(
+    () =>
+      twoColumn(
+        _.map(selection, (checked, name) => (
+          <Checkbox
+            key={name}
             name={name}
-            type="checkbox"
-            className="nes-checkbox"
-            onChange={handleInputChange}
             checked={checked}
+            onChange={toggle}
           />
-          <span>{name}</span>
-        </label>
-      ))}
-    </>
+        ))
+      ),
+    [selection, toggle]
+  );
+
+  return list;
+};
+
+const twoColumn = function(elements: JSX.Element[], maxColumn = 5) {
+  if (elements.length > maxColumn) {
+    const half_length = Math.ceil(elements.length / 2);
+    return (
+      <div className="flex items-start">
+        <div className="w-50 flex flex-column items-start">
+          {_.slice(elements, 0, half_length)}
+        </div>
+        <div className="w-50 flex flex-column items-start">
+          {_.slice(elements, half_length)}
+        </div>
+      </div>
+    );
+  }
+  return <div className="flex flex-column items-start">{elements}</div>;
+};
+
+const Checkbox: React.FC<{
+  name: string;
+  checked: boolean;
+  onChange: any;
+}> = ({ name, checked, onChange }) => {
+  return (
+    <label>
+      <input
+        name={name}
+        type="checkbox"
+        className="nes-checkbox"
+        checked={checked}
+        onChange={onChange}
+      />
+      <span>{name}</span>
+    </label>
   );
 };
+
+function useToggleAll(setAll: PayloadAC<string, boolean>) {
+  const dispatch = useDispatch();
+  const toggleAll = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      dispatch(setAll(event.target.checked));
+    },
+    [dispatch, setAll]
+  );
+  return toggleAll;
+}
+
+function useToggleCheckBox(toggle: PayloadAC<string, string>) {
+  const dispatch = useDispatch();
+  return useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      dispatch(toggle(event.target.name));
+    },
+    [dispatch, toggle]
+  );
+}

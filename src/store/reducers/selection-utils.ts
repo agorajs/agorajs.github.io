@@ -13,12 +13,12 @@ export const toggle = (
   return state;
 };
 
-export const select = (
+export const set = (
   state: SelectionType,
-  { payload }: PayloadAction<string, string>
+  { payload: [name, value] }: PayloadAction<string, [string, boolean]>
 ) => {
-  if (state[payload] === false) {
-    state[payload] = true;
+  if (state[name] !== undefined) {
+    state[name] = value;
     return { ...state };
   }
   return state;
@@ -36,29 +36,13 @@ export const selectMany = (
   return { ...state };
 };
 
-export const selectAll = (state: SelectionType) => {
-  const copy: SelectionType = {};
-  _.forEach(state, (__, key) => {
-    copy[key] = true;
-  });
-  return copy;
-};
-
-export const unselect = (
+export const setAll = (
   state: SelectionType,
-  { payload }: PayloadAction<string, string>
+  { payload }: PayloadAction<string, boolean>
 ) => {
-  if (state[payload] === true) {
-    state[payload] = false;
-    return { ...state };
-  }
-  return state;
-};
-
-export const unselectAll = (state: SelectionType) => {
   const copy: SelectionType = {};
   _.forEach(state, (__, key) => {
-    copy[key] = false;
+    copy[key] = payload;
   });
   return copy;
 };

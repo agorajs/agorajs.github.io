@@ -1,20 +1,11 @@
 import { createReducer } from 'typesafe-actions';
 import * as actions from '../actions/criteria-selection';
-import {
-  toggle,
-  select,
-  selectMany,
-  selectAll,
-  unselect,
-  unselectAll
-} from './selection-utils';
+import { toggle, set, selectMany, setAll } from './selection-utils';
 
 export const criteriaSelection = createReducer({})
   .handleAction(actions.toggleCri, toggle)
-  .handleAction(actions.selectCri, select)
+  .handleAction(actions.setCri, set)
   .handleAction(actions.selectManyCri, selectMany)
-  .handleAction(actions.selectAllCri, selectAll)
-  .handleAction(actions.unselectCri, unselect)
-  .handleAction(actions.unselectAllCri, unselectAll);
+  .handleAction(actions.setAllCri, setAll);
 
 export default criteriaSelection;
