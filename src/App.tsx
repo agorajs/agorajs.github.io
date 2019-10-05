@@ -50,8 +50,8 @@ const App: React.FC = () => {
       <section className="flex flex-auto items-end justify-center w-100">
         <div className="mw7 nes-balloon from-right">
           <p>
-            Algorithm Graph Overlap Removal Algorithms: Lorem ipsum dolor sit
-            amet consectetur, adipisicing elit.
+            Algorithm Graph Overlap Removal Algorithms: Fati Chen, Arnaud
+            Sallaberry, Laurent Piccinini, Pascal Poncelet.
           </p>
         </div>
         <i className="nes-pokeball"></i>
@@ -96,6 +96,7 @@ const App: React.FC = () => {
           <CriteriaChoiceList />
         </div>
       </div>
+      footer
     </div>
   );
 };
