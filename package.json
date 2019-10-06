@@ -4,6 +4,7 @@
   "homepage": "http://agorajs.github.io/",
   "private": true,
   "dependencies": {
+    "@types/classnames": "^2.2.9",
     "@types/d3-array": "^1.2.6",
     "@types/d3-scale": "^2.1.1",
     "@types/jest": "^24.0.18",
@@ -24,6 +25,7 @@
     "agora-rworldle": "https://github.com/agorajs/agora-rwordle.git#semver:^0.2.0",
     "agora-scaling": "https://github.com/agorajs/agora-scaling.git#semver:^0.2.0",
     "agora-vpsc": "https://github.com/agorajs/agora-vpsc.git#semver:^0.2.0",
+    "classnames": "^2.2.6",
     "d3-array": "^2.2.0",
     "d3-scale": "^3.0.1",
     "lodash": "^4.17.15",
