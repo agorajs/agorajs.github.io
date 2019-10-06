@@ -22,3 +22,5 @@ export const selectedCriterias = createSelector(
   allCriterias,
   selected
 );
+
+export const files = (state: StateType) => state.files;
