@@ -1,10 +1,11 @@
 import React from 'react';
 import classnames from 'classnames';
+
 export const NesContainer: React.FC<{
   title?: any;
   centered?: boolean;
   className?: string;
-}> = ({ title, centered, className, children }) => (
+}> = React.memo(({ title, centered, className, children }) => (
   <div
     className={classnames('nes-container', className, {
       'with-title': title,
@@ -14,6 +15,6 @@ export const NesContainer: React.FC<{
     {title && <p className="title">{title}</p>}
     {children}
   </div>
-);
+));
 
 export default NesContainer;

@@ -5,7 +5,7 @@ export const NesBalloon: React.FC<{
   right?: boolean;
   left?: boolean;
   className?: string;
-}> = ({ right, left, children, className }) => (
+}> = React.memo(({ right, left, children, className }) => (
   <div
     className={classnames('nes-balloon', className, {
       'from-right': right,
@@ -14,6 +14,6 @@ export const NesBalloon: React.FC<{
   >
     {children}
   </div>
-);
+));
 
 export default NesBalloon;

@@ -81,7 +81,7 @@ const App: React.FC = () => {
       ) : null}
       <div className="pa3">
         <button className="nes-btn is-primary">
-          <div className="pa3">Generate Graphs</div>
+          <div className="pa3">Generate Embeddings</div>
         </button>
       </div>
       <Flex>
