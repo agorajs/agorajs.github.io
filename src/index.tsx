@@ -7,12 +7,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
-import App from './App';
+import Home from './Home';
 import store from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Home />
   </Provider>,
   document.getElementById('root')
 );

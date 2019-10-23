@@ -1,6 +1,6 @@
 import React, { useCallback, useState, MouseEvent } from 'react';
 import _ from 'lodash';
-import './App.css';
+import './Home.css';
 
 import { DragDrop } from '@uppy/react';
 import '@uppy/core/dist/style.css';
@@ -18,7 +18,7 @@ import { Flex, NesList, NesBalloon } from './layout';
 import { CriteriaListContainer } from './components/CriteriaListContainer';
 import { AlgorithmListContainer } from './components/AlgorithmListContainer';
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
 
   const [uppyListeners] = useState<{
@@ -93,4 +93,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Home;
