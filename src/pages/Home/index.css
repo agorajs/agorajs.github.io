@@ -1,0 +1,12 @@
+@import '~tachyons/css/tachyons.min.css';
+
+.hover-success:hover {
+  color: #209cee;
+}
+.hover-error:hover {
+  color: #ce372b;
+}
+
+.nes-list.is-disc li::before {
+  color: inherit;
+}

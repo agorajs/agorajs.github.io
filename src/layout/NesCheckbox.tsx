@@ -4,7 +4,7 @@ export const NesCheckbox: React.FC<{
   name: string;
   checked: boolean;
   onChange: any;
-}> = React.memo(({ name, checked, onChange }) => (
+}> = React.memo(({ name, checked, onChange, children }) => (
   <label>
     <input
       name={name}
@@ -13,7 +13,7 @@ export const NesCheckbox: React.FC<{
       checked={checked}
       onChange={onChange}
     />
-    <span>{name}</span>
+    <span>{children || name}</span>
   </label>
 ));
 

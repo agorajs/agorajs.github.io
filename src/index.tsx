@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
-import Home from './Home';
+import Home from './pages/Home';
 import store from './store';
 
 ReactDOM.render(

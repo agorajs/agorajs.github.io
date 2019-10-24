@@ -6,9 +6,18 @@
   -moz-osx-font-smoothing: grayscale;
 } */
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+/* body {
+  font-family: 'Space Mono', monospace;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Press Start 2P';
+} */
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Space Mono', source-code-pro, Menlo, Monaco, Consolas,
+    'Courier New', monospace;
 }
 
 .container {
