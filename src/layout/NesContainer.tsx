@@ -5,11 +5,13 @@ export const NesContainer: React.FC<{
   title?: any;
   centered?: boolean;
   className?: string;
-}> = React.memo(({ title, centered, className, children }) => (
+  rounded?: boolean;
+}> = React.memo(({ title, centered, rounded, className, children }) => (
   <div
     className={classnames('nes-container', className, {
       'with-title': title,
-      'is-centered': centered
+      'is-centered': centered,
+      'is-rounded': rounded
     })}
   >
     {title && <p className="title">{title}</p>}

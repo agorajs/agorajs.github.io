@@ -5,11 +5,12 @@ import { allCriteriasAreSelected } from '../../store/selectors';
 import { setAllCri } from '../../store/actions/criteria-selection';
 import { NesContainer, NesCheckbox, Flex } from '../../layout';
 import useToggleAll from '../../utils/useToggleAll';
+import { useConst } from '../../utils/useConst';
 // import useToggleCheckBox from '../../utils/useToggleCheckBox';
 
 export const CriteriaList: React.FC<{
   className?: string;
-}> = ({ className }) => {
+}> = function({ className }) {
   const areAllCriSelected = useSelector(allCriteriasAreSelected);
   const toggleAllCri = useToggleAll(setAllCri);
 
@@ -24,7 +25,7 @@ export const CriteriaList: React.FC<{
     />
   );
 
-  const criteriaGroups = {
+  const criteriaGroups = useConst(() => ({
     'Orthogonal Ordering': {
       'Original [17]': false,
       "Kendall's Tau Distance [12]": false,
@@ -55,21 +56,7 @@ export const CriteriaList: React.FC<{
       Ratio: false,
       'Relative Standard Deviation Delaunay': true
     }
-  };
-
-  // const elements = useMemo(
-  //   () =>
-  //     _.map(selection, (checked, name) => (
-  //       <NesCheckbox
-  //         key={name}
-  //         name={name}
-  //         checked={checked}
-  //         onChange={toggle}
-  //       />
-  //     )),
-  //   [selection, toggle]
-  // );
-  // const half_length = Math.ceil(elements.length / 2);
+  }));
 
   return (
     <NesContainer centered className={className} title={title}>
@@ -94,14 +81,6 @@ export const CriteriaList: React.FC<{
           })}
         </div>
       </Flex>
-      {/* <Flex className="items-start">
-        <Flex column className="w-50 items-start">
-          {_.slice(elements, 0, half_length)}
-        </Flex>
-        <Flex column className="w-50 items-start">
-          {_.slice(elements, half_length)}
-        </Flex>
-      </Flex> */}
     </NesContainer>
   );
 };

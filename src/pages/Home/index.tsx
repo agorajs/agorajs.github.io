@@ -1,4 +1,4 @@
-import React, { useCallback, useState, MouseEvent, Children } from 'react';
+import React, { useCallback, useState, MouseEvent } from 'react';
 import _ from 'lodash';
 import './index.css';
 
@@ -14,15 +14,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { files } from '../../store/selectors';
 import { UppyFile } from '@uppy/core';
 import { addFile, removeFile } from '../../store/actions/file';
-import { Flex, NesList, NesBalloon } from '../../layout';
+import { Flex, NesList, NesButton } from '../../layout';
 import { CriteriaList } from './CriteriaList';
 import { AlgorithmList } from './AlgorithmList';
 import classNames from 'classnames';
+import { RouteComponentProps } from '@reach/router';
+import Authors from './Authors';
+import { ReferenceList } from './ReferenceList';
+import { useConst } from '../../utils/useConst';
 
-const Home: React.FC = () => {
+const Home: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
 
-  const [uppyListeners] = useState<{
+  const uppyListeners = useConst<{
     [k: string]: (result: UppyFile, ...rest: any[]) => any;
   }>(() => ({
     'file-added': result => {
@@ -50,7 +54,7 @@ const Home: React.FC = () => {
     [dispatch]
   );
 
-  const examplefiles = {
+  const examplefiles = useConst({
     'b100.gml': false,
     'b102.gml': false,
     'b124.gml': false,
@@ -65,43 +69,21 @@ const Home: React.FC = () => {
     'size.gml': false,
     'unix.gml': false,
     'xx.gml': false
-  };
+  });
 
+  const setUploadTrue = useCallback(() => setUpload(true), []);
+  const setUploadFalse = useCallback(() => setUpload(false), []);
   return (
-    <div className="mw8 center mt4 tc">
-      <h1 className="lh-title tc">AGORA</h1>
-      <Flex parent="section" auto className="items-end justify-center w-100">
-        <NesBalloon right className="mw7">
-          <p>
-            Algorithm Graph Overlap Removal Algorithms:{' '}
-            <span className="code">
-              Fati Chen, Arnaud Sallaberry, Laurent Piccinini, Pascal Poncelet.
-            </span>{' '}
-            <a
-              href="https://arxiv.org/abs/1908.07363"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              [arXiv:1908.07363]
-            </a>
-          </p>
-        </NesBalloon>
-        {/* <i className="nes-pokeball"></i> */}
-      </Flex>
-      <Flex parent="section">
+    <div className="w-100">
+      <Authors className="center mw7 mv3" />
+      <Flex parent="section" className="mv3">
         <Flex column className="item-stretch pa3 justify-around w5">
-          <button
-            className={classNames('nes-btn', { 'is-primary': isUpload })}
-            onClick={() => setUpload(true)}
-          >
+          <NesButton primary={isUpload} onClick={setUploadTrue}>
             <div className="pv2">Upload Files</div>
-          </button>
-          <button
-            className={classNames('nes-btn', { 'is-primary': !isUpload })}
-            onClick={() => setUpload(false)}
-          >
+          </NesButton>
+          <NesButton primary={!isUpload} onClick={setUploadFalse}>
             <div className="pv2">Examples</div>
-          </button>
+          </NesButton>
         </Flex>
         <Flex className="w-100">
           {isUpload ? (
@@ -192,144 +174,21 @@ const Home: React.FC = () => {
           )}
         </Flex>
       </Flex>
-      <div className="pa3">
-        <button className="nes-btn is-primary">
-          <div className="pa3">Generate Embeddings</div>
-        </button>
+      <div className="mv3">
+        <NesButton
+          primary={fileList.length !== 0}
+          disabled={fileList.length === 0}
+        >
+          <div className="pa3">Generate Overlap Free Embeddings</div>
+        </NesButton>
       </div>
       <Flex>
         <AlgorithmList className="w-50 ma2" />
         <CriteriaList className="pr0 w-50 ma2 " />
       </Flex>
-      <section className="tl">
-        <h3 className="tc">References</h3>
-        <Reference
-          id="PFS"
-          number={17}
-          title="Layout adjustment and the mental map."
-          authors="K. Misue, P. Eades, W. Lai, and K. Sugiyama."
-        >
-          <i>Journal of Visual Languages &amp; Computing</i>, 6(2):183–210,
-          1995.
-        </Reference>
-
-        <Reference
-          id="PFS'"
-          number={9}
-          title="A layout adjustment problem for disjoint rectangles preserving orthogonal order."
-          authors="K. Hayashi, M. Inoue, T. Masuzawa, and H. Fujiwara."
-        >
-          In{' '}
-          <i>
-            Proceedings of the International Symposium on Graph Drawing (GD)
-          </i>
-          , pages 183–197. Springer, 1998
-        </Reference>
-        <Reference
-          id="FTA"
-          number={12}
-          title="A new algorithm for removing node overlapping in graph visualization."
-          authors="X. Huang, W. Lai, A. Sajeev, and J. Gao."
-        >
-          <i>Information Sciences</i>, 177(14):2821–2844, 2007.
-        </Reference>
-        <Reference
-          id="VPSC"
-          number={4}
-          title="Fast node overlap removal."
-          authors="T. Dwyer, K. Marriott, and P. J. Stuckey."
-        >
-          In{' '}
-          <i>
-            Proceedings of the International Symposium on Graph Drawing (GD)
-          </i>
-          , pages 153–164. Springer, 2005.
-        </Reference>
-        <Reference
-          id="PRISM"
-          number={6}
-          title="Efficient, proximity-preserving node overlap removal."
-          authors="E. Gansner and Y. Hu."
-        >
-          <i>Journal of Graph Algorithms and Applications</i>, 14(1):53–74,
-          2010.
-        </Reference>
-        <Reference
-          id="RWordle-L"
-          number={19}
-          title="Rolled-out wordles: A heuristic method for overlap removal of 2d data representatives."
-          authors="H. Strobelt, M. Spicker, A. Stoffel, D. Keim, and O. Deussen."
-        >
-          <i>Computer Graphics Forum</i>, 31(3):1135–1144, 2012.
-        </Reference>
-        <Reference
-          id="GTREE"
-          number={18}
-          title="Node overlap removal by growing a tree"
-          authors="L. Nachmanson, A. Nocaj, S. Bereg, L. Zhang, and A. Holroyd."
-        >
-          In{' '}
-          <i>
-            Proceedings of the International Symposium on Graph Drawing and
-            Network Visualization (GD)
-          </i>
-          , pages 33–43. Springer, 2016
-        </Reference>
-        <Reference
-          id="Diamond"
-          number={16}
-          title="Efficient optimal overlap removal."
-          authors="W. Meulemans."
-        >
-          <i>Computer Graphics Forum</i>, 38(3):713–723, 2019.
-        </Reference>
-      </section>
-      <Flex parent="footer" className="justify-around pv3">
-        <LogoLink
-          link="https://www.lirmm.fr/"
-          imageurl="lirmm.png"
-          alt="LIRMM"
-        />
-        <LogoLink
-          link="https://www.univ-montp3.fr/"
-          imageurl="um3.png"
-          alt="UM3"
-        />
-        <LogoLink
-          link="https://www.umontpellier.fr/"
-          imageurl="um.png"
-          alt="UM"
-        />
-        <LogoLink link="https://www.cnrs.fr/" imageurl="cnrs.png" alt="CNRS" />
-      </Flex>
+      <ReferenceList className="mv3" />
     </div>
   );
 };
-
-const Reference: React.FC<{
-  id: string;
-  number: number;
-  authors: string;
-  title: string;
-}> = React.memo(({ id, number, authors, title, children }) => {
-  return (
-    <p id={'ref:' + id} className="code">
-      <span>[{number}]</span> {authors}{' '}
-      <span className="nes-text is-primary">{title}</span> {children}
-    </p>
-  );
-});
-
-const LogoLink: React.FC<{
-  link: string;
-  imageurl: string;
-  alt: string;
-}> = React.memo(({ link, imageurl, alt }) => {
-  return (
-    <a href={link} target="_blank" rel="noopener noreferrer">
-      <img height="64px" src={imageurl} alt={alt} />
-    </a>
-  );
-});
 
 export default Home;

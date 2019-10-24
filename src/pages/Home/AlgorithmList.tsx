@@ -6,6 +6,7 @@ import { toggleAlg, setAllAlg } from '../../store/actions/algorithm-selection';
 import { NesContainer, NesCheckbox, Flex } from '../../layout';
 import useToggleAll from '../../utils/useToggleAll';
 import useToggleCheckBox from '../../utils/useToggleCheckBox';
+import { useConst } from '../../utils/useConst';
 
 export const AlgorithmList: React.FC<{
   className?: string;
@@ -16,7 +17,7 @@ export const AlgorithmList: React.FC<{
   const selection = useSelector(allAlgorithms);
   const toggle = useToggleCheckBox(toggleAlg);
 
-  const referenceMap: { [k: string]: number } = {
+  const referenceMap: { [k: string]: number } = useConst(() => ({
     PFS: 17,
     "PFS'": 9,
     FTA: 12,
@@ -25,7 +26,7 @@ export const AlgorithmList: React.FC<{
     GTREE: 18,
     'RWordle-L': 19,
     Diamond: 16
-  };
+  }));
 
   const title = (
     <NesCheckbox
@@ -45,10 +46,10 @@ export const AlgorithmList: React.FC<{
           )}
         </NesCheckbox>
       )),
-    [selection, toggle]
+    [selection, toggle, referenceMap]
   );
 
-  const half_length = Math.ceil(elements.length / 2);
+  // const half_length = Math.ceil(elements.length / 2);
 
   return (
     <NesContainer centered className={className} title={title}>
