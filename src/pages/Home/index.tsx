@@ -118,7 +118,7 @@ const Home: React.FC = () => {
                   <h3 className="tc">&nbsp;</h3>
                   <NesList
                     disc
-                    className="overflow-y-scroll h5 mb0 w5 hover-success"
+                    className="overflow-y-scroll h5 mb0 w5 hover-success code"
                   >
                     {_.map(fileList, ({ id, data: { name } }) => (
                       <li
@@ -138,7 +138,10 @@ const Home: React.FC = () => {
             <>
               <div className="w-50">
                 <h3>Select Files</h3>
-                <NesList disc className="overflow-y-scroll h5 mb0 tl w-100">
+                <NesList
+                  disc
+                  className="overflow-y-scroll h5 mb0 tl w-100 code"
+                >
                   {_.map(examplefiles, (value, name) => (
                     <li
                       key={name}
@@ -157,7 +160,10 @@ const Home: React.FC = () => {
               </div>
               <div className="w-50">
                 <h3>Selected</h3>
-                <NesList disc className="overflow-y-scroll h5 mb0 tl w-100">
+                <NesList
+                  disc
+                  className="overflow-y-scroll h5 mb0 tl w-100 code"
+                >
                   {_(examplefiles)
                     .pickBy(value => value)
                     .map((value, name) => (
