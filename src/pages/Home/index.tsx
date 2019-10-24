@@ -73,8 +73,10 @@ const Home: React.FC = () => {
       <Flex parent="section" auto className="items-end justify-center w-100">
         <NesBalloon right className="mw7">
           <p>
-            Algorithm Graph Overlap Removal Algorithms: Fati Chen, Arnaud
-            Sallaberry, Laurent Piccinini, Pascal Poncelet.{' '}
+            Algorithm Graph Overlap Removal Algorithms:{' '}
+            <span className="code">
+              Fati Chen, Arnaud Sallaberry, Laurent Piccinini, Pascal Poncelet.
+            </span>{' '}
             <a
               href="https://arxiv.org/abs/1908.07363"
               target="_blank"
@@ -208,8 +210,7 @@ const Home: React.FC = () => {
         <Reference
           id="PFS'"
           number={9}
-          title="A layout adjustment problem for disjoint rectangles preserving
-          orthogonal order."
+          title="A layout adjustment problem for disjoint rectangles preserving orthogonal order."
           authors="K. Hayashi, M. Inoue, T. Masuzawa, and H. Fujiwara."
         >
           In{' '}
@@ -221,7 +222,7 @@ const Home: React.FC = () => {
         <Reference
           id="FTA"
           number={12}
-          title="A new algorithm for re-moving node overlapping in graph visualization."
+          title="A new algorithm for removing node overlapping in graph visualization."
           authors="X. Huang, W. Lai, A. Sajeev, and J. Gao."
         >
           <i>Information Sciences</i>, 177(14):2821–2844, 2007.
