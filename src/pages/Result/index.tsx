@@ -18,9 +18,12 @@ const SingleResult: React.FC = function() {
         <GraphMemo name="Initial" />
         <GraphMemo name="PFS" />
         <GraphMemo name="PFS'" />
-        <GraphMemo name="" />
-        <GraphMemo name="Initial" />
-        <GraphMemo name="Initial" />
+        <GraphMemo name="FTA" />
+        <GraphMemo name="VPSC" />
+        <GraphMemo name="PRISM" />
+        <GraphMemo name="GTREE" />
+        <GraphMemo name="RWordle-L" />
+        <GraphMemo name="Diamond" />
       </Flex>
     </section>
   );
