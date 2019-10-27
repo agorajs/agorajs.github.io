@@ -1,23 +1,34 @@
 import { combineReducers, createStore } from 'redux';
+
 import {
   defaultAlgorithms,
   defaultAlgorithmSelection
 } from './defaults/algorithms';
-import defaultReferences from './defaults/references';
+import { defaultCriteria, defaultCriteriaSelection } from './defaults/criteria';
+import { defaultReferences } from './defaults/references';
 
 import algorithmSelection from './reducers/algorithm-selection';
 import algorithms from './reducers/algorithms';
+import criteria from './reducers/criteria';
 import criteriaSelection from './reducers/criteria-selection';
 import fileList from './reducers/file';
 import isUpload from './reducers/is-upload';
 import references from './reducers/references';
 
-import { AlgorithmType, FileType, ReferenceType, SelectionType } from './types';
+import {
+  AlgorithmType,
+  CriteriaType,
+  FileType,
+  ReferenceType,
+  SelectionType
+} from './types';
 
 export const reducers = combineReducers({
   algorithms: algorithms,
   algorithmSelection: algorithmSelection,
+  criteria: criteria,
   criteriaSelection: criteriaSelection,
+
   files: fileList,
   isUpload: isUpload,
   references: references
@@ -27,6 +38,7 @@ export const reducers = combineReducers({
 export type StateType = {
   algorithms: AlgorithmType[];
   algorithmSelection: SelectionType;
+  criteria: CriteriaType[];
   criteriaSelection: SelectionType;
   files: FileType[];
   // examples: SelectionType;
@@ -37,7 +49,8 @@ export type StateType = {
 export const store = createStore(reducers, {
   algorithms: defaultAlgorithms,
   algorithmSelection: defaultAlgorithmSelection,
-  criteriaSelection: { a: true, b: true, c: true, d: false },
+  criteria: defaultCriteria,
+  criteriaSelection: defaultCriteriaSelection,
   files: [],
   isUpload: true,
   references: defaultReferences

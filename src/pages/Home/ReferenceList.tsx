@@ -1,7 +1,7 @@
 import React from 'react';
 import { Reference } from './Reference';
 import { useSelector } from 'react-redux';
-import { getReferences } from '../../store/selectors';
+import { getReferences } from '../../store/selectors/references';
 export const ReferenceList: React.FC<{
   className?: string;
 }> = ({ className }) => {

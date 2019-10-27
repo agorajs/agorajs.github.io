@@ -11,7 +11,8 @@ import useUppy from '../../utils/useUppy';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { files, isUpload as isUploadSelector } from '../../store/selectors';
+import { files } from '../../store/selectors';
+import { isUpload as isUploadSelector } from '../../store/selectors/isUpload';
 import { UppyFile } from '@uppy/core';
 import { addFile, removeFile } from '../../store/actions/file';
 import { Flex, NesList, NesButton } from '../../layout';

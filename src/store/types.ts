@@ -21,3 +21,11 @@ export type AlgorithmType = {
   name: string;
   reference?: string;
 };
+
+export type CriteriaType = {
+  id: string;
+  name: string;
+  group: string;
+  fullname?: string;
+  reference?: string;
+};

@@ -20,36 +20,32 @@ export const areAllAlgorithmSelected = createSelector(
 );
 
 export const selectedAlgorithms = createSelector(
-  selected,
-  getAlgorithms,
-  (selected, algs) => {
-    return _.intersectionWith(algs, selected, ({ id }, val) => val === id);
-  }
+  algorithmSelection,
+  selected
 );
 
-export const allCriterias = (state: StateType) => state.criteriaSelection;
+export const getCriteria = (state: StateType) => state.criteria;
 
-export const allCriteriasAreSelected = createSelector(
-  allCriterias,
+export const criteriaSelection = (state: StateType) => state.criteriaSelection;
+export const getCriteriaWithSelection = createSelector(
+  getCriteria,
+  criteriaSelection,
+  (cris, selections) =>
+    _.map(cris, item => ({ ...item, selected: selections[item.id] || false }))
+);
+
+export const getGroupedCriteria = createSelector(
+  getCriteriaWithSelection,
+  cri => _.groupBy(cri, 'group')
+);
+
+export const allCriteriaAreSelected = createSelector(
+  criteriaSelection,
   allSelected
 );
-export const selectedCriterias = createSelector(
-  allCriterias,
+export const selectedCriteria = createSelector(
+  criteriaSelection,
   selected
 );
 
 export const files = (state: StateType) => state.files;
-
-export const getReferences = (state: StateType) => state.references;
-
-export const getReferencesWithIndex = createSelector(
-  getReferences,
-  refs => _.map(refs, (v, index) => ({ ...v, index: index + 1 }))
-);
-
-export const referencesToIndexMap = createSelector(
-  getReferencesWithIndex,
-  refs => _.keyBy(refs, 'id')
-);
-
-export const isUpload = (state: StateType) => state.isUpload;

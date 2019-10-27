@@ -1,6 +1,6 @@
 import { ReferenceType } from '../types';
 
-const defaultReferences: ReferenceType[] = [
+export const defaultReferences: ReferenceType[] = [
   {
     id: 'misue1995',
     authors: 'K. Misue, P. Eades, W. Lai, and K. Sugiyama',
@@ -10,8 +10,25 @@ const defaultReferences: ReferenceType[] = [
     additional: '6(2): 83–210, 1995'
   },
   {
+    id: 'lyons1998',
+    authors: 'K. A. Lyons, H. Meijer, and D. Rappaport',
+    title: 'Algorithms for cluster busting in anchored graph drawing',
+    hasIn: false,
+    journal: 'Journal of Graph Algorithms and Applications',
+    additional: '2(1): 1–24, 1998'
+  },
+  {
+    id: 'marriot2003',
+    authors: 'K. Marriott, P. Stuckey, V. Tam, and W. He',
+    title:
+      'Removing node overlapping in graph layout using constrained optimization',
+    hasIn: false,
+    journal: 'Constraints',
+    additional: '8(2): 43–171, 2003'
+  },
+  {
     id: 'hayashi1998',
-    authors: 'K. Hayashi, M. Inoue, T. Masuzawa, and H. Fujiwara.',
+    authors: 'K. Hayashi, M. Inoue, T. Masuzawa, and H. Fujiwara',
     title:
       'A layout adjustment problem for disjoint rectangles preserving orthogonal order',
     hasIn: true,
@@ -26,6 +43,15 @@ const defaultReferences: ReferenceType[] = [
     hasIn: false,
     journal: 'Information Sciences',
     additional: '177(14): 2821–2844, 2007'
+  },
+  {
+    id: 'li2005',
+    authors: 'W. Li, P. Eades, and N. Nikolov',
+    title: 'Using spring algorithms to remove node overlapping',
+    hasIn: true,
+    journal:
+      'Proceedings of the Asia-Pacific Symposium on Information Visualisation (APVis’05)',
+    additional: 'pages  131–140. Australian Computer Society, Inc., 2005'
   },
   {
     id: 'dwyer2005',
@@ -70,4 +96,3 @@ const defaultReferences: ReferenceType[] = [
     additional: '38(3): 713–723, 2019'
   }
 ];
-export default defaultReferences;
