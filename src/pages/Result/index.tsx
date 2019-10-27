@@ -181,10 +181,47 @@ const Result: React.FC<RouteComponentProps> = function() {
             );
             break;
           case 'prism':
-            //TODO later
+            dispatch(
+              addAlgorithm({
+                ...algo,
+                algorithm: (graph: Graph) => {
+                  const resultnodes = (window as any).prism(graph.nodes);
+                  console.log(resultnodes);
+                  for (let i = 0; i < graph.nodes.length; i++) {
+                    const node = graph.nodes[i];
+                    const [position, id] = resultnodes[i];
+                    if (id !== node.index)
+                      throw Error('not matching id exception');
+                    node.x = position.m_X;
+                    node.y = position.m_Y;
+                  }
+
+                  console.log(graph);
+                  return { graph };
+                }
+              })
+            );
             break;
           case 'gtree':
-            //TODO later
+            dispatch(
+              addAlgorithm({
+                ...algo,
+                algorithm: (graph: Graph) => {
+                  const resultnodes = (window as any).prism(graph.nodes);
+                  console.log(resultnodes);
+                  for (let i = 0; i < graph.nodes.length; i++) {
+                    const node = graph.nodes[i];
+                    const [position, id] = resultnodes[i];
+                    if (id !== node.index)
+                      throw Error('not matching id exception');
+                    node.x = position.m_X;
+                    node.y = position.m_Y;
+                  }
+
+                  return { graph };
+                }
+              })
+            );
             break;
           case 'rwordle_l':
             const rwordle_l = await import('agora-rworldle');
@@ -272,7 +309,9 @@ const Result: React.FC<RouteComponentProps> = function() {
         nodes: graph.nodes.map(n => ({ ...n })),
         edges: graph.edges.map(e => ({ ...e }))
       };
-      dispatch({ type: 'addResult', payload: current.algorithm(graphcopy) });
+      const result = current.algorithm(graphcopy);
+      result.graph = crop(result.graph);
+      dispatch({ type: 'addResult', payload: result });
       dispatch({ type: 'incrementCriCounter' });
     }
     // eslint-disable-next-line
