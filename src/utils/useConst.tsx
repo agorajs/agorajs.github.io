@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useConst<T>(content: T | (() => T)) {
-  const [get] = useState(content);
+export function useConst<T>(content: T) {
+  const [get] = useState(() => content);
   return get;
 }
