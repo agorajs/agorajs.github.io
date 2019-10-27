@@ -13,7 +13,9 @@ export const Cite: React.FC<CiteProps> = ({ cite }) => {
       [
       {cite
         .map<React.ReactNode>(ref => (
-          <a href={'#ref:' + ref}>{references[ref].index}</a>
+          <a key={ref} href={'#ref:' + ref}>
+            {references[ref].index}
+          </a>
         ))
         .reduce((prev, curr) => [prev, ',', curr])}
       ]

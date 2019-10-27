@@ -1,35 +1,31 @@
-import React, { useCallback, MouseEvent } from 'react';
-import _ from 'lodash';
-import './index.css';
-
-import { DragDrop } from '@uppy/react';
+import { RouteComponentProps, navigate } from '@reach/router';
+import { UppyFile } from '@uppy/core';
 import '@uppy/core/dist/style.css';
-import '@uppy/drag-drop/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
-
-import useUppy from '../../utils/useUppy';
-
-import { useSelector, useDispatch } from 'react-redux';
-
+import '@uppy/drag-drop/dist/style.css';
+import { DragDrop } from '@uppy/react';
+import classNames from 'classnames';
+import _ from 'lodash';
+import React, { MouseEvent, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Flex, NesButton, NesList } from '../../layout';
+import { addFile, removeFile } from '../../store/actions/file';
+import { setAsExample, setAsUpload } from '../../store/actions/is-upload';
 import {
-  getFiles,
+  canGenerateEmbeddings,
   getExamples,
-  getSelectedExamples,
-  canGenerateEmbeddings
+  getFiles,
+  getSelectedExamples
 } from '../../store/selectors';
 import { isUpload as isUploadSelector } from '../../store/selectors/isUpload';
-import { UppyFile } from '@uppy/core';
-import { addFile, removeFile } from '../../store/actions/file';
-import { Flex, NesList, NesButton } from '../../layout';
-import { CriteriaList } from './CriteriaList';
-import { AlgorithmList } from './AlgorithmList';
-import classNames from 'classnames';
-import { RouteComponentProps } from '@reach/router';
-import Authors from './Authors';
-import { ReferenceList } from './ReferenceList';
 import { useConst } from '../../utils/useConst';
-import { setAsUpload, setAsExample } from '../../store/actions/is-upload';
-import { toggleExampleSelection } from '../../store/actions/examples-selection';
+import useUppy from '../../utils/useUppy';
+import { AlgorithmList } from './AlgorithmList';
+import Authors from './Authors';
+import { CriteriaList } from './CriteriaList';
+import './index.css';
+import { ReferenceList } from './ReferenceList';
+import { downloadThenToggleExampleSelection } from '../../store/actions/examples-files';
 
 const Home: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
@@ -62,7 +58,7 @@ const Home: React.FC<RouteComponentProps> = () => {
 
   const exampleItemClick = useCallback(
     (event: MouseEvent) => {
-      dispatch(toggleExampleSelection(event.currentTarget.id));
+      dispatch(downloadThenToggleExampleSelection(event.currentTarget.id));
     },
     [dispatch]
   );
@@ -76,6 +72,14 @@ const Home: React.FC<RouteComponentProps> = () => {
   const setExample = useCallback(() => dispatch(setAsExample()), [dispatch]);
 
   const generate = useSelector(canGenerateEmbeddings);
+
+  const resultOnClick = useCallback(
+    (event: MouseEvent) => {
+      generate && navigate('result');
+    },
+    [generate]
+  );
+
   return (
     <div className="w-100">
       <Authors className="center mw7 mv3" />
@@ -177,7 +181,11 @@ const Home: React.FC<RouteComponentProps> = () => {
         </Flex>
       </Flex>
       <div className="mv3">
-        <NesButton primary={generate} disabled={!generate}>
+        <NesButton
+          primary={generate}
+          disabled={!generate}
+          onClick={resultOnClick}
+        >
           <div className="pa3">Generate Overlap Free Embeddings</div>
         </NesButton>
       </div>

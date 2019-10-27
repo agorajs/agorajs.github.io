@@ -5,7 +5,6 @@ import {
   areAllAlgorithmSelected,
   getAlgorithmsWithSelection
 } from '../../store/selectors';
-import { referencesToIndexMap } from '../../store/selectors/references';
 import { toggleAlg, setAllAlg } from '../../store/actions/algorithm-selection';
 import { NesContainer, NesCheckbox, Flex } from '../../layout';
 import useToggleAll from '../../utils/useToggleAll';

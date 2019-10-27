@@ -7,7 +7,7 @@ type NesButtonProps = {
   warning?: boolean;
   error?: boolean;
   disabled?: boolean;
-  onClick?: () => any;
+  onClick?: (event: any) => void;
 };
 
 export const NesButton: React.FC<NesButtonProps> = ({

@@ -1,4 +1,5 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import {
   defaultAlgorithms,
@@ -13,10 +14,10 @@ import algorithms from './reducers/algorithms';
 import criteria from './reducers/criteria';
 import criteriaSelection from './reducers/criteria-selection';
 import examples from './reducers/examples';
-import fileList from './reducers/file';
+import fileList from './reducers/files';
 import isUpload from './reducers/is-upload';
 import references from './reducers/references';
-
+import exampleFilesList from './reducers/example-files';
 import {
   AlgorithmType,
   CriterionType,
@@ -34,7 +35,8 @@ export const reducers = combineReducers({
   files: fileList,
   isUpload,
   references,
-  examples
+  examples,
+  exampleFiles: exampleFilesList
   // examples: null
 });
 
@@ -48,18 +50,24 @@ export type StateType = {
   isUpload: boolean;
   references: ReferenceType[];
   examples: SelectableFileType[];
+  exampleFiles: FileType[];
 };
 
-export const store = createStore(reducers, {
-  algorithms: defaultAlgorithms,
-  algorithmSelection: defaultAlgorithmSelection,
-  criteria: defaultCriteria,
-  criteriaSelection: defaultCriteriaSelection,
-  files: [],
-  isUpload: true,
-  references: defaultReferences,
-  examples: defaultExamples
-  // examples: { test: true }
-});
+export const store = createStore(
+  reducers,
+  {
+    algorithms: defaultAlgorithms,
+    algorithmSelection: defaultAlgorithmSelection,
+    criteria: defaultCriteria,
+    criteriaSelection: defaultCriteriaSelection,
+    files: [],
+    isUpload: true,
+    references: defaultReferences,
+    examples: defaultExamples,
+    exampleFiles: []
+    // examples: { test: true }
+  },
+  applyMiddleware(thunk)
+);
 
 export default store;

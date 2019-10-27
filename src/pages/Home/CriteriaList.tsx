@@ -12,7 +12,6 @@ import {
 
 import useToggleAll from '../../utils/useToggleAll';
 import useToggleCheckBox from '../../utils/useToggleCheckBox';
-import { referencesToIndexMap } from '../../store/selectors/references';
 import Cite from '../../components/Cite';
 
 export const CriteriaList: React.FC<{
@@ -23,7 +22,6 @@ export const CriteriaList: React.FC<{
 
   const criteriaGroups = useSelector(getGroupedCriteria);
   const toggle = useToggleCheckBox(toggleCri);
-  const references = useSelector(referencesToIndexMap);
 
   const title = (
     <NesCheckbox

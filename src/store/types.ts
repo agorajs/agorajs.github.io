@@ -34,3 +34,8 @@ export type SelectableFileType = {
   selected: boolean;
   file: string;
 };
+
+export type ExampleFileType = {
+  id: string;
+  data: string;
+};

@@ -51,15 +51,23 @@ export const selectedCriteria = createSelector(
 
 export const getFiles = (state: StateType) => state.files;
 
+export const getExampleFiles = (state: StateType) => state.exampleFiles;
 export const getExamples = (state: StateType) => state.examples;
 export const getSelectedExamples = createSelector(
   getExamples,
   exs => _.filter(exs, 'selected')
 );
 
+export const getFinalFiles = createSelector(
+  getFiles,
+  getExampleFiles,
+  isUpload,
+  (files, examples, isUpload) => (isUpload ? files : examples)
+);
+
 export const canGenerateEmbeddings = createSelector(
   getFiles,
-  getSelectedExamples,
+  getExampleFiles,
   isUpload,
   (files, examples, isUpload) =>
     isUpload ? files.length > 0 : examples.length > 0
