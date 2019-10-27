@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from '@reach/router';
+import { Router, Link } from '@reach/router';
 import Home from './Home';
 import Result from './Result';
 import { Flex } from '../layout';
@@ -9,7 +9,9 @@ const Page: React.FC = function() {
   return (
     <div className="mw9 center mt4 tc">
       <header>
-        <h1 className="lh-title tc">AGORA</h1>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <h1 className="lh-title tc">AGORA</h1>
+        </Link>
       </header>
       <Router className="mh3-l">
         <Home path="/" />

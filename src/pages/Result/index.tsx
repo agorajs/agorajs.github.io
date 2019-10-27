@@ -260,7 +260,7 @@ const Result: React.FC<RouteComponentProps> = function() {
       const graph = crop(toGraph(parseGML(file.data)));
       dispatch({ type: 'addInitial', payload: { graph, gml: file.data } });
       dispatch({ type: 'incrementAlgCounter' });
-    }
+    } // eslint-disable-next-line
   }, [state.displayable]);
 
   // new Algorithm
