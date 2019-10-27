@@ -17,7 +17,7 @@ export const getAlgorithmsWithSelection = createSelector(
 
 export const filteredAlgorithms = createSelector(
   getAlgorithmsWithSelection,
-  algs => algs.filter(cri => cri.selected)
+  algs => _.filter(algs, cri => cri.selected)
 );
 
 export const areAllAlgorithmSelected = createSelector(
@@ -42,7 +42,7 @@ export const getCriteriaWithSelection = createSelector(
 
 export const filteredCriterias = createSelector(
   getCriteriaWithSelection,
-  cris => cris.filter(cri => cri.selected)
+  cris => _.filter(cris, cri => cri.selected)
 );
 
 export const getGroupedCriteria = createSelector(

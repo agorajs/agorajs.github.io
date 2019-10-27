@@ -6,11 +6,11 @@ export const exampleFilesList = createReducer<
   { id: string; data: string }[],
   ActionType<typeof actions>
 >([])
-  .handleAction(actions.addExampleFile, (state, action) =>
-    _.find(state, ['id', action.payload.id])
+  .handleAction(actions.addExampleFile, (state, action) => {
+    return _.find(state, ['id', action.payload.id])
       ? state
-      : [...state, action.payload]
-  )
+      : [...state, action.payload];
+  })
   .handleAction(actions.removeExampleFile, (state, action) =>
     _.filter(state, file => file.id !== action.payload)
   );
