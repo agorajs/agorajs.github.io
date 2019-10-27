@@ -7,12 +7,12 @@ import { LogoLink } from './LogoLink';
 
 const Page: React.FC = function() {
   return (
-    <div className="mw8 center mt4 tc">
+    <div className="mw9 center mt4 tc">
       <header>
         <h1 className="lh-title tc">AGORA</h1>
         <Link to="result">resultpage</Link>
       </header>
-      <Router>
+      <Router className="mh3-l">
         <Home path="/" />
         <Result path="/result" />
       </Router>
