@@ -14,9 +14,9 @@ export const SVGNode: React.FC<{ node: Node }> = function({
         height={height}
         transform={`translate(${-width / 2},${-height / 2})`}
       />
-      <text className="label" transform="translate(-5,6)">
+      {/* <text className="label" transform="translate(-5,6)">
         {label !== 'undefined' ? label || index : index}
-      </text>
+      </text> */}
     </g>
   );
 };
