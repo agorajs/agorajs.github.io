@@ -24,3 +24,6 @@ export const selectedCriterias = createSelector(
 );
 
 export const files = (state: StateType) => state.files;
+
+export const getReferences = (state: StateType) => state.references;
+export const isUpload = (state: StateType) => state.isUpload;

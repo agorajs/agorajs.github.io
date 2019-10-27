@@ -1,12 +1,20 @@
 import { createStore, combineReducers } from 'redux';
+
 import criteriaSelection from './reducers/criteria-selection';
 import algorithmSelection from './reducers/algorithm-selection';
 import fileList from './reducers/file';
-import { SelectionType, FileType } from './types';
+import isUpload from './reducers/is-upload';
+import references from './reducers/references';
+
+import { SelectionType, FileType, ReferenceType } from './types';
+import defaultReferences from './defaults/references';
+
 export const reducers = combineReducers({
   algoritmSelection: algorithmSelection,
   criteriaSelection: criteriaSelection,
-  files: fileList
+  files: fileList,
+  isUpload: isUpload,
+  references: references
   // examples: null
 });
 
@@ -15,6 +23,8 @@ export type StateType = {
   criteriaSelection: SelectionType;
   files: FileType[];
   // examples: SelectionType;
+  isUpload: boolean;
+  references: ReferenceType[];
 };
 
 export const store = createStore(reducers, {
@@ -30,7 +40,9 @@ export const store = createStore(reducers, {
     Diamond: true
   },
   criteriaSelection: { a: true, b: true, c: true, d: false },
-  files: []
+  files: [],
+  isUpload: true,
+  references: defaultReferences
   // examples: { test: true }
 });
 
