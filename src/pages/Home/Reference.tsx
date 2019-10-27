@@ -14,7 +14,8 @@ export const Reference: React.FC<ReferenceType & { number: number }> = ({
   <p id={'ref:' + id} className="code">
     <b>[{number}]</b> {authors}.{' '}
     <span className="nes-text is-primary">{title}.</span> {hasIn && 'In '}
-    <i>{journal}</i>, {additional && ' ' + additional}.{children}
+    <i>{journal}</i>
+    {additional && ', ' + additional}.{children}
   </p>
 );
 export default Reference;

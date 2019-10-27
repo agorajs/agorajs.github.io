@@ -50,7 +50,7 @@ export const CriteriaList: React.FC<{
                       onChange={toggle}
                     >
                       {name + ' '}
-                      {ref && <Cite cite={ref} value={references[ref].index} />}
+                      {ref && <Cite cite={ref} />}
                     </NesCheckbox>
                   ))}
                 </Flex>

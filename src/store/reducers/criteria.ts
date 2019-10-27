@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions';
-import { CriteriaType } from '../types';
+import { CriterionType } from '../types';
 import { defaultCriteria } from '../defaults/criteria';
 
-export const criteria = createReducer<CriteriaType[]>(defaultCriteria);
+export const criteria = createReducer<CriterionType[]>(defaultCriteria);
 export default criteria;

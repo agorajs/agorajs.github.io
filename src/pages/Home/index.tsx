@@ -11,7 +11,12 @@ import useUppy from '../../utils/useUppy';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { files } from '../../store/selectors';
+import {
+  getFiles,
+  getExamples,
+  getSelectedExamples,
+  canGenerateEmbeddings
+} from '../../store/selectors';
 import { isUpload as isUploadSelector } from '../../store/selectors/isUpload';
 import { UppyFile } from '@uppy/core';
 import { addFile, removeFile } from '../../store/actions/file';
@@ -24,6 +29,7 @@ import Authors from './Authors';
 import { ReferenceList } from './ReferenceList';
 import { useConst } from '../../utils/useConst';
 import { setAsUpload, setAsExample } from '../../store/actions/is-upload';
+import { toggleExampleSelection } from '../../store/actions/examples-selection';
 
 const Home: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
@@ -46,7 +52,7 @@ const Home: React.FC<RouteComponentProps> = () => {
     uppyListeners
   );
 
-  const fileList = useSelector(files);
+  const fileList = useSelector(getFiles);
   const fileItemClick = useCallback(
     (event: MouseEvent) => {
       dispatch(removeFile(event.currentTarget.id));
@@ -54,27 +60,22 @@ const Home: React.FC<RouteComponentProps> = () => {
     [dispatch]
   );
 
-  const examplefiles = useConst(() => ({
-    'b100.gml': false,
-    'b102.gml': false,
-    'b124.gml': false,
-    'b143.gml': false,
-    'badvoro.gml': true,
-    'dpd.gml': false,
-    'mode.gml': false,
-    'NaN.gml': false,
-    'ngk10_4.gml': true,
-    'root.gml': false,
-    'rowe.gml': false,
-    'size.gml': false,
-    'unix.gml': false,
-    'xx.gml': false
-  }));
+  const exampleItemClick = useCallback(
+    (event: MouseEvent) => {
+      dispatch(toggleExampleSelection(event.currentTarget.id));
+    },
+    [dispatch]
+  );
+
+  const examplefiles = useSelector(getExamples);
+  const selectedExampleFiles = useSelector(getSelectedExamples);
 
   const isUpload = useSelector(isUploadSelector);
 
   const setUpload = useCallback(() => dispatch(setAsUpload()), [dispatch]);
   const setExample = useCallback(() => dispatch(setAsExample()), [dispatch]);
+
+  const generate = useSelector(canGenerateEmbeddings);
   return (
     <div className="w-100">
       <Authors className="center mw7 mv3" />
@@ -126,18 +127,18 @@ const Home: React.FC<RouteComponentProps> = () => {
                   disc
                   className="overflow-y-scroll h5 mb0 tl w-100 code"
                 >
-                  {_.map(examplefiles, (value, name) => (
+                  {_.map(examplefiles, ({ selected, file }) => (
                     <li
-                      key={name}
-                      id={name}
+                      key={file}
+                      id={file}
                       className={classNames('f6', 'mr1', 'color-inherit', {
-                        'hover-success ': !value,
-                        'is-success': value,
-                        'nes-text': value
+                        'hover-success ': !selected,
+                        'is-success': selected,
+                        'nes-text': selected
                       })}
-                      onClick={fileItemClick}
+                      onClick={exampleItemClick}
                     >
-                      <div className="mr1 truncate">{name}</div>
+                      <div className="mr1 truncate">{file}</div>
                     </li>
                   ))}
                 </NesList>
@@ -148,25 +149,24 @@ const Home: React.FC<RouteComponentProps> = () => {
                   disc
                   className="overflow-y-scroll h5 mb0 tl w-100 code"
                 >
-                  {_(examplefiles)
-                    .pickBy(value => value)
-                    .map((value, name) => (
+                  {_(selectedExampleFiles)
+                    .map(({ selected, file }) => (
                       <li
-                        key={name}
-                        id={name}
+                        key={file}
+                        id={file}
                         className={classNames(
                           'f6',
                           'mr1',
                           'color-inherit',
                           'hover-error ',
                           {
-                            'is-success': value,
-                            'nes-text': value
+                            'is-success': selected,
+                            'nes-text': selected
                           }
                         )}
-                        onClick={fileItemClick}
+                        onClick={exampleItemClick}
                       >
-                        <div className="mr1 truncate">{name}</div>
+                        <div className="mr1 truncate">{file}</div>
                       </li>
                     ))
                     .value()}
@@ -177,10 +177,7 @@ const Home: React.FC<RouteComponentProps> = () => {
         </Flex>
       </Flex>
       <div className="mv3">
-        <NesButton
-          primary={fileList.length !== 0}
-          disabled={fileList.length === 0}
-        >
+        <NesButton primary={generate} disabled={!generate}>
           <div className="pa3">Generate Overlap Free Embeddings</div>
         </NesButton>
       </div>

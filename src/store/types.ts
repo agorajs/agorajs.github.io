@@ -19,13 +19,18 @@ export type ReferenceType = {
 export type AlgorithmType = {
   id: string;
   name: string;
-  reference?: string;
+  reference?: string[];
 };
 
-export type CriteriaType = {
+export type CriterionType = {
   id: string;
   name: string;
   group: string;
   fullname?: string;
-  reference?: string;
+  reference?: string[];
+};
+
+export type SelectableFileType = {
+  selected: boolean;
+  file: string;
 };

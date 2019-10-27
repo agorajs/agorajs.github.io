@@ -2,6 +2,7 @@ import { selected, allSelected } from './selection';
 import { createSelector } from 'reselect';
 import { StateType } from '..';
 import _ from 'lodash';
+import { isUpload } from './isUpload';
 
 export const getAlgorithms = (state: StateType) => state.algorithms;
 export const algorithmSelection = (state: StateType) =>
@@ -48,4 +49,18 @@ export const selectedCriteria = createSelector(
   selected
 );
 
-export const files = (state: StateType) => state.files;
+export const getFiles = (state: StateType) => state.files;
+
+export const getExamples = (state: StateType) => state.examples;
+export const getSelectedExamples = createSelector(
+  getExamples,
+  exs => _.filter(exs, 'selected')
+);
+
+export const canGenerateEmbeddings = createSelector(
+  getFiles,
+  getSelectedExamples,
+  isUpload,
+  (files, examples, isUpload) =>
+    isUpload ? files.length > 0 : examples.length > 0
+);

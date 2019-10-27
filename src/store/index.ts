@@ -5,45 +5,49 @@ import {
   defaultAlgorithmSelection
 } from './defaults/algorithms';
 import { defaultCriteria, defaultCriteriaSelection } from './defaults/criteria';
+import { defaultExamples } from './defaults/examples';
 import { defaultReferences } from './defaults/references';
 
 import algorithmSelection from './reducers/algorithm-selection';
 import algorithms from './reducers/algorithms';
 import criteria from './reducers/criteria';
 import criteriaSelection from './reducers/criteria-selection';
+import examples from './reducers/examples';
 import fileList from './reducers/file';
 import isUpload from './reducers/is-upload';
 import references from './reducers/references';
 
 import {
   AlgorithmType,
-  CriteriaType,
+  CriterionType,
   FileType,
   ReferenceType,
-  SelectionType
+  SelectionType,
+  SelectableFileType
 } from './types';
 
 export const reducers = combineReducers({
-  algorithms: algorithms,
-  algorithmSelection: algorithmSelection,
-  criteria: criteria,
-  criteriaSelection: criteriaSelection,
-
+  algorithms,
+  algorithmSelection,
+  criteria,
+  criteriaSelection,
   files: fileList,
-  isUpload: isUpload,
-  references: references
+  isUpload,
+  references,
+  examples
   // examples: null
 });
 
 export type StateType = {
   algorithms: AlgorithmType[];
   algorithmSelection: SelectionType;
-  criteria: CriteriaType[];
+  criteria: CriterionType[];
   criteriaSelection: SelectionType;
   files: FileType[];
   // examples: SelectionType;
   isUpload: boolean;
   references: ReferenceType[];
+  examples: SelectableFileType[];
 };
 
 export const store = createStore(reducers, {
@@ -53,7 +57,8 @@ export const store = createStore(reducers, {
   criteriaSelection: defaultCriteriaSelection,
   files: [],
   isUpload: true,
-  references: defaultReferences
+  references: defaultReferences,
+  examples: defaultExamples
   // examples: { test: true }
 });
 

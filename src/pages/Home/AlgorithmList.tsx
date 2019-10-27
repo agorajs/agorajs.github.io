@@ -21,8 +21,6 @@ export const AlgorithmList: React.FC<{
   const selection = useSelector(getAlgorithmsWithSelection);
   const toggle = useToggleCheckBox(toggleAlg);
 
-  const references = useSelector(referencesToIndexMap);
-
   const title = (
     <NesCheckbox
       name="Algorithms"
@@ -36,11 +34,11 @@ export const AlgorithmList: React.FC<{
       _.map(selection, ({ selected, id, name, reference: ref }) => {
         return (
           <NesCheckbox key={id} name={id} checked={selected} onChange={toggle}>
-            {name} {ref && <Cite cite={ref} value={references[ref].index} />}
+            {name} {ref && <Cite cite={ref} />}
           </NesCheckbox>
         );
       }),
-    [selection, toggle, references]
+    [selection, toggle]
   );
 
   // const half_length = Math.ceil(elements.length / 2);
