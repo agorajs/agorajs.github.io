@@ -3,7 +3,7 @@ import { Router, Link } from '@reach/router';
 import Home from './Home';
 import Result from './Result';
 import { Flex } from '../layout';
-import { LogoLink } from './LogoLink';
+import LogoLink from './LogoLink';
 
 const Page: React.FC = function() {
   return (

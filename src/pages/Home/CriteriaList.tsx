@@ -61,7 +61,7 @@ export const CriteriaList: React.FC<{
   return (
     <NesContainer centered className={className} title={title}>
       <Flex column className="items-start tl">
-        <div className="overflow-auto" style={{ height: '300px' }}>
+        <div className="overflow-auto w-100" style={{ height: '300px' }}>
           {_.map(criteriaGroups, (group, key) => {
             return (
               <div key={key} className="group mb1">

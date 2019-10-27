@@ -1,32 +1,26 @@
 import React, { useMemo } from 'react';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
-import { allAlgorithms, allAlgorithmsAreSelected } from '../../store/selectors';
+import {
+  areAllAlgorithmSelected,
+  getAlgorithmsWithSelection,
+  referencesToIndexMap
+} from '../../store/selectors';
 import { toggleAlg, setAllAlg } from '../../store/actions/algorithm-selection';
 import { NesContainer, NesCheckbox, Flex } from '../../layout';
 import useToggleAll from '../../utils/useToggleAll';
 import useToggleCheckBox from '../../utils/useToggleCheckBox';
-import { useConst } from '../../utils/useConst';
 
 export const AlgorithmList: React.FC<{
   className?: string;
 }> = function({ className }) {
-  const areAllAlgSelected = useSelector(allAlgorithmsAreSelected);
+  const areAllAlgSelected = useSelector(areAllAlgorithmSelected);
   const toggleAllAlg = useToggleAll(setAllAlg);
 
-  const selection = useSelector(allAlgorithms);
+  const selection = useSelector(getAlgorithmsWithSelection);
   const toggle = useToggleCheckBox(toggleAlg);
 
-  const referenceMap: { [k: string]: number } = useConst(() => ({
-    PFS: 17,
-    "PFS'": 9,
-    FTA: 12,
-    VPSC: 4,
-    PRISM: 6,
-    GTREE: 18,
-    'RWordle-L': 19,
-    Diamond: 16
-  }));
+  const references = useSelector(referencesToIndexMap);
 
   const title = (
     <NesCheckbox
@@ -38,15 +32,14 @@ export const AlgorithmList: React.FC<{
 
   const elements = useMemo(
     () =>
-      _.map(selection, (checked, name) => (
-        <NesCheckbox key={name} name={name} checked={checked} onChange={toggle}>
-          {name}{' '}
-          {referenceMap[name] && (
-            <Cite cite={name} value={referenceMap[name]} />
-          )}
-        </NesCheckbox>
-      )),
-    [selection, toggle, referenceMap]
+      _.map(selection, ({ selected, id, name, reference: ref }) => {
+        return (
+          <NesCheckbox key={id} name={id} checked={selected} onChange={toggle}>
+            {name} {ref && <Cite cite={ref} value={references[ref].index} />}
+          </NesCheckbox>
+        );
+      }),
+    [selection, toggle, references]
   );
 
   // const half_length = Math.ceil(elements.length / 2);

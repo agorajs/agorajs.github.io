@@ -15,3 +15,9 @@ export type ReferenceType = {
   journal: string;
   additional?: string;
 };
+
+export type AlgorithmType = {
+  id: string;
+  name: string;
+  reference?: string;
+};

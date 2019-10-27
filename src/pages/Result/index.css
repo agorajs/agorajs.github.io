@@ -1,0 +1,19 @@
+.fixed-width {
+  width: 100px;
+}
+
+.table-fixed {
+  table-layout: fixed;
+}
+
+.table-fixed td,
+.table-fixed th {
+  min-width: 108px;
+  width: 108px;
+  padding: 0 0.25rem;
+  border-right: 1px solid #e0e0e0;
+}
+
+.table-fixed tbody th {
+  min-width: 236px;
+}

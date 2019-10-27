@@ -1,4 +1,4 @@
-import React, { useCallback, useState, MouseEvent } from 'react';
+import React, { useCallback, MouseEvent } from 'react';
 import _ from 'lodash';
 import './index.css';
 
@@ -11,7 +11,7 @@ import useUppy from '../../utils/useUppy';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { files } from '../../store/selectors';
+import { files, isUpload as isUploadSelector } from '../../store/selectors';
 import { UppyFile } from '@uppy/core';
 import { addFile, removeFile } from '../../store/actions/file';
 import { Flex, NesList, NesButton } from '../../layout';
@@ -22,6 +22,7 @@ import { RouteComponentProps } from '@reach/router';
 import Authors from './Authors';
 import { ReferenceList } from './ReferenceList';
 import { useConst } from '../../utils/useConst';
+import { setAsUpload, setAsExample } from '../../store/actions/is-upload';
 
 const Home: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
@@ -39,8 +40,6 @@ const Home: React.FC<RouteComponentProps> = () => {
     }
   }));
 
-  const [isUpload, setUpload] = useState(true);
-
   const uppy = useUppy(
     { restrictions: { allowedFileTypes: ['.gml'] } },
     uppyListeners
@@ -54,7 +53,7 @@ const Home: React.FC<RouteComponentProps> = () => {
     [dispatch]
   );
 
-  const examplefiles = useConst({
+  const examplefiles = useConst(() => ({
     'b100.gml': false,
     'b102.gml': false,
     'b124.gml': false,
@@ -69,19 +68,21 @@ const Home: React.FC<RouteComponentProps> = () => {
     'size.gml': false,
     'unix.gml': false,
     'xx.gml': false
-  });
+  }));
 
-  const setUploadTrue = useCallback(() => setUpload(true), []);
-  const setUploadFalse = useCallback(() => setUpload(false), []);
+  const isUpload = useSelector(isUploadSelector);
+
+  const setUpload = useCallback(() => dispatch(setAsUpload()), [dispatch]);
+  const setExample = useCallback(() => dispatch(setAsExample()), [dispatch]);
   return (
     <div className="w-100">
       <Authors className="center mw7 mv3" />
       <Flex parent="section" className="mv3">
         <Flex column className="item-stretch pa3 justify-around w5">
-          <NesButton primary={isUpload} onClick={setUploadTrue}>
+          <NesButton primary={isUpload} onClick={setUpload}>
             <div className="pv2">Upload Files</div>
           </NesButton>
-          <NesButton primary={!isUpload} onClick={setUploadFalse}>
+          <NesButton primary={!isUpload} onClick={setExample}>
             <div className="pv2">Examples</div>
           </NesButton>
         </Flex>

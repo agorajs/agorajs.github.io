@@ -17,7 +17,7 @@ export const DownloadLink: React.FC<{
 
   // TODO suspense update
   return url ? (
-    <a href={url} download={name} className="bw1 ba ph1 mr1 no-underline">
+    <a href={url} download={name} className="bw1 ba mr1 no-underline">
       {children ? children : name}
     </a>
   ) : null;

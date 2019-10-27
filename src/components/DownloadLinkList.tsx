@@ -8,7 +8,7 @@ export const DownloadLinkList: React.FC<{
   svg?: string | null;
 }> = function({ name, gml, json, svg }) {
   return (
-    <div>
+    <div className="f7">
       {gml ? (
         <DownloadLink content={gml} name={name + '.gml'}>
           GML

@@ -53,7 +53,7 @@ const defaultReferences: ReferenceType[] = [
     additional: '31(3): 1135–1144, 2012'
   },
   {
-    id: 'nachmanson2013',
+    id: 'nachmanson2016',
     authors: 'L. Nachmanson, A. Nocaj, S. Bereg, L. Zhang, and A. Holroyd',
     title: 'Node overlap removal by growing a tree',
     hasIn: true,
