@@ -21,7 +21,9 @@ export const downloadThenToggleExampleSelection = function(filename: string) {
       dispatch(removeExampleFile(filename));
     } else {
       const res = await axios.get('dataset/' + filename);
-      dispatch(addExampleFile({ id: filename, data: res.data }));
+      dispatch(
+        addExampleFile({ id: filename, name: filename, data: res.data })
+      );
     }
 
     dispatch(toggleExampleSelection(filename));

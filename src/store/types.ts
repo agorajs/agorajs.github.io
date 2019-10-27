@@ -4,7 +4,8 @@ export type SelectionType = {
 
 export type FileType = {
   id: string;
-  data: File;
+  name: string;
+  data: string;
 };
 
 export type ReferenceType = {
@@ -27,6 +28,7 @@ export type CriterionType = {
   name: string;
   group: string;
   fullname?: string;
+  path: string;
   reference?: string[];
 };
 
@@ -37,5 +39,6 @@ export type SelectableFileType = {
 
 export type ExampleFileType = {
   id: string;
+  name: string;
   data: string;
 };

@@ -15,6 +15,11 @@ export const getAlgorithmsWithSelection = createSelector(
     _.map(algs, item => ({ ...item, selected: selections[item.id] || false }))
 );
 
+export const filteredAlgorithms = createSelector(
+  getAlgorithmsWithSelection,
+  algs => algs.filter(cri => cri.selected)
+);
+
 export const areAllAlgorithmSelected = createSelector(
   algorithmSelection,
   allSelected
@@ -33,6 +38,11 @@ export const getCriteriaWithSelection = createSelector(
   criteriaSelection,
   (cris, selections) =>
     _.map(cris, item => ({ ...item, selected: selections[item.id] || false }))
+);
+
+export const filteredCriterias = createSelector(
+  getCriteriaWithSelection,
+  cris => cris.filter(cri => cri.selected)
 );
 
 export const getGroupedCriteria = createSelector(

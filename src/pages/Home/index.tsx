@@ -26,6 +26,7 @@ import { CriteriaList } from './CriteriaList';
 import './index.css';
 import { ReferenceList } from './ReferenceList';
 import { downloadThenToggleExampleSelection } from '../../store/actions/examples-files';
+import { promisingFileReader } from '../../utils/promisingFileReader';
 
 const Home: React.FC<RouteComponentProps> = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,9 @@ const Home: React.FC<RouteComponentProps> = () => {
     'file-added': result => {
       console.log(result);
       const { id, data } = result;
-      dispatch(addFile({ id, data: data as File }));
+      promisingFileReader(data as File).then(res =>
+        dispatch(addFile({ id, data: res, name: (data as File).name }))
+      );
     },
     'restriction-failed': (__, error) => {
       console.log(error);
@@ -109,7 +112,7 @@ const Home: React.FC<RouteComponentProps> = () => {
                     disc
                     className="overflow-y-scroll h5 mb0 w5 hover-success code"
                   >
-                    {_.map(fileList, ({ id, data: { name } }) => (
+                    {_.map(fileList, ({ id, data, name }) => (
                       <li
                         key={id}
                         id={id}
