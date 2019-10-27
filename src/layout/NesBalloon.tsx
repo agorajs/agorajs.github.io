@@ -1,19 +1,27 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export const NesBalloon: React.FC<{
+type NesBalloonProps = {
   right?: boolean;
   left?: boolean;
   className?: string;
-}> = React.memo(({ right, left, children, className }) => (
+};
+
+export const NesBalloon: React.FC<NesBalloonProps> = ({
+  right,
+  left,
+  children,
+  className
+}) => (
   <div
-    className={classnames('nes-balloon', className, {
+    className={classnames(className, 'nes-balloon', {
       'from-right': right,
       'from-left': left
     })}
   >
     {children}
   </div>
-));
-
+);
 export default NesBalloon;
+
+export const NesBalloonMemo: React.FC<NesBalloonProps> = React.memo(NesBalloon);

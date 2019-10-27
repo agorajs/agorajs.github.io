@@ -1,23 +1,30 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export const Flex: React.FC<{
+type FlexProps = {
   parent?: string;
   auto?: boolean;
   column?: boolean;
   className?: string;
-}> = React.memo(
-  ({ parent: Parent = 'div', auto, column, className, children }) => (
-    // @ts-ignore
-    <Parent
-      className={classnames('flex', className, {
-        'flex-auto': auto,
-        'flex-column': column
-      })}
-    >
-      {children}
-    </Parent>
-  )
-);
+};
 
+export const Flex: React.FC<FlexProps> = ({
+  parent: Parent = 'div',
+  auto,
+  column,
+  className,
+  children
+}) => (
+  // @ts-ignore
+  <Parent
+    className={classnames(className, 'flex', {
+      'flex-auto': auto,
+      'flex-column': column
+    })}
+  >
+    {children}
+  </Parent>
+);
 export default Flex;
+
+export const FlexMemo: React.FC<FlexProps> = React.memo(Flex);

@@ -1,11 +1,18 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export const NesList: React.FC<{
+type NesListProps = {
   disc?: boolean;
   circle?: boolean;
   className?: string;
-}> = React.memo(({ disc, circle, className, children }) => (
+};
+
+export const NesList: React.FC<NesListProps> = ({
+  disc,
+  circle,
+  className,
+  children
+}) => (
   <ul
     className={classnames('nes-list', className, {
       'is-disc': disc,
@@ -14,6 +21,7 @@ export const NesList: React.FC<{
   >
     {children}
   </ul>
-));
-
+);
 export default NesList;
+
+export const NesListMemo: React.FC<NesListProps> = React.memo(NesList);
