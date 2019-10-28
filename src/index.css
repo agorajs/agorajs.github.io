@@ -24,3 +24,32 @@ code {
   max-width: 980px;
   margin: 0 auto;
 }
+
+/* removing cursors */
+html {
+  cursor: auto;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+/* https://medium.com/@matuzo/writing-css-with-accessibility-in-mind-8514a0007939 */
+.nes-pointer {
+  cursor: pointer;
+}
+
+.nes-btn {
+  cursor: pointer;
+}
+
+.nes-radio + span {
+  cursor: pointer;
+}
+.nes-checkbox + span {
+  cursor: pointer;
+}
+.nes-select select {
+  cursor: pointer;
+}
