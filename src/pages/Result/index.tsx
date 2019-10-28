@@ -12,7 +12,7 @@ import {
 } from '../../store/selectors';
 import { Graph, crop, round } from 'agora-graph';
 import _ from 'lodash';
-import { parseGML, toGraph } from 'agora-gml';
+import { toGraph, toGML } from 'agora-gml';
 
 type LocalType = {
   fileCounter: number;
@@ -294,7 +294,9 @@ const Result: React.FC<RouteComponentProps> = function() {
   useEffect(() => {
     if (state.displayable.length > 0) {
       const file = finalFiles[state.fileCounter];
-      const graph = crop(toGraph(parseGML(file.data)));
+      console.log(file.data);
+
+      const graph = crop(toGraph(file.data));
       dispatch({ type: 'addInitial', payload: { graph, gml: file.data } });
       dispatch({ type: 'incrementAlgCounter' });
     } // eslint-disable-next-line
@@ -311,6 +313,7 @@ const Result: React.FC<RouteComponentProps> = function() {
       };
       const result = current.algorithm(graphcopy);
       result.graph = crop(result.graph);
+      result.gml = toGML(result.graph);
       dispatch({ type: 'addResult', payload: result });
       dispatch({ type: 'incrementCriCounter' });
     }
@@ -367,7 +370,7 @@ const Result: React.FC<RouteComponentProps> = function() {
                         key={algo.id}
                         name={algo.name}
                         graph={result.graph}
-                        gml={initial.gml}
+                        gml={result.gml}
                       />
                     );
                   })}

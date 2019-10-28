@@ -1346,6 +1346,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.141.tgz#d81f4d0c562abe28713406b571ffb27692a82ae6"
   integrity sha512-v5NYIi9qEbFEUpCyikmnOYe4YlP8BMUdTcNCAquAKzu+FA7rZ1onj9x80mbnDdOW/K5bFf3Tv5kJplP33+gAbQ==
 
+"@types/lodash@^4.14.144":
+  version "4.14.144"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.144.tgz#12e57fc99064bce45e5ab3c8bc4783feb75eab8e"
+  integrity sha512-ogI4g9W5qIQQUhXAclq6zhqgqNUr7UlFaqDHbch7WLSLeeM/7d3CRaw7GLajxvyFvhJqw4Rpcz5bhoaYtIx6Tg==
+
 "@types/node@^10.0.3":
   version "10.14.19"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.19.tgz#f52742c7834a815dedf66edfc8a51547e2a67342"
@@ -1819,27 +1824,18 @@ adjust-sourcemap-loader@2.0.0:
     agora-graph "https://github.com/agorajs/agora-graph.git#semver:^1.1.1"
     lodash "^4.17.15"
 
-"agora-gml@https://github.com/agorajs/agora-gml.git#semver:^1.0.0":
-  version "1.0.0"
-  resolved "https://github.com/agorajs/agora-gml.git#d816c9e35d55e01ea438581d2e4ffab935936128"
+"agora-gml@https://github.com/agorajs/agora-gml.git#semver:^2.0.1":
+  version "2.0.1"
+  resolved "https://github.com/agorajs/agora-gml.git#ce166ea400b3b59253a9ff2afa8a66dd2f72abf9"
   dependencies:
-    "@types/lodash" "^4.14.116"
-    agora-graph "https://github.com/agorajs/agora-graph.git#semver:^1.0.0"
+    "@types/lodash" "^4.14.144"
+    agora-graph "https://github.com/agorajs/agora-graph.git#semver:^1.2.0"
     lodash "^4.17.15"
 
 "agora-graph@https://github.com/agorajs/agora-graph.git#semver:1.1.1", "agora-graph@https://github.com/agorajs/agora-graph.git#semver:^1.1.1":
   version "1.1.1"
   uid cb14251994a5f810fa79369a226d39eecdf6b61d
   resolved "https://github.com/agorajs/agora-graph.git#cb14251994a5f810fa79369a226d39eecdf6b61d"
-  dependencies:
-    "@types/delaunator" "^2.0.0"
-    "@types/lodash" "^4.14.116"
-    delaunator "^3.0.2"
-    lodash "4.17.15"
-
-"agora-graph@https://github.com/agorajs/agora-graph.git#semver:^1.0.0":
-  version "1.1.0"
-  resolved "https://github.com/agorajs/agora-graph.git#0706fc8fc29fe275179036d670ffecb6943897be"
   dependencies:
     "@types/delaunator" "^2.0.0"
     "@types/lodash" "^4.14.116"

@@ -66,22 +66,21 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
         fill: #eee;
       }
       `}</style>
-      <g className="nodes">
+      {/* <g className="nodes">
         {nodes.map(n => (
           <NodeComp key={n.index} node={n}></NodeComp>
         ))}
-      </g>
+      </g> */}
       {/* {over ? (
         <>
           <NodeList nodes={nodes} />
           <EdgeList edges={edges} />
         </>
       ) : (
-        <>
-          <EdgeList edges={edges} />
-          <NodeList nodes={nodes} />
-        </>
+
       )} */}
+      <EdgeList edges={edges} />
+      <NodeList nodes={nodes} />
     </svg>
   );
 };
@@ -93,7 +92,7 @@ const EdgeList: React.FC<{ edges: [Node, Node][] }> = function({ edges }) {
     <g className="edges">
       {edges.map(([source, target]) => (
         <EdgeComp
-          key={source.index + ':' + target.index}
+          // key={source.index + ':' + target.index}
           source={source}
           target={target}
         />
