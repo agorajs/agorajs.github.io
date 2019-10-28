@@ -8,7 +8,7 @@ export const Authors: React.FC<{ className?: string }> = ({ className }) => (
         Automatic Graph Overlap Removal Algorithms
         <br />
         <span className="code">
-          Fati Chen, Arnaud Sallaberry, Laurent Piccinini, Pascal Poncelet.
+          Fati Chen, Laurent Piccinini, Pascal Poncelet, Arnaud Sallaberry.
         </span>
         <br />
         <a
