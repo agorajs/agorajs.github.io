@@ -186,7 +186,7 @@ const Result: React.FC<RouteComponentProps> = function() {
                 ...algo,
                 algorithm: (graph: Graph) => {
                   const resultnodes = (window as any).prism(graph.nodes);
-                  console.log(resultnodes);
+                  // console.log(resultnodes);
                   for (let i = 0; i < graph.nodes.length; i++) {
                     const node = graph.nodes[i];
                     const [position, id] = resultnodes[i];
@@ -196,7 +196,6 @@ const Result: React.FC<RouteComponentProps> = function() {
                     node.y = position.m_Y;
                   }
 
-                  console.log(graph);
                   return { graph };
                 }
               })
@@ -208,7 +207,7 @@ const Result: React.FC<RouteComponentProps> = function() {
                 ...algo,
                 algorithm: (graph: Graph) => {
                   const resultnodes = (window as any).prism(graph.nodes);
-                  console.log(resultnodes);
+                  // console.log(resultnodes);
                   for (let i = 0; i < graph.nodes.length; i++) {
                     const node = graph.nodes[i];
                     const [position, id] = resultnodes[i];
@@ -294,7 +293,7 @@ const Result: React.FC<RouteComponentProps> = function() {
   useEffect(() => {
     if (state.displayable.length > 0) {
       const file = finalFiles[state.fileCounter];
-      console.log(file.data);
+      // console.log(file.data);
 
       const graph = crop(toGraph(file.data));
       dispatch({ type: 'addInitial', payload: { graph, gml: file.data } });

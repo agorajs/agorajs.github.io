@@ -146,9 +146,9 @@ export const defaultCriteria: CriterionType[] = [
   },
   {
     id: 'e_rsdd',
-    name: 'Relative Standard Deviation',
+    name: 'Relative Standard Deviation Delaunay',
     group: 'Edge Length Preservation',
-    path: 'EdgeBased.RelativeStandardDeviation',
+    path: 'EdgeBased.RelativeStandardDeviationDelaunay',
     reference: ['gansner2010']
   }
 ];
