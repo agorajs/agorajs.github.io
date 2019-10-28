@@ -25,7 +25,7 @@ export const CriteriaList: React.FC<{
 
   const title = (
     <NesCheckbox
-      name="Criterias"
+      name="Criteria"
       checked={areAllCriSelected}
       onChange={toggleAllCri}
     />
