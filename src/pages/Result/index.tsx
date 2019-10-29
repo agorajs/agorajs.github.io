@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useMemo } from 'react';
 import { RouteComponentProps, Redirect } from '@reach/router';
 import { Flex } from '../../layout';
 import './index.css';
@@ -127,7 +127,9 @@ export const Result: React.FC<RouteComponentProps> = function() {
     criteriaResults: []
   });
 
-  const [_fileCounter, incrementFileCounter] = useCounter(-1);
+  const [, incrementFileCounter] = useCounter(-1);
+  const [, incrementCriCounter] = useCounter(-1);
+  const [, incrementAlgorithm, setAlgorithmCounter] = useCounter(-1);
 
   // criterias and algorithms have been loaded
   useEffect(() => {
@@ -141,6 +143,7 @@ export const Result: React.FC<RouteComponentProps> = function() {
   useEffect(() => {
     // ignoring init :)
     if (state.fileCounter > -1) {
+      setAlgorithmCounter(-1);
       dispatch({ type: 'resetAlgCounter' });
       dispatch({
         type: 'addDisplayableFile',
@@ -158,6 +161,7 @@ export const Result: React.FC<RouteComponentProps> = function() {
 
       const graph = crop(toGraph(file.data));
       dispatch({ type: 'addInitial', payload: { graph, gml: file.data } });
+      incrementAlgorithm();
       dispatch({ type: 'incrementAlgCounter' });
     } // eslint-disable-next-line
   }, [state.displayable]);
@@ -175,6 +179,7 @@ export const Result: React.FC<RouteComponentProps> = function() {
       result.graph = crop(result.graph);
       result.gml = toGML(result.graph);
       dispatch({ type: 'addResult', payload: result });
+      incrementCriCounter();
       dispatch({ type: 'incrementCriCounter' });
     }
     // eslint-disable-next-line
@@ -192,57 +197,94 @@ export const Result: React.FC<RouteComponentProps> = function() {
       );
 
       dispatch({ type: 'addCriResult', payload: result });
-      if (state.algCounter !== algorithms!.length - 1)
+      if (state.algCounter !== algorithms!.length - 1) {
+        incrementAlgorithm();
         dispatch({ type: 'incrementAlgCounter' });
-      else if (state.fileCounter !== finalFiles.length - 1) {
+      } else if (state.fileCounter !== finalFiles.length - 1) {
         incrementFileCounter();
-
         dispatch({ type: 'incrementFileCounter' });
       }
     }
     // eslint-disable-next-line
   }, [state.criCounter]);
 
+  const styled = useMemo(() => {
+    const maxWidth =
+      128 + 100 * (algorithms ? algorithms.length + 1 : 1) + 'px';
+
+    return (
+      <style scoped>
+        {`
+@media (min-width: ${maxWidth}) {
+.mw8-ml {
+max-width: ${maxWidth};
+}
+
+.tbth-min-w236-ml tbody th {
+min-width: 226px;
+}
+
+.ttdh-w108-ml td,
+.ttdh-w108-ml th {
+width: 98px;
+}
+
+.ml128-ml {
+margin-left: 128px;
+}
+
+.table-fixed-ml {
+table-layout: fixed;
+width: auto;
+}
+}`}
+      </style>
+    );
+  }, [algorithms]);
+
   if (finalFiles.length === 0) {
     return <Redirect from="" to="/" noThrow />;
   }
-  return (
-    <div className="mw8-ml center tl mh3 code">
-      {_.map(state.displayable, ({ id, name }, index) => {
-        const currentFileResults = state.graphResults[index];
-        const initial = state.initials[index];
-        const criteriaResult = state.criteriaResults[index];
-        return (
-          <section key={id} className="mv3">
-            <article>
-              <h2>{name}</h2>
-              <Flex wrap className="ml128-ml">
-                {initial && (
-                  <GraphMemo
-                    name="Initial"
-                    graph={initial.graph}
-                    gml={initial.gml}
-                  />
-                )}
 
-                {currentFileResults &&
-                  _.map(currentFileResults, (result, algIndex) => {
-                    const algo = algorithms![algIndex];
-                    return (
+  return (
+    <>
+      {styled}
+      <div className="mw8-ml center tl mh3 code">
+        {_.map(state.displayable, ({ id, name }, index) => {
+          const currentFileResults = state.graphResults[index];
+          const initial = state.initials[index];
+          const criteriaResult = state.criteriaResults[index];
+          return (
+            <section key={id} className="mv3">
+              <article>
+                <h2>{name}</h2>
+                <Flex wrap>
+                  <div className="ml128-ml">
+                    {initial && (
                       <GraphMemo
-                        key={algo.id}
-                        name={algo.name}
-                        graph={result.graph}
-                        gml={result.gml}
+                        name="Initial"
+                        graph={initial.graph}
+                        gml={initial.gml}
                       />
-                    );
-                  })}
-              </Flex>
-            </article>
-            <article className="criteria">
-              <div className="relative">
-                <div className="inner overflow-x-auto">
-                  <table className="table-design tbth-min-w236-ml ttdh-w108-ml table-fixed-ml">
+                    )}
+                  </div>
+                  {currentFileResults &&
+                    _.map(currentFileResults, (result, algIndex) => {
+                      const algo = algorithms![algIndex];
+                      return (
+                        <GraphMemo
+                          key={algo.id}
+                          name={algo.name}
+                          graph={result.graph}
+                          gml={result.gml}
+                        />
+                      );
+                    })}
+                </Flex>
+              </article>
+              <article className="criteria">
+                <div className="overflow-x-auto">
+                  <table className="center table-design tbth-min-w236-ml ttdh-w108-ml table-fixed-ml">
                     <thead>
                       <tr>
                         <th className="tc">Criterias</th>
@@ -271,12 +313,12 @@ export const Result: React.FC<RouteComponentProps> = function() {
                     </tbody>
                   </table>
                 </div>
-              </div>
-            </article>
-          </section>
-        );
-      })}
-    </div>
+              </article>
+            </section>
+          );
+        })}
+      </div>
+    </>
   );
 };
 

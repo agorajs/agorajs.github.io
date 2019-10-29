@@ -15,14 +15,14 @@
   min-width: 200px;
 }
 
-@media (min-width: 1109px) {
+/* @media (min-width: 1109px) {
   .tbth-min-w236-ml tbody th {
     min-width: 226px;
   }
 
   .ttdh-w108-ml td,
   .ttdh-w108-ml th {
-    /* min-width: 108px; */
+    /* min-width: 108px; *
     width: 98px;
   }
 
@@ -34,4 +34,4 @@
     table-layout: fixed;
     width: auto;
   }
-}
+} */

@@ -1,7 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, Dispatch, SetStateAction, useMemo } from 'react';
 
-export const useCounter = function(init: number): [number, () => void] {
+export const useCounter = function(
+  init: number
+): [number, () => void, Dispatch<SetStateAction<number>>] {
   const [counter, setCounter] = useState(init);
-  const increment = useCallback(() => setCounter(c => c + 1), []);
-  return [counter, increment];
+  const increment = useMemo(() => () => setCounter(c => c + 1), []);
+  return [counter, increment, setCounter];
 };
