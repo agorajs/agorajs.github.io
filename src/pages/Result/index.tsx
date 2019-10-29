@@ -1,8 +1,6 @@
-import React, { useState, useCallback, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { RouteComponentProps, Redirect } from '@reach/router';
 import { Flex } from '../../layout';
-import DownloadLinkList from '../../components/DownloadLinkList';
-import SVGGraph from '../../components/SVGGraph';
 import './index.css';
 import { useSelector } from 'react-redux';
 import {
@@ -13,18 +11,26 @@ import {
 import { Graph, crop, round } from 'agora-graph';
 import _ from 'lodash';
 import { toGraph, toGML } from 'agora-gml';
+import { useCriteria } from './hooks/useCriteria';
+import { useAlgorithms } from './hooks/useAlgorithms';
+import { GraphMemo } from './GraphContainer';
+import { useCounter } from './useCounter';
+
+export type CriType = {
+  id: string;
+  name: string;
+  group: string;
+  criterion: (
+    initial: Graph,
+    updated: Graph
+  ) => {
+    value: number;
+  };
+};
 
 type LocalType = {
   fileCounter: number;
-  algorithms: LoadedAlg[];
-  criteria: {
-    id: string;
-    name: string;
-    group: string;
-    criterion: (initial: Graph, updated: Graph) => { value: number };
-  }[];
   displayable: any[];
-  algFinished: boolean;
   criFinished: boolean;
   criCounter: number;
   initials: { graph: Graph; gml?: string }[];
@@ -33,14 +39,21 @@ type LocalType = {
   criteriaResults: any[][][];
 };
 
-type AlgMeta = {
+export type AlgMeta = {
   selected: boolean;
   id: string;
   name: string;
   reference?: string[];
+  lazy: () => Promise<any>;
 };
 
-type LoadedAlg = AlgMeta & { algorithm: Function };
+export type LoadedAlg = {
+  selected: boolean;
+  id: string;
+  name: string;
+  reference?: string[];
+  algorithm: Function;
+};
 
 function localReducer(state: LocalType, action: any): LocalType {
   switch (action.type) {
@@ -50,17 +63,6 @@ function localReducer(state: LocalType, action: any): LocalType {
     // which one can be displayed
     case 'addDisplayableFile':
       return { ...state, displayable: [...state.displayable, action.payload] };
-    // has loaded a new algorithm
-    case 'addAlgorithm':
-      return { ...state, algorithms: [...state.algorithms, action.payload] };
-    case 'addCriterion':
-      return { ...state, criteria: [...state.criteria, action.payload] };
-    // algorithms have finished loading
-    case 'algFinished':
-      return {
-        ...state,
-        algFinished: true
-      };
     // criteria have finished loading
     case 'criFinished':
       return {
@@ -103,18 +105,16 @@ function localReducer(state: LocalType, action: any): LocalType {
   }
 }
 
-function addAlgorithm(payload: any) {
-  return { type: 'addAlgorithm', payload };
-}
-
-function addCriterion(payload: any) {
-  return { type: 'addCriterion', payload };
-}
-
-const Result: React.FC<RouteComponentProps> = function() {
+export const Result: React.FC<RouteComponentProps> = function() {
   const finalFiles = useSelector(getFinalFiles);
   const selectedAlgs = useSelector(filteredAlgorithms);
   const selectedCri = useSelector(filteredCriterias);
+
+  // loading algorithms
+  const algorithms = useAlgorithms(selectedAlgs);
+
+  // finished loading algs, loading criteria
+  const criteria = useCriteria(selectedCri);
 
   const [state, dispatch] = useReducer(localReducer, {
     fileCounter: -1,
@@ -122,159 +122,20 @@ const Result: React.FC<RouteComponentProps> = function() {
     criCounter: -1,
     graphResults: [],
     initials: [],
-    algFinished: false,
     criFinished: false,
-    algorithms: [],
-    criteria: [],
     displayable: [],
     criteriaResults: []
   });
 
-  // loading algorithms
+  const [_fileCounter, incrementFileCounter] = useCounter(-1);
+
+  // criterias and algorithms have been loaded
   useEffect(() => {
-    const load = async (alglist: AlgMeta[]) => {
-      for (const algo of alglist) {
-        switch (algo.id) {
-          case 'scale':
-            const scaling = await import('agora-scaling');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: scaling.default.algorithm
-              })
-            );
-            break;
-          case 'pfs':
-            const pfs = await import('agora-pfs');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: pfs.default.algorithm
-              })
-            );
-            break;
-          case 'pfsp':
-            const pfsp = await import('agora-pfsp');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: pfsp.default.algorithm
-              })
-            );
-            break;
-          case 'fta':
-            const fta = await import('agora-fta');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: fta.default.algorithm
-              })
-            );
-            break;
-          case 'vpsc':
-            const vpsc = await import('agora-vpsc');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: vpsc.default.algorithm
-              })
-            );
-            break;
-          case 'prism':
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: (graph: Graph) => {
-                  const resultnodes = (window as any).prism(graph.nodes);
-                  // console.log(resultnodes);
-                  for (let i = 0; i < graph.nodes.length; i++) {
-                    const node = graph.nodes[i];
-                    const [position, id] = resultnodes[i];
-                    if (id !== node.index)
-                      throw Error('not matching id exception');
-                    node.x = position.m_X;
-                    node.y = position.m_Y;
-                  }
-
-                  return { graph };
-                }
-              })
-            );
-            break;
-          case 'gtree':
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: (graph: Graph) => {
-                  const resultnodes = (window as any).prism(graph.nodes);
-                  // console.log(resultnodes);
-                  for (let i = 0; i < graph.nodes.length; i++) {
-                    const node = graph.nodes[i];
-                    const [position, id] = resultnodes[i];
-                    if (id !== node.index)
-                      throw Error('not matching id exception');
-                    node.x = position.m_X;
-                    node.y = position.m_Y;
-                  }
-
-                  return { graph };
-                }
-              })
-            );
-            break;
-          case 'rwordle_l':
-            const rwordle_l = await import('agora-rworldle');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: rwordle_l.RWordleLAlgorithm.algorithm
-              })
-            );
-            break;
-          case 'diamond':
-            const diamond = await import('agora-diamond');
-            dispatch(
-              addAlgorithm({
-                ...algo,
-                algorithm: diamond.diamondGraphRotation
-              })
-            );
-            break;
-        }
-      }
-
-      dispatch({ type: 'algFinished' });
-    };
-
-    load(selectedAlgs);
-    // eslint-disable-next-line
-  }, []);
-
-  // finished loading algs, loading criteria
-  useEffect(() => {
-    if (state.algFinished) {
-      const load = async (criList: any[]) => {
-        const { default: _def, manager, ...criteria } = await import(
-          'agora-criteria'
-        );
-        for (const { id, name, group, path } of criList) {
-          dispatch(
-            addCriterion({
-              id,
-              name,
-              group,
-              criterion: _.get(criteria, path).criteria
-            })
-          );
-        }
-        // finished loading cri, parsing first file
-        dispatch({ type: 'incrementFileCounter' });
-      };
-
-      load(selectedCri);
+    if (algorithms && criteria) {
+      incrementFileCounter();
+      dispatch({ type: 'incrementFileCounter' });
     }
-    // eslint-disable-next-line
-  }, [state.algFinished]);
+  }, [algorithms, criteria, incrementFileCounter]);
 
   // big loop
   useEffect(() => {
@@ -304,7 +165,7 @@ const Result: React.FC<RouteComponentProps> = function() {
   // new Algorithm
   useEffect(() => {
     if (state.algCounter > -1) {
-      const current = state.algorithms[state.algCounter];
+      const current = algorithms![state.algCounter];
       const { graph } = state.initials[state.fileCounter];
       const graphcopy = {
         nodes: graph.nodes.map(n => ({ ...n })),
@@ -326,15 +187,18 @@ const Result: React.FC<RouteComponentProps> = function() {
         state.graphResults[state.fileCounter][state.algCounter];
 
       const result = _.map(
-        state.criteria,
+        criteria,
         ({ criterion }) => criterion(initial.graph, toEvaluate.graph).value
       );
 
       dispatch({ type: 'addCriResult', payload: result });
-      if (state.algCounter !== state.algorithms.length - 1)
+      if (state.algCounter !== algorithms!.length - 1)
         dispatch({ type: 'incrementAlgCounter' });
-      else if (state.fileCounter !== finalFiles.length - 1)
+      else if (state.fileCounter !== finalFiles.length - 1) {
+        incrementFileCounter();
+
         dispatch({ type: 'incrementFileCounter' });
+      }
     }
     // eslint-disable-next-line
   }, [state.criCounter]);
@@ -343,7 +207,7 @@ const Result: React.FC<RouteComponentProps> = function() {
     return <Redirect from="" to="/" noThrow />;
   }
   return (
-    <div className="tl mh3 code">
+    <div className="mw8-ml center tl mh3 code">
       {_.map(state.displayable, ({ id, name }, index) => {
         const currentFileResults = state.graphResults[index];
         const initial = state.initials[index];
@@ -352,7 +216,7 @@ const Result: React.FC<RouteComponentProps> = function() {
           <section key={id} className="mv3">
             <article>
               <h2>{name}</h2>
-              <Flex className="flex-wrap ml6-l">
+              <Flex wrap className="ml128-ml">
                 {initial && (
                   <GraphMemo
                     name="Initial"
@@ -363,7 +227,7 @@ const Result: React.FC<RouteComponentProps> = function() {
 
                 {currentFileResults &&
                   _.map(currentFileResults, (result, algIndex) => {
-                    const algo = state.algorithms[algIndex];
+                    const algo = algorithms![algIndex];
                     return (
                       <GraphMemo
                         key={algo.id}
@@ -378,17 +242,19 @@ const Result: React.FC<RouteComponentProps> = function() {
             <article className="criteria">
               <div className="relative">
                 <div className="inner overflow-x-auto">
-                  <table className="table-fixed">
+                  <table className="table-design tbth-min-w236-ml ttdh-w108-ml table-fixed-ml">
                     <thead>
                       <tr>
                         <th className="tc">Criterias</th>
-                        {_.map(state.algorithms, ({ id, name }) => (
-                          <th key={id}>{name}</th>
+                        {_.map(algorithms, ({ id, name }) => (
+                          <th key={id} className="nowrap">
+                            {name}
+                          </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {_.map(state.criteria, ({ id, name }, criIndex) => {
+                      {_.map(criteria, ({ id, name }, criIndex) => {
                         return (
                           <tr key={id} className="striped--near-white">
                             <th>{name}</th>
@@ -413,38 +279,5 @@ const Result: React.FC<RouteComponentProps> = function() {
     </div>
   );
 };
-
-const GraphContainer: React.FC<{
-  name: string | any;
-  graph: Graph;
-  gml?: string;
-}> = ({ name, graph, gml }) => {
-  const [SVGContent, setSVGContent] = useState<string | null>(null);
-
-  const svgRef = useCallback(svgRef => {
-    if (svgRef) {
-      const serializer = new XMLSerializer();
-      setSVGContent(serializer.serializeToString(svgRef));
-    }
-  }, []);
-
-  return (
-    <div className="mh1 fixed-width" style={{ height: '150px' }}>
-      <Flex column className="flex-wrap items-stretch">
-        <h3>{name}</h3>
-        <div className="graph mv1">
-          <SVGGraph graph={graph} svgRef={svgRef} width={100} height={88} />
-        </div>
-        <DownloadLinkList
-          name={name}
-          json={JSON.stringify(graph)}
-          gml={gml}
-          svg={SVGContent}
-        />
-      </Flex>
-    </div>
-  );
-};
-const GraphMemo = React.memo(GraphContainer);
 
 export default Result;

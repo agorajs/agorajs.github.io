@@ -5,28 +5,39 @@ export const defaultCriteria: CriterionType[] = [
     id: 'oo_o',
     name: 'Original',
     group: 'Orthogonal Ordering',
-    path: 'OrthogonalOrdering.Original',
+    lazy: async () =>
+      (await import('agora-criteria/dist/orthogonal-ordering/original'))
+        .default,
     reference: ['misue1995']
   },
   {
     id: 'oo_ktd',
     name: "Kendall's Tau Distance",
-    path: 'OrthogonalOrdering.KendallTauDistance',
     group: 'Orthogonal Ordering',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/orthogonal-ordering/kendall-tau-distance'
+      )).default,
     reference: ['huang2007']
   },
   {
     id: 'oo_ni',
     name: 'Number of Inversions',
     group: 'Orthogonal Ordering',
-    path: 'OrthogonalOrdering.NumberInversions',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/orthogonal-ordering/number-of-inversions'
+      )).default,
     reference: ['strobelt2012']
   },
   {
     id: 'oo_nni',
     name: 'Normalised Number of Inversions',
     group: 'Orthogonal Ordering',
-    path: 'OrthogonalOrdering.NormalizedNumberInversions',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/orthogonal-ordering/normalized-number-of-inversions'
+      )).default,
     reference: ['chen2019']
   },
   {
@@ -34,28 +45,34 @@ export const defaultCriteria: CriterionType[] = [
     name: 'L1 Length',
     group: 'Spread Minimisation',
     fullname: 'Spread Minimisation/Bounding Box/L1 Metric Length',
-    path: 'Spread.BoundingBox.L1MetricLength',
+    lazy: async () =>
+      (await import('agora-criteria/dist/spread/bounding-box/l1-metric-length'))
+        .default,
     reference: ['li2005']
   },
   {
     id: 'sp_bb_a',
     name: 'Bounding Box Area',
     group: 'Spread Minimisation',
-    path: 'Spread.BoundingBox.Area',
+    lazy: async () =>
+      (await import('agora-criteria/dist/spread/bounding-box/area')).default,
     reference: ['misue1995']
   },
   {
     id: 'sp_bb_na',
     name: 'Bounding Box Normalized Area',
     group: 'Spread Minimisation',
-    path: 'Spread.BoundingBox.NormalizedArea',
+    lazy: async () =>
+      (await import('agora-criteria/dist/spread/bounding-box/normalized-area'))
+        .default,
     reference: ['huang2007']
   },
   {
     id: 'sp_ch_a',
     name: 'Convex Hull Area',
     group: 'Spread Minimisation',
-    path: 'Spread.ConvexHull.Area',
+    lazy: async () =>
+      (await import('agora-criteria/dist/spread/convex-hull_area')).default,
     reference: ['strobelt2012']
   },
   {
@@ -63,7 +80,10 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Aspect Ratio',
     group: 'Global Shape Preservation',
     fullname: 'Global Shape Preservation/Bounding Box/Aspect Ratio',
-    path: 'GlobalShape.BoundingBox.AspectRatio',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/global-shape/bounding-box/aspect-ratio'
+      )).default,
     reference: ['li2005']
   },
   {
@@ -71,7 +91,10 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Improved Aspect Ratio',
     fullname: 'Global Shape Preservation/Bounding Box/Improved Aspect Ratio',
     group: 'Global Shape Preservation',
-    path: 'GlobalShape.BoundingBox.ImprovedAspectRatio',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/global-shape/bounding-box/improved-aspect-ratio'
+      )).default,
     reference: ['chen2019']
   },
   {
@@ -79,14 +102,18 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Standard Deviation',
     fullname: 'Global Shape Preservation/Convex Hull/Standard Deviation',
     group: 'Global Shape Preservation',
-    path: 'GlobalShape.ConvexHull.StandardDeviation',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/global-shape/convex-hull_standard-deviation'
+      )).default,
     reference: ['strobelt2012']
   },
   {
     id: 'nm_mn',
     name: 'Moved Nodes',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.MovedNodes',
+    lazy: async () =>
+      (await import('agora-criteria/dist/node-movement/moved-nodes')).default,
     reference: ['huang2007']
   },
   {
@@ -94,7 +121,10 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Mean Euclidean',
     fullname: 'Node Movement Minimisation/Distance Moved/Mean Euclidean',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.DistanceMoved.MeanEuclidean',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/node-movement/distance-moved/mean-euclidean'
+      )).default,
     reference: ['strobelt2012']
   },
   {
@@ -102,7 +132,10 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Normalised Euclidean',
     fullname: 'Node Movement Minimisation/Distance Moved/Normalised Euclidean',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.DistanceMoved.NormalizedEuclidean',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/node-movement/distance-moved/normalized-euclidean'
+      )).default,
     reference: ['lyons1998']
   },
   {
@@ -110,7 +143,10 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Hamiltonian',
     fullname: 'Node Movement Minimisation/Distance Moved/Hamiltonian',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.DistanceMoved.Hamiltonian',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/node-movement/distance-moved/hamiltonian'
+      )).default,
     reference: ['huang2003', 'huang2007']
   },
   {
@@ -118,7 +154,10 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Squared Euclidean',
     fullname: 'Node Movement Minimisation/Distance Moved/Squared Euclidean',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.DistanceMoved.SquaredEuclidean',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/node-movement/distance-moved/squared-euclidean'
+      )).default,
     reference: ['marriot2003']
   },
   {
@@ -127,28 +166,37 @@ export const defaultCriteria: CriterionType[] = [
     fullname:
       'Node Movement Minimisation/Distance Moved/Improved Mean Squared Euclidean',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.DistanceMoved.ImprovedMeanSquaredEuclidean',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/node-movement/distance-moved/improved-mean-squared-euclidean'
+      )).default,
     reference: ['chen2019']
   },
   {
     id: 'nm_knn',
     name: 'K-Nearest Neighbours',
     group: 'Node Movement Minimisation',
-    path: 'NodeMovement.KNearestNeighbors.default',
+    lazy: async () =>
+      (await import('agora-criteria/dist/node-movement/k-nearest-neighbors'))
+        .default,
     reference: ['nachmanson2016']
   },
   {
     id: 'eb_r',
     name: 'Ratio',
     group: 'Edge Length Preservation',
-    path: 'EdgeBased.Ratio',
+    lazy: async () =>
+      (await import('agora-criteria/dist/edge-based/ratio')).default,
     reference: ['li2005']
   },
   {
     id: 'e_rsdd',
     name: 'Relative Standard Deviation Delaunay',
     group: 'Edge Length Preservation',
-    path: 'EdgeBased.RelativeStandardDeviationDelaunay',
+    lazy: async () =>
+      (await import(
+        'agora-criteria/dist/edge-based/relative-standard-deviation-delaunay'
+      )).default,
     reference: ['gansner2010']
   }
 ];

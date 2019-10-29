@@ -4,12 +4,15 @@ import { useSelector } from 'react-redux';
 import {
   areAllAlgorithmSelected,
   getAlgorithmsWithSelection
-} from '../../store/selectors';
-import { toggleAlg, setAllAlg } from '../../store/actions/algorithm-selection';
-import { NesContainer, NesCheckbox, Flex } from '../../layout';
-import useToggleAll from '../../utils/useToggleAll';
-import useToggleCheckBox from '../../utils/useToggleCheckBox';
-import Cite from '../../components/Cite';
+} from '../../../store/selectors';
+import {
+  toggleAlg,
+  setAllAlg
+} from '../../../store/actions/algorithm-selection';
+import { NesContainer, NesCheckbox, Flex } from '../../../layout';
+import useToggleAll from '../../../utils/useToggleAll';
+import useToggleCheckBox from '../../../utils/useToggleCheckBox';
+import Cite from '../../../components/Cite';
 
 export const AlgorithmList: React.FC<{
   className?: string;

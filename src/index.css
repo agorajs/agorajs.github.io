@@ -6,6 +6,9 @@
   -moz-osx-font-smoothing: grayscale;
 } */
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+body {
+  font-size: 14px;
+}
 /* body {
   font-family: 'Space Mono', monospace;
 }
@@ -18,11 +21,6 @@ h4 {
 code {
   font-family: 'Space Mono', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
-}
-
-.container {
-  max-width: 980px;
-  margin: 0 auto;
 }
 
 /* removing cursors */
@@ -52,4 +50,27 @@ button {
 }
 .nes-select select {
   cursor: pointer;
+}
+
+.nes-container.pr0 {
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+}
+.nes-container.pr0 > :not(.title) {
+  padding-left: 2rem;
+}
+
+.min-w5 {
+  min-width: 16rem;
+}
+
+.mw8-ml {
+  max-width: 64rem;
+}
+
+@media (min-width: 1109px) {
+  .mw8-ml {
+    max-width: 1109px;
+  }
 }

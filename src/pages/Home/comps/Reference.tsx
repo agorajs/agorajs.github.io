@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReferenceType } from '../../store/types';
+import { ReferenceType } from '../../../store/types';
 
 export const Reference: React.FC<ReferenceType & { number: number }> = ({
   id,

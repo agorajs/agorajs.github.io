@@ -7,35 +7,41 @@ import LogoLink from './LogoLink';
 
 const Page: React.FC = function() {
   return (
-    <div className="mw9 center mt4 tc">
-      <header>
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <h1 className="lh-title tc">AGORA</h1>
-        </Link>
-      </header>
-      <Router className="mh3-l">
+    <div className="mt4 tc">
+      <Title />
+      <Router>
         <Home path="/" />
         <Result path="/result" />
       </Router>
-      <Flex parent="footer" className="justify-around pv3">
-        <LogoLink
-          link="https://www.lirmm.fr/"
-          imageurl="lirmm.png"
-          alt="LIRMM"
-        />
-        <LogoLink
-          link="https://www.univ-montp3.fr/"
-          imageurl="um3.png"
-          alt="UM3"
-        />
-        <LogoLink
-          link="https://www.umontpellier.fr/"
-          imageurl="um.png"
-          alt="UM"
-        />
-        <LogoLink link="https://www.cnrs.fr/" imageurl="cnrs.png" alt="CNRS" />
-      </Flex>
+      <Footer className="justify-around pv3 mw8 center" />
     </div>
   );
 };
 export default Page;
+
+const Title: React.FC = () => (
+  <header>
+    <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+      <h1 className="lh-title tc">AGORA</h1>
+    </Link>
+  </header>
+);
+
+const Footer: React.FC<{ className: string }> = function({ className }) {
+  return (
+    <Flex parent="footer" className={className}>
+      <LogoLink link="https://www.lirmm.fr/" imageurl="lirmm.png" alt="LIRMM" />
+      <LogoLink
+        link="https://www.univ-montp3.fr/"
+        imageurl="um3.png"
+        alt="UM3"
+      />
+      <LogoLink
+        link="https://www.umontpellier.fr/"
+        imageurl="um.png"
+        alt="UM"
+      />
+      <LogoLink link="https://www.cnrs.fr/" imageurl="cnrs.png" alt="CNRS" />
+    </Flex>
+  );
+};

@@ -3,16 +3,19 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { Flex, NesCheckbox, NesContainer } from '../../layout';
-import { setAllCri, toggleCri } from '../../store/actions/criteria-selection';
+import { Flex, NesCheckbox, NesContainer } from '../../../layout';
+import {
+  setAllCri,
+  toggleCri
+} from '../../../store/actions/criteria-selection';
 import {
   allCriteriaAreSelected,
   getGroupedCriteria
-} from '../../store/selectors';
+} from '../../../store/selectors';
 
-import useToggleAll from '../../utils/useToggleAll';
-import useToggleCheckBox from '../../utils/useToggleCheckBox';
-import Cite from '../../components/Cite';
+import useToggleAll from '../../../utils/useToggleAll';
+import useToggleCheckBox from '../../../utils/useToggleCheckBox';
+import Cite from '../../../components/Cite';
 
 export const CriteriaList: React.FC<{
   className?: string;

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 type FlexProps = {
   parent?: string;
   auto?: boolean;
+  wrap?: boolean;
   column?: boolean;
   className?: string;
 };
@@ -12,6 +13,7 @@ export const Flex: React.FC<FlexProps> = ({
   parent: Parent = 'div',
   auto,
   column,
+  wrap,
   className,
   children
 }) => (
@@ -19,7 +21,8 @@ export const Flex: React.FC<FlexProps> = ({
   <Parent
     className={classnames(className, 'flex', {
       'flex-auto': auto,
-      'flex-column': column
+      'flex-column': column,
+      'flex-wrap': wrap
     })}
   >
     {children}
