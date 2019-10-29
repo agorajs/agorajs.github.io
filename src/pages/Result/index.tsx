@@ -210,7 +210,7 @@ export const Result: React.FC<RouteComponentProps> = function() {
 
   const styled = useMemo(() => {
     const maxWidth =
-      128 + 100 * (algorithms ? algorithms.length + 1 : 1) + 'px';
+      108 + 100 * (algorithms ? algorithms.length + 1 : 1) + 'px';
 
     return (
       <style scoped>
@@ -284,7 +284,7 @@ width: auto;
               </article>
               <article className="criteria">
                 <div className="overflow-x-auto">
-                  <table className="center table-design tbth-min-w236-ml ttdh-w108-ml table-fixed-ml">
+                  <table className="table-design tbth-min-w236-ml ttdh-w108-ml table-fixed-ml">
                     <thead>
                       <tr>
                         <th className="tc">Criterias</th>
