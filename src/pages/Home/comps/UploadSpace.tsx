@@ -1,7 +1,7 @@
 import { UppyFile } from '@uppy/core';
 import { DragDrop } from '@uppy/react';
 import _ from 'lodash';
-import React, { MouseEvent, useCallback, Dispatch } from 'react';
+import React, { MouseEvent, useCallback, Dispatch, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Flex, NesList } from '../../../layout';
 import { addFile, removeFile } from '../../../store/actions/file';
@@ -11,7 +11,7 @@ import { promisingFileReader } from '../../../utils/promisingFileReader';
 
 const configuration = { restrictions: { allowedFileTypes: ['.gml'] } };
 
-const setListeners: (
+const getListeners: (
   dispatch: Dispatch<any>
 ) => {
   [k: string]: (result: UppyFile, ...rest: any[]) => any;
@@ -30,8 +30,8 @@ const setListeners: (
 
 export const UploadSpace: React.FC = function() {
   const dispatch = useDispatch();
-
-  const uppy = useUppy(configuration, setListeners(dispatch));
+  const listeners = useMemo(() => getListeners(dispatch), [dispatch]);
+  const uppy = useUppy(configuration, listeners);
 
   const fileList = useSelector(getFiles);
 
