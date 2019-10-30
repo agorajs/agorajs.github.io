@@ -7,8 +7,9 @@ export const DownloadLink: React.FC<{
   const [url, setUrl] = useState();
 
   useEffect(() => {
-    var file = new File([content], name, { type: 'plain/text' });
-    const url = URL.createObjectURL(file);
+    var blob = new Blob([content], { type: 'plain/text' });
+    (blob as any).name = blob;
+    const url = URL.createObjectURL(blob);
 
     setUrl(url);
     // cleanup on unmount
