@@ -20,7 +20,7 @@ const GraphContainer: React.FC<{
   return (
     <div className="mh1 fixed-width" style={{ height: '150px' }}>
       <Flex column wrap className="items-stretch">
-        <h3>{name}</h3>
+        <h3 className="nowrap">{name}</h3>
         <DownloadLinkList
           name={name}
           json={JSON.stringify(graph)}
