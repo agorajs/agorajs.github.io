@@ -209,15 +209,18 @@ export const Result: React.FC<RouteComponentProps> = function() {
   }, [state.criCounter]);
 
   const styled = useMemo(() => {
-    const maxWidth =
-      108 + 100 * (algorithms ? algorithms.length + 1 : 1) + 'px';
+    let maxWidth = 128 + 98; // initial graph alignment
+    // each algorithm
+    maxWidth += 98 * (algorithms ? algorithms.length : 0);
+    // browser sidebar correction
+    maxWidth += 30;
 
     return (
       <style scoped>
         {`
-@media (min-width: ${maxWidth}) {
+@media (min-width: ${maxWidth}px) {
 .mw8-ml {
-max-width: ${maxWidth};
+max-width: ${maxWidth}px;
 }
 
 .tbth-min-w236-ml tbody th {
