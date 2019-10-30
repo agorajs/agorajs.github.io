@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie11';
+
 import 'tachyons/css/tachyons.min.css';
 import 'nes.css/css/nes.min.css';
 import './index.css';
