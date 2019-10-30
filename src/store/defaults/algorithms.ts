@@ -97,7 +97,12 @@ export const defaultAlgorithms: AlgorithmType[] = [
     name: 'RWordle-L',
     reference: ['strobelt2012'],
     lazy: async function() {
-      return (await import('agora-rworldle')).RWordleLAlgorithm.algorithm;
+      const worker = (await import(
+        // @ts-ignore TS2307
+        'workerize-loader!../../workers/rwordle-l.worker'
+      )).default();
+
+      return worker.algorithm;
     }
   },
   {
@@ -105,7 +110,13 @@ export const defaultAlgorithms: AlgorithmType[] = [
     name: 'Diamond',
     reference: ['meulemans2019'],
     lazy: async function() {
-      return (await import('agora-diamond')).diamondGraphRotation;
+      const worker = (await import(
+        // @ts-ignore TS2307
+        'workerize-loader!../../workers/diamond.worker'
+      )).default();
+
+      return worker.algorithm;
+      // return (await import('agora-diamond')).diamondGraphRotation;
     }
   }
 ];

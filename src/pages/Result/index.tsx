@@ -175,12 +175,25 @@ export const Result: React.FC<RouteComponentProps> = function() {
         nodes: graph.nodes.map(n => ({ ...n })),
         edges: graph.edges.map(e => ({ ...e }))
       };
-      const result = current.algorithm(graphcopy);
-      result.graph = crop(result.graph);
-      result.gml = toGML(result.graph);
-      dispatch({ type: 'addResult', payload: result });
-      incrementCriCounter();
-      dispatch({ type: 'incrementCriCounter' });
+
+      (async function() {
+        console.log(current);
+
+        const result = await current.algorithm(graphcopy);
+
+        result.graph = crop(result.graph);
+        result.gml = toGML(result.graph);
+
+        dispatch({ type: 'addResult', payload: result });
+        incrementCriCounter();
+        dispatch({ type: 'incrementCriCounter' });
+      })();
+      // const result = current.algorithm(graphcopy);
+      // result.graph = crop(result.graph);
+      // result.gml = toGML(result.graph);
+      // dispatch({ type: 'addResult', payload: result });
+      // incrementCriCounter();
+      // dispatch({ type: 'incrementCriCounter' });
     }
     // eslint-disable-next-line
   }, [state.algCounter]);
@@ -203,6 +216,9 @@ export const Result: React.FC<RouteComponentProps> = function() {
       } else if (state.fileCounter !== finalFiles.length - 1) {
         incrementFileCounter();
         dispatch({ type: 'incrementFileCounter' });
+      } else {
+        // destroy all workers
+        
       }
     }
     // eslint-disable-next-line

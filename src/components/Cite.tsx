@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { referencesToIndexMap } from '../store/selectors/references';
+
 type CiteProps = {
   cite: string[];
 };
 
-export const Cite: React.FC<CiteProps> = ({ cite }) => {
+export const Cite: React.FC<CiteProps> = function({ cite }) {
   const references = useSelector(referencesToIndexMap);
 
   return (
