@@ -1,9 +1,8 @@
 import { Graph } from 'agora-graph';
-import { RWordleLAlgorithm } from 'agora-rworldle';
-
+import PFS from 'agora-pfs';
 // // @ts-ignore TS2307
 // import worker from 'workerize-loader!./worker'; // eslint-disable-line import/no-webpack-loader-syntax
 
 export function algorithm(graph: Graph) {
-  return RWordleLAlgorithm.algorithm(graph);
+  return PFS.algorithm(graph);
 }

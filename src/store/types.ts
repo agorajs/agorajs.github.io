@@ -1,5 +1,5 @@
 import { Criteria } from 'agora-criteria/dist/interfaces';
-import { Algorithm, Function } from 'agora-graph';
+import { Function, Algorithm } from 'agora-graph';
 
 export type SelectionType = {
   [k: string]: boolean;
@@ -25,6 +25,7 @@ export type AlgorithmType = {
   name: string;
   reference?: string[];
   lazy: () => Promise<Function<any>>;
+  worker: () => Promise<Worker>;
 };
 
 export type CriterionType = {

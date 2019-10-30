@@ -1,20 +1,23 @@
-import React, { useEffect, useReducer, useMemo } from 'react';
-import { RouteComponentProps, Redirect } from '@reach/router';
-import { Flex } from '../../layout';
-import './index.css';
-import { useSelector } from 'react-redux';
-import {
-  getFinalFiles,
-  filteredCriterias,
-  filteredAlgorithms
-} from '../../store/selectors';
-import { Graph, crop, round } from 'agora-graph';
+import { Redirect, RouteComponentProps } from '@reach/router';
+import { toGML, toGraph } from 'agora-gml';
+import { crop, Graph, round, Function } from 'agora-graph';
 import _ from 'lodash';
-import { toGraph, toGML } from 'agora-gml';
-import { useCriteria } from './hooks/useCriteria';
-import { useAlgorithms } from './hooks/useAlgorithms';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Flex } from '../../layout';
+import {
+  filteredAlgorithms,
+  filteredCriterias,
+  getFinalFiles
+} from '../../store/selectors';
 import { GraphMemo } from './GraphContainer';
+import { useAlgorithms } from './hooks/useAlgorithms';
 import { useCounter } from './hooks/useCounter';
+import { useCriteria } from './hooks/useCriteria';
+import { useDisplayable } from './hooks/useDisplayable';
+
+import './index.css';
+import { isIE } from './isIE';
 
 export type CriType = {
   id: string;
@@ -30,10 +33,7 @@ export type CriType = {
 
 type LocalType = {
   fileCounter: number;
-  displayable: any[];
-  criFinished: boolean;
   criCounter: number;
-  initials: { graph: Graph; gml?: string }[];
   algCounter: number;
   graphResults: { graph: Graph; gml?: string }[][];
   criteriaResults: any[][][];
@@ -44,7 +44,8 @@ export type AlgMeta = {
   id: string;
   name: string;
   reference?: string[];
-  lazy: () => Promise<any>;
+  lazy: () => Promise<Function<any>>;
+  worker: () => Promise<any>;
 };
 
 export type LoadedAlg = {
@@ -52,7 +53,8 @@ export type LoadedAlg = {
   id: string;
   name: string;
   reference?: string[];
-  algorithm: Function;
+  algorithm?: Function<any>;
+  worker?: any;
 };
 
 function localReducer(state: LocalType, action: any): LocalType {
@@ -60,15 +62,6 @@ function localReducer(state: LocalType, action: any): LocalType {
     // which file are we doing now ?
     case 'incrementFileCounter':
       return { ...state, fileCounter: state.fileCounter + 1 };
-    // which one can be displayed
-    case 'addDisplayableFile':
-      return { ...state, displayable: [...state.displayable, action.payload] };
-    // criteria have finished loading
-    case 'criFinished':
-      return {
-        ...state,
-        criFinished: true
-      };
     // which alg is runnin rn
     case 'incrementAlgCounter':
       return { ...state, algCounter: state.algCounter + 1 };
@@ -97,13 +90,25 @@ function localReducer(state: LocalType, action: any): LocalType {
 
       return { ...state, criteriaResults: copy };
     }
-    case 'addInitial': {
-      return { ...state, initials: [...state.initials, action.payload] };
-    }
     default:
       throw Error('error localreducer');
   }
 }
+
+type GraphProps = {
+  graph: Graph;
+  gml?: string;
+};
+
+const useInitials = function(): [GraphProps[], (initial: GraphProps) => void] {
+  const [initials, setInitials] = useState<GraphProps[]>([]);
+  const addInitial = useMemo(
+    () => (initial: GraphProps) => setInitials(i => [...i, initial]),
+    []
+  );
+
+  return [initials, addInitial];
+};
 
 export const Result: React.FC<RouteComponentProps> = function() {
   const finalFiles = useSelector(getFinalFiles);
@@ -116,14 +121,16 @@ export const Result: React.FC<RouteComponentProps> = function() {
   // finished loading algs, loading criteria
   const criteria = useCriteria(selectedCri);
 
+  // displaying more and more :)
+  const [displayable, addDisplayable] = useDisplayable();
+
+  const [initials, addInitial] = useInitials();
+
   const [state, dispatch] = useReducer(localReducer, {
     fileCounter: -1,
     algCounter: -1,
     criCounter: -1,
     graphResults: [],
-    initials: [],
-    criFinished: false,
-    displayable: [],
     criteriaResults: []
   });
 
@@ -145,49 +152,57 @@ export const Result: React.FC<RouteComponentProps> = function() {
     if (state.fileCounter > -1) {
       setAlgorithmCounter(-1);
       dispatch({ type: 'resetAlgCounter' });
-      dispatch({
-        type: 'addDisplayableFile',
-        payload: finalFiles[state.fileCounter]
-      });
+      addDisplayable(finalFiles[state.fileCounter]);
     }
     // eslint-disable-next-line
   }, [state.fileCounter]);
 
   // display file view
   useEffect(() => {
-    if (state.displayable.length > 0) {
+    if (displayable.length > 0) {
       const file = finalFiles[state.fileCounter];
       // console.log(file.data);
 
       const graph = crop(toGraph(file.data));
-      dispatch({ type: 'addInitial', payload: { graph, gml: file.data } });
+      addInitial({ graph, gml: file.data });
+      // dispatch({ type: 'addInitial', payload: { graph, gml: file.data } });
       incrementAlgorithm();
       dispatch({ type: 'incrementAlgCounter' });
     } // eslint-disable-next-line
-  }, [state.displayable]);
+  }, [displayable]);
 
   // new Algorithm
   useEffect(() => {
     if (state.algCounter > -1) {
       const current = algorithms![state.algCounter];
-      const { graph } = state.initials[state.fileCounter];
+      const { graph } = initials[state.fileCounter];
       const graphcopy = {
         nodes: graph.nodes.map(n => ({ ...n })),
         edges: graph.edges.map(e => ({ ...e }))
       };
 
-      (async function() {
-        console.log(current);
-
-        const result = await current.algorithm(graphcopy);
-
+      console.log(current);
+      if (isIE) {
+        const result = (current.algorithm as Function<any>)(graphcopy);
         result.graph = crop(result.graph);
-        result.gml = toGML(result.graph);
+        (result as any).gml = toGML(result.graph);
 
         dispatch({ type: 'addResult', payload: result });
         incrementCriCounter();
         dispatch({ type: 'incrementCriCounter' });
-      })();
+      } else {
+        (async function() {
+          const result = await current.worker.algorithm(graphcopy);
+
+          result.graph = crop(result.graph);
+          result.gml = toGML(result.graph);
+
+          dispatch({ type: 'addResult', payload: result });
+          incrementCriCounter();
+          dispatch({ type: 'incrementCriCounter' });
+        })();
+      }
+
       // const result = current.algorithm(graphcopy);
       // result.graph = crop(result.graph);
       // result.gml = toGML(result.graph);
@@ -200,7 +215,7 @@ export const Result: React.FC<RouteComponentProps> = function() {
 
   useEffect(() => {
     if (state.criCounter > -1) {
-      const initial = state.initials[state.fileCounter];
+      const initial = initials[state.fileCounter];
       const toEvaluate =
         state.graphResults[state.fileCounter][state.algCounter];
 
@@ -218,7 +233,9 @@ export const Result: React.FC<RouteComponentProps> = function() {
         dispatch({ type: 'incrementFileCounter' });
       } else {
         // destroy all workers
-        
+        for (const alg of algorithms!) {
+          if (!isIE) alg.worker.terminate();
+        }
       }
     }
     // eslint-disable-next-line
@@ -270,9 +287,9 @@ width: auto;
     <>
       {styled}
       <div className="mw8-ml center tl mh3 code">
-        {_.map(state.displayable, ({ id, name }, index) => {
+        {_.map(displayable, ({ id, name }, index) => {
           const currentFileResults = state.graphResults[index];
-          const initial = state.initials[index];
+          const initial = initials[index];
           const criteriaResult = state.criteriaResults[index];
           return (
             <section key={id} className="mv3">
