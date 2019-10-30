@@ -212,13 +212,14 @@ export const Result: React.FC<RouteComponentProps> = function() {
     let maxWidth = 128 + 98; // initial graph alignment
     // each algorithm
     maxWidth += 98 * (algorithms ? algorithms.length : 0);
-    // browser sidebar correction
-    maxWidth += 30;
-
     return (
       <style scoped>
         {`
-@media (min-width: ${maxWidth}px) {
+/* browser sidebar correction */
+@media (min-width: ${maxWidth + 30}px) {
+.justify-start-ml{
+  justify-content: start;
+}
 .mw8-ml {
 max-width: ${maxWidth}px;
 }

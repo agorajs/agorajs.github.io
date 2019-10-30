@@ -69,8 +69,8 @@ button {
   max-width: 64rem;
 }
 
-@media (min-width: 1109px) {
+/* @media (min-width: 1109px) {
   .mw8-ml {
     max-width: 1109px;
   }
-}
+} */

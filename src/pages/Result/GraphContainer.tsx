@@ -27,7 +27,7 @@ const GraphContainer: React.FC<{
           gml={gml}
           svg={SVGContent}
         />
-        <div className="graph mv1">
+        <div className="graph mt1">
           <SVGGraph graph={graph} svgRef={svgRef} width={90} height={88} />
         </div>
       </Flex>
