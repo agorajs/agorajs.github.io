@@ -14,7 +14,7 @@ import { toGraph, toGML } from 'agora-gml';
 import { useCriteria } from './hooks/useCriteria';
 import { useAlgorithms } from './hooks/useAlgorithms';
 import { GraphMemo } from './GraphContainer';
-import { useCounter } from './useCounter';
+import { useCounter } from './hooks/useCounter';
 
 export type CriType = {
   id: string;
@@ -262,7 +262,7 @@ width: auto;
             <section key={id} className="mv3">
               <article>
                 <h2>{name}</h2>
-                <Flex wrap>
+                <Flex wrap className="justify-center justify-start-ml">
                   <div className="ml128-ml">
                     {initial && (
                       <GraphMemo
