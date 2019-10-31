@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CriterionType } from '../../../store/types';
-import { CriType } from '../index';
 import _ from 'lodash';
+import { CriType } from '../SingleResult';
 
 export function useCriteria(selectedCri: CriterionType[]) {
   const [criteria, setCriteria] = useState<CriType[]>();

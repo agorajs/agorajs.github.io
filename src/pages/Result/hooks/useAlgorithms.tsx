@@ -1,7 +1,28 @@
 import { useState, useEffect } from 'react';
-import { AlgMeta, LoadedAlg } from '../index';
 import _ from 'lodash';
 import { isIE } from '../isIE';
+import { Graph, Function, Result } from 'agora-graph';
+
+export type AlgMeta = {
+  selected: boolean;
+  id: string;
+  name: string;
+  reference?: string[];
+  lazy: () => Promise<Function<any>>;
+  worker: () => Promise<any>;
+};
+
+export type LoadedAlg = {
+  selected: boolean;
+  id: string;
+  name: string;
+  reference?: string[];
+  algorithm?: Function<any>;
+  worker?: {
+    algorithm: (graph: Graph) => Promise<Result>;
+    terminate: () => void;
+  };
+};
 
 export function useAlgorithms(selectedAlgs: AlgMeta[]) {
   const [algorithms, setAlgorithms] = useState<LoadedAlg[]>();

@@ -5,6 +5,8 @@ export const useCounter = function(
   step: number = 1
 ): [number, () => void, Dispatch<SetStateAction<number>>] {
   const [counter, setCounter] = useState(start);
-  const increment = useMemo(() => () => setCounter(c => c + step), [step]);
+  const increment = useMemo(() => () => setCounter(c => (c! || 0) + step), [
+    step
+  ]);
   return [counter, increment, setCounter];
 };

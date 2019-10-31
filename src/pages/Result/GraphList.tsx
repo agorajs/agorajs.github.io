@@ -2,11 +2,11 @@ import _ from 'lodash';
 import React from 'react';
 import { Flex } from '../../layout';
 import { GraphMemo } from './GraphContainer';
-import { GraphProps, GraphResultProps } from './index';
+import { GraphResultProps, GraphProps } from './SingleResult';
 
 export const GraphList: React.FC<{
-  initial: GraphProps;
-  current: GraphResultProps[] | { [k: string]: GraphResultProps };
+  initial?: GraphProps;
+  current?: GraphResultProps[] | { [k: string]: GraphResultProps };
 }> = ({ initial, current }) => (
   <article>
     <Flex wrap className="justify-center justify-start-ml">
