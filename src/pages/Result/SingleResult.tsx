@@ -1,4 +1,13 @@
-import { Graph, round, crop, Result } from 'agora-graph';
+import {
+  Graph,
+  round,
+  crop,
+  Result,
+  overlap,
+  getAllOverlaps,
+  overlapX,
+  overlapY
+} from 'agora-graph';
 import _ from 'lodash';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
@@ -70,6 +79,32 @@ export const SingleResult: React.FC<SingleResultProps> = React.memo(function({
 
   const [resultGrid, setResultGrid] = useState<GridCriteriaAlgorithm>({});
 
+  const [overlaps] = useState(() => {
+    const nodes = initial.graph.nodes;
+    let total = 0;
+    let total2 = 0;
+    let total3 = 0;
+
+    for (let i = 0; i < nodes.length; i++) {
+      const ni = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const nj = nodes[j];
+
+        if (overlap(ni, nj)) total++;
+        if (overlapX(ni, nj) && overlapY(ni, nj)) total2++;
+        if (
+          Math.abs(ni.x - nj.x) < (ni.width + nj.width) / 2 &&
+          Math.abs(ni.y - nj.y) < (ni.height + nj.height) / 2
+        )
+          total3++;
+      }
+    }
+    console.log(total);
+    console.log(total2);
+    console.log(total3);
+    console.log(getAllOverlaps(initial.graph.nodes).length);
+    return total;
+  });
   const updateGrid = useCallback((bulk: any[]) => {
     setResultGrid(function(grid) {
       const gridCopy = { ...grid };
@@ -121,7 +156,9 @@ export const SingleResult: React.FC<SingleResultProps> = React.memo(function({
 
   return (
     <section className="mv3">
-      <h2>{name}</h2>
+      <h2>
+        {name} <small>overlaps : {overlaps}</small>
+      </h2>
       <GraphList initial={initial} current={resultGraphs} />
       <article className="criteria">
         <div className="overflow-x-auto">
@@ -165,9 +202,9 @@ const CriteriaValue: React.FC<{ index: string; value: number }> = ({
   value
 }) => <td key={index}>{round(value, -4)}</td>;
 
-const CriteriaLine: React.FC<
-  Pick<CriType, 'name'> & { results: { [k: string]: number } }
-> = ({ name, results }) => {
+const CriteriaLine: React.FC<Pick<CriType, 'name'> & {
+  results: { [k: string]: number };
+}> = ({ name, results }) => {
   return (
     <tr className="striped--near-white">
       <th>{name}</th>
