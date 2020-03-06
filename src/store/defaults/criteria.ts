@@ -212,18 +212,6 @@ export const defaultCriteria: CriterionType[] = [
     reference: ['li2005']
   },
   {
-    id: 'e_rsd',
-    name: 'Relative Standard Deviation',
-    group: 'Edge Length Preservation',
-    lazy: async () =>
-      (
-        await import(
-          'agora-criteria/dist/edge-based/relative-standard-deviation-delaunay'
-        )
-      ).EdgeBasedRelativeStandardDeviationCriteria,
-    reference: ['gansner2010']
-  },
-  {
     id: 'e_rsdd',
     name: 'Relative Standard Deviation Delaunay',
     group: 'Edge Length Preservation',
@@ -234,6 +222,18 @@ export const defaultCriteria: CriterionType[] = [
         )
       ).default,
     reference: ['gansner2010']
+  },
+  {
+    id: 'e_rsd',
+    name: 'Relative Standard Deviation',
+    group: 'Edge Length Preservation',
+    lazy: async () =>
+      (
+        await import(
+          'agora-criteria/dist/edge-based/relative-standard-deviation-delaunay'
+        )
+      ).EdgeBasedRelativeStandardDeviationCriteria,
+    reference: ['chen2019']
   }
 ];
 
@@ -257,5 +257,6 @@ export const defaultCriteriaSelection = {
   nm_dm_imse: true,
   nm_knn: false,
   eb_r: false,
-  e_rsdd: true
+  e_rsdd: false,
+  e_rsd: true
 };
