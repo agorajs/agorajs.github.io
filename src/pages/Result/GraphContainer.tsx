@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Flex } from '../../layout';
 import DownloadLinkList from '../../components/DownloadLinkList';
-import SVGGraph from '../../components/SVGGraph';
+import SVGGraph, { ThumbnailSVGGraph } from '../../components/SVGGraph';
 import { Graph } from 'agora-graph';
 
 const GraphContainer: React.FC<{
@@ -28,15 +28,9 @@ const GraphContainer: React.FC<{
           svg={SVGContent}
         />
         <div className="graph mt1">
-          <SVGGraph graph={graph} width={90} height={88} />
+          <ThumbnailSVGGraph graph={graph} width={90} height={88} />
           <div className="dn">
-            <SVGGraph
-              graph={graph}
-              svgRef={svgRef}
-              width={90}
-              height={88}
-              thumbnail={false}
-            />
+            <SVGGraph graph={graph} svgRef={svgRef} />
           </div>
         </div>
       </Flex>

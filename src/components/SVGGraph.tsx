@@ -5,22 +5,23 @@ import { Graph, Node, Box } from 'agora-graph';
 import EdgeComp from './SVGEdge';
 import NodeComp from './SVGNode';
 
-export type SVGGraphType = {
+export type ThumbnailSVGGraphType = {
   graph: Graph;
   over?: boolean;
   width: number;
   height: number;
+} & SVGProps<SVGSVGElement>;
+
+export type SVGGraphType = {
+  graph: Graph;
+  over?: boolean;
   svgRef?: any;
-  thumbnail?: boolean;
 } & SVGProps<SVGSVGElement>;
 
 export const SVGGraph: React.FC<SVGGraphType> = function({
   graph,
   over = false,
-  width,
-  height,
   svgRef,
-  thumbnail = true,
   ...rest
 }) {
   const box = {
@@ -28,9 +29,57 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
     height: d3max(graph.nodes, d => d.y + d.height / 2) || 0
   };
 
-  const scaler = thumbnail
-    ? createScale(box, { width, height })
-    : (x: number) => x;
+  const nodes = _(graph.nodes)
+    .map(node => ({ ...node }))
+    .sortBy('index')
+    .value();
+
+  const edges: [Node, Node][] = graph.edges.map<[Node, Node]>(
+    ({ source, target }) => [
+      _.find(nodes, { index: source }) as Node,
+      _.find(nodes, { index: target }) as Node
+    ]
+  );
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={box.width}
+      height={box.height}
+      viewBox={`-5,-5,${box.width + 10},${box.height + 10}`}
+      {...rest}
+      ref={svgRef}
+    >
+      <style>{`
+      .edges { 
+        stroke: #878fff;
+        stroke-width: 2px;
+      }
+
+      .rect {
+        stroke: #000;
+        fill: #eee;
+      }
+      `}</style>
+      <EdgeList edges={edges} />
+      <NodeList nodes={nodes} />
+    </svg>
+  );
+};
+
+export const ThumbnailSVGGraph: React.FC<ThumbnailSVGGraphType> = function({
+  graph,
+  over = false,
+  width,
+  height,
+  ...rest
+}) {
+  const box = {
+    width: d3max(graph.nodes, d => d.x + d.width / 2) || 0,
+    height: d3max(graph.nodes, d => d.y + d.height / 2) || 0
+  };
+
+  const scaler = createScale(box, { width: width!, height: height! });
 
   const nodes = _(graph.nodes)
     .map(({ width, height, x, y, ...rest }) => ({
@@ -53,13 +102,10 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={thumbnail ? width : 1920}
-      height={thumbnail ? height : 1080}
-      viewBox={`-5,-5,${(thumbnail ? width : box.width) + 10},${(thumbnail
-        ? height
-        : box.height) + 10}`}
+      width={width}
+      height={height}
+      viewBox={`-5,-5,${width + 10},${height + 10}`}
       {...rest}
-      ref={svgRef}
     >
       <style>{`
       .edges { 
