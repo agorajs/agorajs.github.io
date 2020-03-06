@@ -15,9 +15,11 @@ export const defaultCriteria: CriterionType[] = [
     name: "Kendall's Tau Distance",
     group: 'Orthogonal Ordering',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/orthogonal-ordering/kendall-tau-distance'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/orthogonal-ordering/kendall-tau-distance'
+        )
+      ).default,
     reference: ['huang2007']
   },
   {
@@ -25,9 +27,11 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Number of Inversions',
     group: 'Orthogonal Ordering',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/orthogonal-ordering/number-of-inversions'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/orthogonal-ordering/number-of-inversions'
+        )
+      ).default,
     reference: ['strobelt2012']
   },
   {
@@ -35,9 +39,11 @@ export const defaultCriteria: CriterionType[] = [
     name: 'Normalised Number of Inversions',
     group: 'Orthogonal Ordering',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/orthogonal-ordering/normalized-number-of-inversions'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/orthogonal-ordering/normalized-number-of-inversions'
+        )
+      ).default,
     reference: ['chen2019']
   },
   {
@@ -81,9 +87,11 @@ export const defaultCriteria: CriterionType[] = [
     group: 'Global Shape Preservation',
     fullname: 'Global Shape Preservation/Bounding Box/Aspect Ratio',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/global-shape/bounding-box/aspect-ratio'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/global-shape/bounding-box/aspect-ratio'
+        )
+      ).default,
     reference: ['li2005']
   },
   {
@@ -92,9 +100,11 @@ export const defaultCriteria: CriterionType[] = [
     fullname: 'Global Shape Preservation/Bounding Box/Improved Aspect Ratio',
     group: 'Global Shape Preservation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/global-shape/bounding-box/improved-aspect-ratio'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/global-shape/bounding-box/improved-aspect-ratio'
+        )
+      ).default,
     reference: ['chen2019']
   },
   {
@@ -103,9 +113,11 @@ export const defaultCriteria: CriterionType[] = [
     fullname: 'Global Shape Preservation/Convex Hull/Standard Deviation',
     group: 'Global Shape Preservation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/global-shape/convex-hull_standard-deviation'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/global-shape/convex-hull_standard-deviation'
+        )
+      ).default,
     reference: ['strobelt2012']
   },
   {
@@ -122,9 +134,11 @@ export const defaultCriteria: CriterionType[] = [
     fullname: 'Node Movement Minimisation/Distance Moved/Mean Euclidean',
     group: 'Node Movement Minimisation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/node-movement/distance-moved/mean-euclidean'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/node-movement/distance-moved/mean-euclidean'
+        )
+      ).default,
     reference: ['strobelt2012']
   },
   {
@@ -133,9 +147,11 @@ export const defaultCriteria: CriterionType[] = [
     fullname: 'Node Movement Minimisation/Distance Moved/Normalised Euclidean',
     group: 'Node Movement Minimisation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/node-movement/distance-moved/normalized-euclidean'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/node-movement/distance-moved/normalized-euclidean'
+        )
+      ).default,
     reference: ['lyons1998']
   },
   {
@@ -144,9 +160,11 @@ export const defaultCriteria: CriterionType[] = [
     fullname: 'Node Movement Minimisation/Distance Moved/Hamiltonian',
     group: 'Node Movement Minimisation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/node-movement/distance-moved/hamiltonian'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/node-movement/distance-moved/hamiltonian'
+        )
+      ).default,
     reference: ['huang2003', 'huang2007']
   },
   {
@@ -155,9 +173,11 @@ export const defaultCriteria: CriterionType[] = [
     fullname: 'Node Movement Minimisation/Distance Moved/Squared Euclidean',
     group: 'Node Movement Minimisation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/node-movement/distance-moved/squared-euclidean'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/node-movement/distance-moved/squared-euclidean'
+        )
+      ).default,
     reference: ['marriot2003']
   },
   {
@@ -167,9 +187,11 @@ export const defaultCriteria: CriterionType[] = [
       'Node Movement Minimisation/Distance Moved/Improved Mean Squared Euclidean',
     group: 'Node Movement Minimisation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/node-movement/distance-moved/improved-mean-squared-euclidean'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/node-movement/distance-moved/improved-mean-squared-euclidean'
+        )
+      ).default,
     reference: ['chen2019']
   },
   {
@@ -190,13 +212,27 @@ export const defaultCriteria: CriterionType[] = [
     reference: ['li2005']
   },
   {
+    id: 'e_rsd',
+    name: 'Relative Standard Deviation',
+    group: 'Edge Length Preservation',
+    lazy: async () =>
+      (
+        await import(
+          'agora-criteria/dist/edge-based/relative-standard-deviation-delaunay'
+        )
+      ).EdgeBasedRelativeStandardDeviationCriteria,
+    reference: ['gansner2010']
+  },
+  {
     id: 'e_rsdd',
     name: 'Relative Standard Deviation Delaunay',
     group: 'Edge Length Preservation',
     lazy: async () =>
-      (await import(
-        'agora-criteria/dist/edge-based/relative-standard-deviation-delaunay'
-      )).default,
+      (
+        await import(
+          'agora-criteria/dist/edge-based/relative-standard-deviation-delaunay'
+        )
+      ).default,
     reference: ['gansner2010']
   }
 ];
