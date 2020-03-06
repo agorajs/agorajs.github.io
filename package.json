@@ -17,7 +17,7 @@
     "@types/react-redux": "^7.1.2",
     "@uppy/core": "^1.4.0",
     "@uppy/react": "^1.3.0",
-    "agora-criteria": "https://github.com/agorajs/agora-criteria.git#semver:^2.0.2",
+    "agora-criteria": "https://github.com/agorajs/agora-criteria.git#semver:^2.1.0",
     "agora-diamond": "https://github.com/agorajs/agora-diamond.git#semver:^0.1.2",
     "agora-fta": "https://github.com/agorajs/agora-fta.git#semver:^0.2.0",
     "agora-gml": "https://github.com/agorajs/agora-gml.git#semver:^2.0.1",
