@@ -1706,9 +1706,9 @@ adjust-sourcemap-loader@2.0.0:
     object-path "0.11.4"
     regex-parser "2.2.10"
 
-"agora-criteria@https://github.com/agorajs/agora-criteria.git#semver:^2.1.0":
-  version "2.1.0"
-  resolved "https://github.com/agorajs/agora-criteria.git#6107ca8bf6a8ff1dc7fbf861cae31d12bfe9c9e2"
+"agora-criteria@https://github.com/agorajs/agora-criteria.git#semver:^2.1.1":
+  version "2.1.1"
+  resolved "https://github.com/agorajs/agora-criteria.git#58c1178c3d8604e267b390836dbc21b065541640"
   dependencies:
     "@types/d3-polygon" "^1.0.6"
     "@types/lodash" "^4.14.141"

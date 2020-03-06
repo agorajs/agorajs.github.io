@@ -10,7 +10,8 @@ export type SVGGraphType = {
   over?: boolean;
   width: number;
   height: number;
-  svgRef: any;
+  svgRef?: any;
+  thumbnail?: boolean;
 } & SVGProps<SVGSVGElement>;
 
 export const SVGGraph: React.FC<SVGGraphType> = function({
@@ -19,6 +20,7 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
   width,
   height,
   svgRef,
+  thumbnail = true,
   ...rest
 }) {
   const box = {
@@ -26,7 +28,9 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
     height: d3max(graph.nodes, d => d.y + d.height / 2) || 0
   };
 
-  const scaler = createScale(box, { width, height });
+  const scaler = thumbnail
+    ? createScale(box, { width, height })
+    : (x: number) => x;
 
   const nodes = _(graph.nodes)
     .map(({ width, height, x, y, ...rest }) => ({
@@ -49,9 +53,11 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox={`-5,-5,${width + 10},${height + 10}`}
+      width={thumbnail ? width : 1920}
+      height={thumbnail ? height : 1080}
+      viewBox={`-5,-5,${(thumbnail ? width : box.width) + 10},${(thumbnail
+        ? height
+        : box.height) + 10}`}
       {...rest}
       ref={svgRef}
     >
