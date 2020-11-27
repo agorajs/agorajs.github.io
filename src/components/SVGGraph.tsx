@@ -30,14 +30,15 @@ export const SVGGraph: React.FC<SVGGraphType> = function({
   };
 
   const nodes = _(graph.nodes)
-    .map(node => ({ ...node }))
+    .map<Node>(node => ({ ...node }))
     .sortBy('index')
     .value();
 
-  const edges: [Node, Node][] = graph.edges.map<[Node, Node]>(
+  const edges: [string, Node, Node][] = graph.edges.map<[string, Node, Node]>(
     ({ source, target }) => [
-      _.find(nodes, { index: source }) as Node,
-      _.find(nodes, { index: target }) as Node
+      source + ':' + target,
+      _.find(nodes, { index: source })!,
+      _.find(nodes, { index: target })!
     ]
   );
 
@@ -82,7 +83,7 @@ export const ThumbnailSVGGraph: React.FC<ThumbnailSVGGraphType> = function({
   const scaler = createScale(box, { width: width!, height: height! });
 
   const nodes = _(graph.nodes)
-    .map(({ width, height, x, y, ...rest }) => ({
+    .map<Node>(({ width, height, x, y, ...rest }) => ({
       ...rest,
       width: scaler(width),
       height: scaler(height),
@@ -92,10 +93,11 @@ export const ThumbnailSVGGraph: React.FC<ThumbnailSVGGraphType> = function({
     .sortBy('index')
     .value();
 
-  const edges: [Node, Node][] = graph.edges.map<[Node, Node]>(
+  const edges: [string, Node, Node][] = graph.edges.map<[string, Node, Node]>(
     ({ source, target }) => [
-      _.find(nodes, { index: source }) as Node,
-      _.find(nodes, { index: target }) as Node
+      source + ':' + target,
+      _.find(nodes, { index: source })!,
+      _.find(nodes, { index: target })!
     ]
   );
 
@@ -139,15 +141,13 @@ export const ThumbnailSVGGraph: React.FC<ThumbnailSVGGraphType> = function({
 
 export default SVGGraph;
 
-const EdgeList: React.FC<{ edges: [Node, Node][] }> = function({ edges }) {
+const EdgeList: React.FC<{ edges: [string, Node, Node][] }> = function({
+  edges
+}) {
   return (
     <g className="edges">
-      {edges.map(([source, target]) => (
-        <EdgeComp
-          // key={source.index + ':' + target.index}
-          source={source}
-          target={target}
-        />
+      {edges.map(([key, source, target]) => (
+        <EdgeComp key={key} source={source} target={target} />
       ))}
     </g>
   );
