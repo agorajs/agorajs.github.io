@@ -5,19 +5,21 @@ export const Authors: React.FC<{ className?: string }> = ({ className }) => (
   <section id="authors" className={className}>
     <NesContainer rounded>
       <p>
-        Automatic Graph Overlap Removal Algorithms
+        <a href="https://github.com/agorajs">Agorajs library</a>
+      </p>
+      <p>
+        Node overlap removal algorithms: an extended comparative study.
         <br />
         <span className="code">
-          Fati Chen &lt;fati.chen@lirmm.fr&gt;, Laurent Piccinini,
-          <br /> Pascal Poncelet, Arnaud Sallaberry.
+          F. Chen &lt;fati.chen@lirmm.fr&gt;, L. Piccinini,
+          <br /> P. Poncelet, A. Sallaberry.
           <br />
           <a
-            href="https://arxiv.org/abs/1908.07363"
+            href="http://jgaa.info/accepted/recent/532.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Article from the proceedings of GD 2019 available on ArXiv [arXiv:
-            1908.07363]
+            Journal of Graph Algorithms and Applications, to appear, 2020.
           </a>
         </span>
       </p>

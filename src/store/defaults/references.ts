@@ -7,7 +7,7 @@ export const defaultReferences: ReferenceType[] = [
     title: 'Layout adjustment and the mental map',
     hasIn: false,
     journal: 'Journal of Visual Languages & Computing',
-    additional: '6(2): 83–210, 1995'
+    additional: '6(2): 83–210, 1995',
   },
   {
     id: 'lyons1998',
@@ -15,7 +15,7 @@ export const defaultReferences: ReferenceType[] = [
     title: 'Algorithms for cluster busting in anchored graph drawing',
     hasIn: false,
     journal: 'Journal of Graph Algorithms and Applications',
-    additional: '2(1): 1–24, 1998'
+    additional: '2(1): 1–24, 1998',
   },
   {
     id: 'hayashi1998',
@@ -24,7 +24,7 @@ export const defaultReferences: ReferenceType[] = [
       'A layout adjustment problem for disjoint rectangles preserving orthogonal order',
     hasIn: true,
     journal: 'Proceedings of the International Symposium on Graph Drawing (GD)',
-    additional: 'pages 183–197. Springer, 1998'
+    additional: 'pages 183–197. Springer, 1998',
   },
   {
     id: 'huang2003',
@@ -34,7 +34,7 @@ export const defaultReferences: ReferenceType[] = [
     hasIn: true,
     journal:
       'Proceedings of the Australasian computer science conference - Volume 16',
-    additional: 'pages 349–358. Australian Computer Society, Inc., 2003'
+    additional: 'pages 349–358. Australian Computer Society, Inc., 2003',
   },
   {
     id: 'marriot2003',
@@ -43,7 +43,7 @@ export const defaultReferences: ReferenceType[] = [
       'Removing node overlapping in graph layout using constrained optimization',
     hasIn: false,
     journal: 'Constraints',
-    additional: '8(2): 43–171, 2003'
+    additional: '8(2): 43–171, 2003',
   },
   {
     id: 'li2005',
@@ -52,7 +52,7 @@ export const defaultReferences: ReferenceType[] = [
     hasIn: true,
     journal:
       'Proceedings of the Asia-Pacific Symposium on Information Visualisation (APVis’05)',
-    additional: 'pages 131–140. Australian Computer Society, Inc., 2005'
+    additional: 'pages 131–140. Australian Computer Society, Inc., 2005',
   },
   {
     id: 'dwyer2005',
@@ -60,7 +60,7 @@ export const defaultReferences: ReferenceType[] = [
     title: 'Fast node overlap removal',
     hasIn: true,
     journal: 'Proceedings of the International Symposium on Graph Drawing (GD)',
-    additional: 'pages 153–164. Springer, 2005'
+    additional: 'pages 153–164. Springer, 2005',
   },
   {
     id: 'huang2007',
@@ -69,7 +69,7 @@ export const defaultReferences: ReferenceType[] = [
       'A new algorithm for removing node overlapping in graph visualization',
     hasIn: false,
     journal: 'Information Sciences',
-    additional: '177(14): 2821–2844, 2007'
+    additional: '177(14): 2821–2844, 2007',
   },
   {
     id: 'gansner2010',
@@ -77,7 +77,7 @@ export const defaultReferences: ReferenceType[] = [
     title: 'Efficient, proximity-preserving node overlap removal',
     hasIn: false,
     journal: 'Journal of Graph Algorithms and Applications',
-    additional: '14(1): 53–74, 2010'
+    additional: '14(1): 53–74, 2010',
   },
   {
     id: 'strobelt2012',
@@ -86,7 +86,7 @@ export const defaultReferences: ReferenceType[] = [
       'Rolled-out wordles: A heuristic method for overlap removal of 2d data representatives',
     hasIn: false,
     journal: 'Computer Graphics Forum',
-    additional: '31(3): 1135–1144, 2012'
+    additional: '31(3): 1135–1144, 2012',
   },
   {
     id: 'nachmanson2016',
@@ -95,7 +95,7 @@ export const defaultReferences: ReferenceType[] = [
     hasIn: true,
     journal:
       'Proceedings of the International Symposium on Graph Drawing and Network Visualization (GD)',
-    additional: 'pages 33–43. Springer, 2016'
+    additional: 'pages 33–43. Springer, 2016',
   },
   {
     id: 'meulemans2019',
@@ -103,7 +103,7 @@ export const defaultReferences: ReferenceType[] = [
     title: 'Efficient optimal overlap removal',
     hasIn: false,
     journal: 'Computer Graphics Forum',
-    additional: '38(3): 713–723, 2019'
+    additional: '38(3): 713–723, 2019',
   },
   {
     id: 'chen2019',
@@ -112,14 +112,14 @@ export const defaultReferences: ReferenceType[] = [
     hasIn: true,
     journal:
       'Proceedings of the International Symposium on Graph Drawing and Network Visualization (GD)',
-    additional: 'page to appear. Springer, 2019'
-  }
-  // TODO: SOON
-  // {
-  //   id: 'chen2020',
-  //   authors: 'F. Chen, L. Piccinini, P. Poncelet, and A. Sallaberry',
-  //   title: 'Node Overlap Removal Algorithms: An Extended Comparative Study',
-  //   hasIn: false,
-  //   journal: 'Ongoing research'
-  // }
+    additional: 'pages 179–192, Springer, 2019',
+  },
+  {
+    id: 'chen2020',
+    authors: 'F. Chen, L. Piccinini, P. Poncelet, and A. Sallaberry',
+    title: 'Node Overlap Removal Algorithms: An Extended Comparative Study',
+    hasIn: true,
+    journal: 'Journal of Graph Algorithms and Applications',
+    additional: 'to appear, 2020',
+  },
 ];
