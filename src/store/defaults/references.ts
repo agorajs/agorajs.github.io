@@ -120,6 +120,6 @@ export const defaultReferences: ReferenceType[] = [
     title: 'Node Overlap Removal Algorithms: An Extended Comparative Study',
     hasIn: true,
     journal: 'Journal of Graph Algorithms and Applications',
-    additional: 'to appear, 2020',
+    additional: 'Vol. 24, no. 4, pp. 683-706, 2020. Regular paper',
   },
 ];

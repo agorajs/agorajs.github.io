@@ -15,11 +15,12 @@ export const Authors: React.FC<{ className?: string }> = ({ className }) => (
           <br /> P. Poncelet, A. Sallaberry.
           <br />
           <a
-            href="http://jgaa.info/accepted/recent/532.pdf"
+            href="http://jgaa.info/accepted/2020/532.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Journal of Graph Algorithms and Applications, to appear, 2020.
+            Journal of Graph Algorithms and Applications, Vol. 24, no. 4, pp.
+            683-706, 2020. Regular paper.
           </a>
         </span>
       </p>
