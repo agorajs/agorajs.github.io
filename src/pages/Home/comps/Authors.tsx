@@ -19,8 +19,8 @@ export const Authors: React.FC<{ className?: string }> = ({ className }) => (
             target="_blank"
             rel="noopener noreferrer"
           >
-            Journal of Graph Algorithms and Applications, Vol. 24, no. 4, pp.
-            683-706, 2020. Regular paper.
+            Journal of Graph Algorithms and Applications,
+            <br /> Vol. 24, no. 4, pp. 683-706, 2020. Regular paper.
           </a>
         </span>
       </p>

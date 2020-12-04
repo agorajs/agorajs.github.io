@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 export const DownloadLink: React.FC<{
   content: string;
   name: string;
-}> = function({ content, name, children }) {
-  const [url, setUrl] = useState();
+}> = function ({ content, name, children }) {
+  const [url, setUrl] = useState<string>();
 
   useEffect(() => {
     var blob = new Blob([content], { type: 'plain/text' });

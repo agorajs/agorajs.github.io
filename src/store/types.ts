@@ -1,4 +1,4 @@
-import { Criteria } from 'agora-criteria/dist/interfaces';
+import { Criteria } from 'agora-criteria/src/interfaces';
 import { Function, Algorithm } from 'agora-graph';
 
 export type SelectionType = {
