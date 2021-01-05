@@ -27,7 +27,7 @@
     "agora-rworldle": "https://github.com/agorajs/agora-rwordle.git#semver:^0.2.0",
     "agora-scaling": "https://github.com/agorajs/agora-scaling.git#semver:^0.2.0",
     "agora-vpsc": "https://github.com/agorajs/agora-vpsc.git#semver:^0.2.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "d3-array": "^2.2.0",
     "d3-scale": "^3.0.1",
