@@ -42,7 +42,8 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "tachyons": "^4.11.1",
-    "typesafe-actions": "^4.4.2"
+    "typesafe-actions": "^4.4.2",
+    "webpack": "^5.27.1"
   },
   "scripts": {
     "start": "react-scripts start",
