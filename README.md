@@ -30,3 +30,7 @@ Graph drawing, Layout adjustment, Node overlap removal
 [🌍 website](https://agorajs.github.io) | [📄 pdf](https://jgaa.info/accepted/2020/532.pdf) | [doi:10.7155/jgaa.00532](https://dx.doi.org/10.7155/jgaa.00532)
 
 [✉️ Contact](mailto:chen@lirmm.fr)
+
+## License
+
+see ©️[LICENSE](./LICENSE)
