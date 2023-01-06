@@ -122,4 +122,12 @@ export const defaultReferences: ReferenceType[] = [
     journal: 'Journal of Graph Algorithms and Applications',
     additional: 'Vol. 24, no. 4, pp. 683-706, 2020. Regular paper',
   },
+  {
+    id: 'giovannangeli2022',
+    authors: 'L. Giovannangeli, F. Lalanne, R. Giot, R. Bourqui ',
+    title:
+      'FORBID: Fast Overlap Removal By stochastic gradIent Descent for Graph Drawing',
+    hasIn: false,
+    journal: 'Arxiv',
+  },
 ];

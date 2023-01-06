@@ -6,7 +6,7 @@ import {
   overlap,
   getAllOverlaps,
   overlapX,
-  overlapY
+  overlapY,
 } from 'agora-graph';
 import _ from 'lodash';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -50,25 +50,25 @@ type GridCriteriaAlgorithm = {
   [k: string]: { [k: string]: number };
 };
 
-const useCurrentAlgorithm = function(
+const useCurrentAlgorithm = function (
   algorithms: LoadedAlg[]
 ): [LoadedAlg, number, () => void] {
   const [counter, increment] = useCounter(0);
 
-  const currentAlgorithm = useMemo(() => algorithms[counter], [
-    counter,
-    algorithms
-  ]);
+  const currentAlgorithm = useMemo(
+    () => algorithms[counter],
+    [counter, algorithms]
+  );
 
   return [currentAlgorithm, counter, increment];
 };
 
-export const SingleResult: React.FC<SingleResultProps> = React.memo(function({
+export const SingleResult: React.FC<SingleResultProps> = React.memo(function ({
   initial,
   name,
   algorithms,
   criteria,
-  nextFile
+  nextFile,
 }) {
   const [resultGraphs, setResultGraphs] = useState<{
     [k: string]: GraphResultProps;
@@ -106,7 +106,7 @@ export const SingleResult: React.FC<SingleResultProps> = React.memo(function({
     return total;
   });
   const updateGrid = useCallback((bulk: any[]) => {
-    setResultGrid(function(grid) {
+    setResultGrid(function (grid) {
       const gridCopy = { ...grid };
       for (const { criId, algoId, value } of bulk) {
         (gridCopy[criId] || (gridCopy[criId] = {}))[algoId] = value;
@@ -118,19 +118,19 @@ export const SingleResult: React.FC<SingleResultProps> = React.memo(function({
   useEffect(() => {
     const initialGraph = initial.graph;
 
-    const addResultsFromAlgorithm = function({ graph }: Result) {
+    const addResultsFromAlgorithm = function ({ graph }: Result) {
       const payload = {
         graph: crop(graph),
         gml: toGML(graph),
         name: algo.name,
-        id: algo.id
+        id: algo.id,
       };
-      setResultGraphs(v => ({ ...v, [algo.id]: payload }));
+      setResultGraphs((v) => ({ ...v, [algo.id]: payload }));
 
       const bulk = _.map(criteria, ({ id, criterion }) => ({
         criId: id,
         algoId: algo.id,
-        value: criterion(initialGraph, payload.graph).value
+        value: criterion(initialGraph, payload.graph).value,
       }));
       updateGrid(bulk);
 
@@ -143,8 +143,8 @@ export const SingleResult: React.FC<SingleResultProps> = React.memo(function({
 
     if (isIE) {
       const graphcopy = {
-        nodes: initialGraph.nodes.map(n => ({ ...n })),
-        edges: initialGraph.edges.map(e => ({ ...e }))
+        nodes: initialGraph.nodes.map((n) => ({ ...n })),
+        edges: initialGraph.edges.map((e) => ({ ...e })),
       };
       addResultsFromAlgorithm(algo.algorithm!(graphcopy));
     } else {
@@ -199,12 +199,14 @@ export default SingleResult;
 
 const CriteriaValue: React.FC<{ index: string; value: number }> = ({
   index,
-  value
+  value,
 }) => <td key={index}>{round(value, -4)}</td>;
 
-const CriteriaLine: React.FC<Pick<CriType, 'name'> & {
-  results: { [k: string]: number };
-}> = ({ name, results }) => {
+const CriteriaLine: React.FC<
+  Pick<CriType, 'name'> & {
+    results: { [k: string]: number };
+  }
+> = ({ name, results }) => {
   return (
     <tr className="striped--near-white">
       <th>{name}</th>
